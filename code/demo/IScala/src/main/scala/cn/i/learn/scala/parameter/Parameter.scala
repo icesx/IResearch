@@ -4,5 +4,4 @@ import scala.reflect.ClassTag
 
 class Parameter {
     
-  }
 }
