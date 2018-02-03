@@ -1,9 +1,0 @@
-package cn.i.xportal.jdp.simplefactory;
-
-public interface FruitIF {
-	void grow();
-
-	void harvest();
-
-	void plant();
-}

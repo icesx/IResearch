@@ -1,6 +1,0 @@
-package cn.i.xportal.jdp.simplefactory;
-
-public class ConcreteProduct implements Product {
-	public ConcreteProduct() {
-	}
-}
