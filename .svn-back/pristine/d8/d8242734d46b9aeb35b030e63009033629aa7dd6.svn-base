@@ -1,0 +1,38 @@
+<assembly xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.0.0.xsd">
+	<id>package</id>
+	<formats>
+		<format>jar</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>target/classes</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<unpack>true</unpack>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>org.apache.hbase:hbase-client</include>
+				<include>org.apache.hbase:hbase-common</include>
+				<include>org.apache.hbase:hbase-protocol</include>
+				<include>org.apache.htrace:htrace-core</include>
+				<include>com.github.scopt:scopt_2.10</include>
+			</includes>
+		</dependencySet>
+	</dependencySets>
+	<moduleSets>
+		<moduleSet>
+			<includes>
+				<include></include>
+			</includes>
+			<binaries>
+				<outputDirectory>lib</outputDirectory>
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
+</assembly>

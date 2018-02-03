@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="OpenStreetMap server">
+  <bounds minlat="42.9986" minlon="-76.2327" maxlat="43.0977" maxlon="-76.0621"/>
+  <node id="18659092" lat="43.062728" lon="-76.186141" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659093" lat="43.0630298" lon="-76.18652" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659094" lat="43.0632869" lon="-76.1872925" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659095" lat="43.0636883" lon="-76.1877474" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659096" lat="43.063845" lon="-76.1886057" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659097" lat="43.064236" lon="-76.189145" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659098" lat="43.0643404" lon="-76.1898073" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659099" lat="43.064484" lon="-76.190025" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659100" lat="43.06474" lon="-76.19003" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659101" lat="43.0649048" lon="-76.1901335" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659102" lat="43.0651556" lon="-76.1901764" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+  <node id="18659103" lat="43.0653751" lon="-76.1906313" version="2" changeset="1418180" user="randall375" uid="130962" visible="true" timestamp="2009-06-04T04:41:28Z">
+    <tag k="source" v="PGS"/>
+  </node>
+</osm>

@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.i.xportal</groupId>
+	<artifactId>IDesignPattern</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<modules>
+		<module>Visitor</module>
+		<module>Template</module>
+		<module>State</module>
+		<module>Proxy</module>
+		<module>Prototype</module>
+		<module>Observer</module>
+		<module>Mediator</module>
+		<module>Iterator</module>
+		<module>FactoryMethod</module>
+		<module>Facade</module>
+		<module> Decorator</module>
+		<module>Composite</module>
+		<module>Command</module>
+		<module>Chainofresp</module>
+		<module>Builder</module>
+		<module>Bridge</module>
+		<module>Adapter</module>
+		<module>AbstractFactory</module>
+		<module>Flyweight</module>
+		<module>Immutable</module>
+		<module>Interpreter</module>
+		<module>Strategy</module>
+		<module>Simplefactory</module>
+		<module>Singleton</module>
+
+	</modules>
+	<packaging>pom</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

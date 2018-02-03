@@ -1,0 +1,10 @@
+package cn.i.learn.scala.base.apply
+object Foo {
+  var name: String = ""
+  def apply(n: String) = { name = n };
+}
+object Applay {
+  def main(args: Array[String]): Unit = {
+    println(Foo("I"));
+  }
+}

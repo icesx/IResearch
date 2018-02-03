@@ -1,0 +1,10 @@
+package cn.i.learn.scala.function
+
+object FunctionOnFunction {
+  def fun1(f: () => Unit): Unit = {
+    
+  }
+  def main(args: Array[String]): Unit = {
+
+  }
+}

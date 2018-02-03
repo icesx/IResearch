@@ -1,0 +1,19 @@
+package cn.i.xportal.spark.ml.kmeans
+
+import org.apache.spark.mllib.clustering.KMeans
+import org.apache.spark.mllib.clustering.KMeansModel
+import cn.i.xportal.spark.ml.comput.MlBase
+import org.apache.spark.mllib.linalg.Vectors
+
+object KmeansK {
+	def main(args: Array[String]): Unit = {
+		val ks: Array[Int] = Array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+		val parsedTrainingData = MlBase.sparkContent().parallelize(Array("1,2,3", "6,2,3", "7,9,3"))
+			.map(r => (Vectors.dense(r.split(",").map(_.toDouble))))
+		ks.foreach(cluster => {
+			val model: KMeansModel = KMeans.train(parsedTrainingData, cluster, 30)
+			val ssd = model.computeCost(parsedTrainingData)
+			println("sum of squared distances of points to their nearest center when k=" + cluster + " -> " + ssd)
+		})
+	}
+}
