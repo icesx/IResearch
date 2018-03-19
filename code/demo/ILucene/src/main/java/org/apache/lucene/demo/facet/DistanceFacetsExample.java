@@ -55,209 +55,213 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.SloppyMath;
 
-/** Shows simple usage of dynamic range faceting, using the
- *  expressions module to calculate distance. */
+/**
+ * Shows simple usage of dynamic range faceting, using the expressions module to
+ * calculate distance.
+ */
 public class DistanceFacetsExample implements Closeable {
 
-  final DoubleRange ONE_KM = new DoubleRange("< 1 km", 0.0, true, 1.0, false);
-  final DoubleRange TWO_KM = new DoubleRange("< 2 km", 0.0, true, 2.0, false);
-  final DoubleRange FIVE_KM = new DoubleRange("< 5 km", 0.0, true, 5.0, false);
-  final DoubleRange TEN_KM = new DoubleRange("< 10 km", 0.0, true, 10.0, false);
+	final DoubleRange ONE_KM = new DoubleRange("< 1 km", 0.0, true, 1.0, false);
+	final DoubleRange TWO_KM = new DoubleRange("< 2 km", 0.0, true, 2.0, false);
+	final DoubleRange FIVE_KM = new DoubleRange("< 5 km", 0.0, true, 5.0, false);
+	final DoubleRange TEN_KM = new DoubleRange("< 10 km", 0.0, true, 10.0, false);
 
-  private final Directory indexDir = new RAMDirectory();
-  private IndexSearcher searcher;
-  private final FacetsConfig config = new FacetsConfig();
+	private final Directory indexDir = new RAMDirectory();
+	private IndexSearcher searcher;
+	private final FacetsConfig config = new FacetsConfig();
 
-  /** The "home" latitude. */
-  public final static double ORIGIN_LATITUDE = 40.7143528;
+	/** The "home" latitude. */
+	public final static double ORIGIN_LATITUDE = 40.7143528;
 
-  /** The "home" longitude. */
-  public final static double ORIGIN_LONGITUDE = -74.0059731;
+	/** The "home" longitude. */
+	public final static double ORIGIN_LONGITUDE = -74.0059731;
 
-  /** Radius of the Earth in KM
-   *
-   * NOTE: this is approximate, because the earth is a bit
-   * wider at the equator than the poles.  See
-   * http://en.wikipedia.org/wiki/Earth_radius */
-  public final static double EARTH_RADIUS_KM = 6371.01;
+	/**
+	 * Radius of the Earth in KM
+	 *
+	 * NOTE: this is approximate, because the earth is a bit wider at the equator
+	 * than the poles. See http://en.wikipedia.org/wiki/Earth_radius
+	 */
+	public final static double EARTH_RADIUS_KM = 6371.01;
 
-  /** Empty constructor */
-  public DistanceFacetsExample() {}
-  
-  /** Build the example index. */
-  public void index() throws IOException {
-    IndexWriter writer = new IndexWriter(indexDir, new IndexWriterConfig(
-        new WhitespaceAnalyzer()).setOpenMode(OpenMode.CREATE));
+	/** Empty constructor */
+	public DistanceFacetsExample() {
+	}
 
-    // TODO: we could index in radians instead ... saves all the conversions in getBoundingBoxFilter
+	/** Build the example index. */
+	public void index() throws IOException {
+		IndexWriter writer = new IndexWriter(indexDir,
+				new IndexWriterConfig(new WhitespaceAnalyzer()).setOpenMode(OpenMode.CREATE));
 
-    // Add documents with latitude/longitude location:
-    // we index these both as DoubleFields (for bounding box/ranges) and as NumericDocValuesFields (for scoring)
-    Document doc = new Document();
-    doc.add(new DoubleField("latitude", 40.759011, Field.Store.NO));
-    doc.add(new NumericDocValuesField("latitude", Double.doubleToRawLongBits(40.759011)));
-    doc.add(new DoubleField("longitude", -73.9844722, Field.Store.NO));
-    doc.add(new NumericDocValuesField("longitude", Double.doubleToRawLongBits(-73.9844722)));
-    writer.addDocument(doc);
-    
-    doc = new Document();
-    doc.add(new DoubleField("latitude", 40.718266, Field.Store.NO));
-    doc.add(new NumericDocValuesField("latitude", Double.doubleToRawLongBits(40.718266)));
-    doc.add(new DoubleField("longitude", -74.007819, Field.Store.NO));
-    doc.add(new NumericDocValuesField("longitude", Double.doubleToRawLongBits(-74.007819)));
-    writer.addDocument(doc);
-    
-    doc = new Document();
-    doc.add(new DoubleField("latitude", 40.7051157, Field.Store.NO));
-    doc.add(new NumericDocValuesField("latitude", Double.doubleToRawLongBits(40.7051157)));
-    doc.add(new DoubleField("longitude", -74.0088305, Field.Store.NO));
-    doc.add(new NumericDocValuesField("longitude", Double.doubleToRawLongBits(-74.0088305)));
-    writer.addDocument(doc);
+		// TODO: we could index in radians instead ... saves all the conversions in
+		// getBoundingBoxFilter
 
-    // Open near-real-time searcher
-    searcher = new IndexSearcher(DirectoryReader.open(writer, true));
-    writer.close();
-  }
+		// Add documents with latitude/longitude location:
+		// we index these both as DoubleFields (for bounding box/ranges) and as
+		// NumericDocValuesFields (for scoring)
+		Document doc = new Document();
+		doc.add(new DoubleField("latitude", 40.759011, Field.Store.NO));
+		doc.add(new NumericDocValuesField("latitude", Double.doubleToRawLongBits(40.759011)));
+		doc.add(new DoubleField("longitude", -73.9844722, Field.Store.NO));
+		doc.add(new NumericDocValuesField("longitude", Double.doubleToRawLongBits(-73.9844722)));
+		writer.addDocument(doc);
 
-  private ValueSource getDistanceValueSource() {
-    Expression distance;
-    try {
-      distance = JavascriptCompiler.compile(
-                  "haversin(" + ORIGIN_LATITUDE + "," + ORIGIN_LONGITUDE + ",latitude,longitude)");
-    } catch (ParseException pe) {
-      // Should not happen
-      throw new RuntimeException(pe);
-    }
-    SimpleBindings bindings = new SimpleBindings();
-    bindings.add(new SortField("latitude", SortField.Type.DOUBLE));
-    bindings.add(new SortField("longitude", SortField.Type.DOUBLE));
+		doc = new Document();
+		doc.add(new DoubleField("latitude", 40.718266, Field.Store.NO));
+		doc.add(new NumericDocValuesField("latitude", Double.doubleToRawLongBits(40.718266)));
+		doc.add(new DoubleField("longitude", -74.007819, Field.Store.NO));
+		doc.add(new NumericDocValuesField("longitude", Double.doubleToRawLongBits(-74.007819)));
+		writer.addDocument(doc);
 
-    return distance.getValueSource(bindings);
-  }
+		doc = new Document();
+		doc.add(new DoubleField("latitude", 40.7051157, Field.Store.NO));
+		doc.add(new NumericDocValuesField("latitude", Double.doubleToRawLongBits(40.7051157)));
+		doc.add(new DoubleField("longitude", -74.0088305, Field.Store.NO));
+		doc.add(new NumericDocValuesField("longitude", Double.doubleToRawLongBits(-74.0088305)));
+		writer.addDocument(doc);
 
-  /** Given a latitude and longitude (in degrees) and the
-   *  maximum great circle (surface of the earth) distance,
-   *  returns a simple Filter bounding box to "fast match"
-   *  candidates. */
-  public static Query getBoundingBoxQuery(double originLat, double originLng, double maxDistanceKM) {
+		// Open near-real-time searcher
+		searcher = new IndexSearcher(DirectoryReader.open(writer, true));
+		writer.close();
+	}
 
-    // Basic bounding box geo math from
-    // http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates,
-    // licensed under creative commons 3.0:
-    // http://creativecommons.org/licenses/by/3.0
+	private ValueSource getDistanceValueSource() {
+		Expression distance;
+		try {
+			distance = JavascriptCompiler
+					.compile("haversin(" + ORIGIN_LATITUDE + "," + ORIGIN_LONGITUDE + ",latitude,longitude)");
+		} catch (ParseException pe) {
+			// Should not happen
+			throw new RuntimeException(pe);
+		}
+		SimpleBindings bindings = new SimpleBindings();
+		bindings.add(new SortField("latitude", SortField.Type.DOUBLE));
+		bindings.add(new SortField("longitude", SortField.Type.DOUBLE));
 
-    // TODO: maybe switch to recursive prefix tree instead
-    // (in lucene/spatial)?  It should be more efficient
-    // since it's a 2D trie...
+		return distance.getValueSource(bindings);
+	}
 
-    // Degrees -> Radians:
-    double originLatRadians = Math.toRadians(originLat);
-    double originLngRadians = Math.toRadians(originLng);
+	/**
+	 * Given a latitude and longitude (in degrees) and the maximum great circle
+	 * (surface of the earth) distance, returns a simple Filter bounding box to
+	 * "fast match" candidates.
+	 */
+	public static Query getBoundingBoxQuery(double originLat, double originLng, double maxDistanceKM) {
 
-    double angle = maxDistanceKM / (SloppyMath.earthDiameter(originLat) / 2.0);
+		// Basic bounding box geo math from
+		// http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates,
+		// licensed under creative commons 3.0:
+		// http://creativecommons.org/licenses/by/3.0
 
-    double minLat = originLatRadians - angle;
-    double maxLat = originLatRadians + angle;
+		// TODO: maybe switch to recursive prefix tree instead
+		// (in lucene/spatial)? It should be more efficient
+		// since it's a 2D trie...
 
-    double minLng;
-    double maxLng;
-    if (minLat > Math.toRadians(-90) && maxLat < Math.toRadians(90)) {
-      double delta = Math.asin(Math.sin(angle)/Math.cos(originLatRadians));
-      minLng = originLngRadians - delta;
-      if (minLng < Math.toRadians(-180)) {
-        minLng += 2 * Math.PI;
-      }
-      maxLng = originLngRadians + delta;
-      if (maxLng > Math.toRadians(180)) {
-        maxLng -= 2 * Math.PI;
-      }
-    } else {
-      // The query includes a pole!
-      minLat = Math.max(minLat, Math.toRadians(-90));
-      maxLat = Math.min(maxLat, Math.toRadians(90));
-      minLng = Math.toRadians(-180);
-      maxLng = Math.toRadians(180);
-    }
+		// Degrees -> Radians:
+		double originLatRadians = Math.toRadians(originLat);
+		double originLngRadians = Math.toRadians(originLng);
 
-    BooleanQuery.Builder f = new BooleanQuery.Builder();
+		double angle = maxDistanceKM / (SloppyMath.earthDiameter(originLat) / 2.0);
 
-    // Add latitude range filter:
-    f.add(NumericRangeQuery.newDoubleRange("latitude", Math.toDegrees(minLat), Math.toDegrees(maxLat), true, true),
-          BooleanClause.Occur.FILTER);
+		double minLat = originLatRadians - angle;
+		double maxLat = originLatRadians + angle;
 
-    // Add longitude range filter:
-    if (minLng > maxLng) {
-      // The bounding box crosses the international date
-      // line:
-      BooleanQuery.Builder lonF = new BooleanQuery.Builder();
-      lonF.add(NumericRangeQuery.newDoubleRange("longitude", Math.toDegrees(minLng), null, true, true),
-               BooleanClause.Occur.SHOULD);
-      lonF.add(NumericRangeQuery.newDoubleRange("longitude", null, Math.toDegrees(maxLng), true, true),
-               BooleanClause.Occur.SHOULD);
-      f.add(lonF.build(), BooleanClause.Occur.MUST);
-    } else {
-      f.add(NumericRangeQuery.newDoubleRange("longitude", Math.toDegrees(minLng), Math.toDegrees(maxLng), true, true),
-            BooleanClause.Occur.FILTER);
-    }
+		double minLng;
+		double maxLng;
+		if (minLat > Math.toRadians(-90) && maxLat < Math.toRadians(90)) {
+			double delta = Math.asin(Math.sin(angle) / Math.cos(originLatRadians));
+			minLng = originLngRadians - delta;
+			if (minLng < Math.toRadians(-180)) {
+				minLng += 2 * Math.PI;
+			}
+			maxLng = originLngRadians + delta;
+			if (maxLng > Math.toRadians(180)) {
+				maxLng -= 2 * Math.PI;
+			}
+		} else {
+			// The query includes a pole!
+			minLat = Math.max(minLat, Math.toRadians(-90));
+			maxLat = Math.min(maxLat, Math.toRadians(90));
+			minLng = Math.toRadians(-180);
+			maxLng = Math.toRadians(180);
+		}
 
-    return f.build();
-  }
+		BooleanQuery.Builder f = new BooleanQuery.Builder();
 
-  /** User runs a query and counts facets. */
-  public FacetResult search() throws IOException {
+		// Add latitude range filter:
+		f.add(NumericRangeQuery.newDoubleRange("latitude", Math.toDegrees(minLat), Math.toDegrees(maxLat), true, true),
+				BooleanClause.Occur.FILTER);
 
-    FacetsCollector fc = new FacetsCollector();
+		// Add longitude range filter:
+		if (minLng > maxLng) {
+			// The bounding box crosses the international date
+			// line:
+			BooleanQuery.Builder lonF = new BooleanQuery.Builder();
+			lonF.add(NumericRangeQuery.newDoubleRange("longitude", Math.toDegrees(minLng), null, true, true),
+					BooleanClause.Occur.SHOULD);
+			lonF.add(NumericRangeQuery.newDoubleRange("longitude", null, Math.toDegrees(maxLng), true, true),
+					BooleanClause.Occur.SHOULD);
+			f.add(lonF.build(), BooleanClause.Occur.MUST);
+		} else {
+			f.add(NumericRangeQuery.newDoubleRange("longitude", Math.toDegrees(minLng), Math.toDegrees(maxLng), true,
+					true), BooleanClause.Occur.FILTER);
+		}
 
-    searcher.search(new MatchAllDocsQuery(), fc);
+		return f.build();
+	}
 
-    Facets facets = new DoubleRangeFacetCounts("field", getDistanceValueSource(), fc,
-                                               getBoundingBoxQuery(ORIGIN_LATITUDE, ORIGIN_LONGITUDE, 10.0),
-                                               ONE_KM,
-                                               TWO_KM,
-                                               FIVE_KM,
-                                               TEN_KM);
+	/** User runs a query and counts facets. */
+	public FacetResult search() throws IOException {
 
-    return facets.getTopChildren(10, "field");
-  }
+		FacetsCollector fc = new FacetsCollector();
 
-  /** User drills down on the specified range. */
-  public TopDocs drillDown(DoubleRange range) throws IOException {
+		searcher.search(new MatchAllDocsQuery(), fc);
 
-    // Passing no baseQuery means we drill down on all
-    // documents ("browse only"):
-    DrillDownQuery q = new DrillDownQuery(null);
-    final ValueSource vs = getDistanceValueSource();
-    q.add("field", range.getQuery(getBoundingBoxQuery(ORIGIN_LATITUDE, ORIGIN_LONGITUDE, range.max), vs));
-    DrillSideways ds = new DrillSideways(searcher, config, (TaxonomyReader) null) {
-        @Override
-        protected Facets buildFacetsResult(FacetsCollector drillDowns, FacetsCollector[] drillSideways, String[] drillSidewaysDims) throws IOException {        
-          assert drillSideways.length == 1;
-          return new DoubleRangeFacetCounts("field", vs, drillSideways[0], ONE_KM, TWO_KM, FIVE_KM, TEN_KM);
-        }
-      };
-    return ds.search(q, 10).hits;
-  }
+		Facets facets = new DoubleRangeFacetCounts("field", getDistanceValueSource(), fc,
+				getBoundingBoxQuery(ORIGIN_LATITUDE, ORIGIN_LONGITUDE, 10.0), ONE_KM, TWO_KM, FIVE_KM, TEN_KM);
 
-  @Override
-  public void close() throws IOException {
-    searcher.getIndexReader().close();
-    indexDir.close();
-  }
+		return facets.getTopChildren(10, "field");
+	}
 
-  /** Runs the search and drill-down examples and prints the results. */
-  public static void main(String[] args) throws Exception {
-    DistanceFacetsExample example = new DistanceFacetsExample();
-    example.index();
+	/** User drills down on the specified range. */
+	public TopDocs drillDown(DoubleRange range) throws IOException {
 
-    System.out.println("Distance facet counting example:");
-    System.out.println("-----------------------");
-    System.out.println(example.search());
+		// Passing no baseQuery means we drill down on all
+		// documents ("browse only"):
+		DrillDownQuery q = new DrillDownQuery(null);
+		final ValueSource vs = getDistanceValueSource();
+		q.add("field", range.getQuery(getBoundingBoxQuery(ORIGIN_LATITUDE, ORIGIN_LONGITUDE, range.max), vs));
+		DrillSideways ds = new DrillSideways(searcher, config, (TaxonomyReader) null) {
+			@Override
+			protected Facets buildFacetsResult(FacetsCollector drillDowns, FacetsCollector[] drillSideways,
+					String[] drillSidewaysDims) throws IOException {
+				assert drillSideways.length == 1;
+				return new DoubleRangeFacetCounts("field", vs, drillSideways[0], ONE_KM, TWO_KM, FIVE_KM, TEN_KM);
+			}
+		};
+		return ds.search(q, 10).hits;
+	}
 
-    System.out.println("Distance facet drill-down example (field/< 2 km):");
-    System.out.println("---------------------------------------------");
-    TopDocs hits = example.drillDown(example.TWO_KM);
-    System.out.println(hits.totalHits + " totalHits");
+	@Override
+	public void close() throws IOException {
+		searcher.getIndexReader().close();
+		indexDir.close();
+	}
 
-    example.close();
-  }
+	/** Runs the search and drill-down examples and prints the results. */
+	public static void main(String[] args) throws Exception {
+		DistanceFacetsExample example = new DistanceFacetsExample();
+		example.index();
+
+		System.out.println("Distance facet counting example:");
+		System.out.println("-----------------------");
+		System.out.println(example.search());
+
+		System.out.println("Distance facet drill-down example (field/< 2 km):");
+		System.out.println("---------------------------------------------");
+		TopDocs hits = example.drillDown(example.TWO_KM);
+		System.out.println(hits.totalHits + " totalHits");
+
+		example.close();
+	}
 }
