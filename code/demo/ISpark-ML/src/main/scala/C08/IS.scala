@@ -1,5 +1,6 @@
 import org.apache.spark.mllib.regression.IsotonicRegression
 import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.mllib.util.MLUtils
 
 object IS {
   def main(args: Array[String]) {
