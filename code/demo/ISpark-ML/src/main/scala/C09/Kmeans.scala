@@ -10,7 +10,7 @@ object Kmeans {
       .setMaster("local") //设置本地化处理
       .setAppName("Kmeans ") //设定名称
     val sc = new SparkContext(conf) //创建环境变量实例
-    val data = MLUtils.loadLibSVMFile(sc, "c://Kmeans.txt") //输入数据集
+    val data = sc.textFile("c://Kmeans.txt") //输入数据集
     val parsedData = data.map(s => Vectors.dense(s.split(' ').map(_.toDouble)))
       .cache() //数据处理
 

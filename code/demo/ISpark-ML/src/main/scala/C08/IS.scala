@@ -9,7 +9,7 @@ val conf = new SparkConf()                                     //创建环境变
 .setMaster("local")                                             //设置本地化处理
 .setAppName("IS")                              				//设定名称
     val sc = new SparkContext(conf)                                 //创建环境变量实例
-    val data = MLUtils.loadLibSVMFile(sc, "c://u.txt")				//输入数据集
+    val data = sc.textFile("c://u.txt")				//输入数据集
 
     val parsedData = data.map { line =>							//处理数据格式
       val parts = line.split(',').map(_.toDouble)						//切分数据
