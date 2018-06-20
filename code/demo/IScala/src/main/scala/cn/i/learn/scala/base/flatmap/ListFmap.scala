@@ -1,4 +1,4 @@
-package cn.i.learn.scala.list
+package cn.i.learn.scala.base.flatmap
 
 object ListFmap {
     def main(args: Array[String]): Unit = {

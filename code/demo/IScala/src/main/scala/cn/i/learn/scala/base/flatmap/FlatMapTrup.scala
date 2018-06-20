@@ -1,4 +1,4 @@
-package cn.i.learn.scala.base
+package cn.i.learn.scala.base.flatmap
 
 object FlatMapTrup {
   def main(args: Array[String]): Unit = {

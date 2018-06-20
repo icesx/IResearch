@@ -1,4 +1,4 @@
-package cn.i.learn.scala.base
+package cn.i.learn.scala.base.flatmap
 
 object MapVsFlatMap {
   val list = (1 to 10).toList
