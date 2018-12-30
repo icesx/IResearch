@@ -4,16 +4,16 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 public class ObjectStructure {
-	private Vector nodes;
+	private Vector<Node> nodes;
 	private Node node;
 
 	public ObjectStructure() {
-		nodes = new Vector();
+		nodes = new Vector<>();
 	}
 
 	public void action(Visitor visitor) {
-		for (Enumeration e = nodes.elements(); e.hasMoreElements();) {
-			node = (Node) e.nextElement();
+		for (Enumeration<Node> e = nodes.elements(); e.hasMoreElements();) {
+			node = e.nextElement();
 			node.accept(visitor);
 		}
 	}

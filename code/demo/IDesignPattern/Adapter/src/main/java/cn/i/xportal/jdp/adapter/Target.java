@@ -1,4 +1,4 @@
-package cn.i.xportal.adapter;
+package cn.i.xportal.jdp.adapter;
 
 public interface Target {
 	/** Class Adaptee contains operation sampleOperation1. */

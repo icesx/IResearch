@@ -1,4 +1,4 @@
-package cn.i.xportal.adapter.classadapter;
+package cn.i.xportal.jdp.adapter.classadapter;
 
 public class Adaptee {
 	public String sampleOperation1() {

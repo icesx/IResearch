@@ -6,12 +6,12 @@
  * Copyright 1997-2013 by III.cn ltd.,
  * All rights reserved.
  */
-package cn.i.xportal.adapter;
+package cn.i.xportal.jdp.adapter;
 
 import org.apache.log4j.Logger;
 
-import cn.i.xportal.adapter.Target;
-import cn.i.xportal.adapter.classadapter.Adapter;
+import cn.i.xportal.jdp.adapter.Target;
+import cn.i.xportal.jdp.adapter.classadapter.Adapter;
 
 public class ClassAdapterTest {
 	private static Logger logger = Logger.getLogger(ClassAdapterTest.class);

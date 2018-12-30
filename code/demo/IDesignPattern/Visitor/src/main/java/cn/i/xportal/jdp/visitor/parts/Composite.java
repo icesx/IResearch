@@ -3,7 +3,7 @@ package cn.i.xportal.jdp.visitor.parts;
 import java.util.Vector;
 
 abstract class Composite extends Equipment {
-	private Vector parts = new Vector(10);
+	private Vector<Equipment> parts = new Vector<>(10);
 
 	public Composite() {
 	}

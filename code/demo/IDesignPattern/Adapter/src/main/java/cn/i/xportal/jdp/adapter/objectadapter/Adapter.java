@@ -1,6 +1,6 @@
-package cn.i.xportal.adapter.objectadapter;
+package cn.i.xportal.jdp.adapter.objectadapter;
 
-import cn.i.xportal.adapter.Target;
+import cn.i.xportal.jdp.adapter.Target;
 
 public class Adapter implements Target {
 
