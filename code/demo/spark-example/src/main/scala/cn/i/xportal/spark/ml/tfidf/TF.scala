@@ -14,14 +14,16 @@ object TF {
       (1, Array("a", "b", "b", "c", "a")),
       (2, Array("a", "c"))))
       .toDF("id", "words")
-    val tf = new HashingTF().
-      setInputCol("words").
-      setOutputCol("tf")
+    val tf = new HashingTF()
+      .setInputCol("words")
+      .setOutputCol("tf")
+      .setNumFeatures(5)
 
     val tfdf = tf
       .transform(df)
 
-    tfdf.select("id", "tf").
-      show(false)
+    tfdf.select("id", "words","tf")
+      .show(false)
+    println("a".hashCode())
   }
 }
