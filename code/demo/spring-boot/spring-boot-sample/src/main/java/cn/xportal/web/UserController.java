@@ -2,46 +2,46 @@ package cn.xportal.web;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.xportal.entity.UserEntity;
-import cn.xportal.mapper.UserMapper;
+import cn.xportal.web.service.IUserService;
 
 @RestController
 public class UserController {
-	
-	@Autowired
-	private UserMapper userMapper;
-	
+
+	@Inject
+	private IUserService userService;
+
 	@RequestMapping("/getUsers")
 	public List<UserEntity> getUsers() {
-		List<UserEntity> users=userMapper.getAll();
+		List<UserEntity> users = userService.getUsers();
 		return users;
 	}
-	
-    @RequestMapping("/getUser")
-    public UserEntity getUser(Long id) {
-    	UserEntity user=userMapper.getOne(id);
-        return user;
-    }
-    
-    @RequestMapping("/add")
-    public void save(UserEntity user) {
-    	userMapper.insert(user);
-    }
-    
-    @RequestMapping(value="update")
-    public void update(UserEntity user) {
-    	userMapper.update(user);
-    }
-    
-    @RequestMapping(value="/delete/{id}")
-    public void delete(@PathVariable("id") Long id) {
-    	userMapper.delete(id);
-    }
-    
-    
+
+	@RequestMapping("/getUser")
+	public UserEntity getUser(Long id) {
+		UserEntity user = userService.getUser(id);
+		return user;
+	}
+
+	@RequestMapping("/add")
+	public void save(UserEntity user) {
+		userService.save(user);
+	}
+
+	@RequestMapping(value = "update")
+	public void update(UserEntity user) {
+		userService.update(user);
+	}
+
+	@RequestMapping(value = "/delete/{id}")
+	public void delete(@PathVariable("id") Long id) {
+		userService.delete(id);
+	}
+
 }
