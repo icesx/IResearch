@@ -21,6 +21,7 @@ public class BaseFilter implements Filter {
 			throws IOException,
 			ServletException {
 		logger.info("doFilter on {}", request);
+		chain.doFilter(request, response);
 	}
 
 }
