@@ -15,6 +15,21 @@ public class StringTest {
 	private static Logger logger = Logger.getLogger(StringTest.class);
 
 	@Test
+	public void formart() {
+		String fomart = "hello,%s";
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			String.format(fomart, "xxx");
+		}
+		logger.info("used " + (System.currentTimeMillis() - time));
+		time = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++) {
+			new StringBuilder().append("hello,").append("xxx");
+		}
+		logger.info("used " + (System.currentTimeMillis() - time));
+	}
+
+	@Test
 	public void testCompare() {
 		String[] strs = "1,11,123,123,4,中午,".split(",");
 		String[] comp = "1,2,3".split(",");
