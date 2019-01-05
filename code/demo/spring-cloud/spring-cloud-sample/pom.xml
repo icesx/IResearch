@@ -5,10 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.demo</groupId>
-	<artifactId>sc-config</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-cloud-sample</name>
-	<description>Config Server demo project</description>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -83,5 +81,6 @@
 	</build>
 
 	<packaging>pom</packaging>
+	<artifactId>spring-cloud-sample</artifactId>
 </project>
 

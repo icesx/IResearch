@@ -8,8 +8,6 @@
 	<artifactId>dashboard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>cs-config</name>
-	<description>Config Server demo project</description>
 	<parent>
 		<groupId>org.demo</groupId>
 		<artifactId>spring-cloud-sample</artifactId>
