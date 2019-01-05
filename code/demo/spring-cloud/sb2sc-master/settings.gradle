@@ -1,0 +1,2 @@
+rootProject.name = 'sb2sc'
+include('sc-eureka','sc-config','sc-provider','sc-consumer','sc-zuul','sc-dashboard','sc-zipkin')
