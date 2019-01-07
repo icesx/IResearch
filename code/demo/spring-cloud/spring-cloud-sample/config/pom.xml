@@ -7,7 +7,7 @@
 	<artifactId>config</artifactId>
 	<packaging>jar</packaging>
 	<parent>
-		<groupId>org.demo</groupId>
+		<groupId>cn.xportal.sc</groupId>
 		<artifactId>spring-cloud-sample</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
