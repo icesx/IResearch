@@ -1,18 +1,18 @@
 server:
-  port: 9411
+  port: 8082
 spring:
   application:
-    name: sc-sc-zipkin
+    name: zipkin
   profiles:
     active: csdn
 eureka:
   client:
     service-url:
-      defaultZone: http://root:booszy@localhost:8761/eureka/
+      defaultZone: http://root:i@localhost:8080/eureka/
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    appname: sc-zipkin
+    appname: zipkin
 management:
   metrics:
     web:

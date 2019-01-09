@@ -3,15 +3,15 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://root:booszy@localhost:8761/eureka/
+      defaultZone: http://root:i@localhost:8080/eureka/
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    appname: sc-dashboard
+    appname: dashboard
 turbine:
   aggregator:
     clusterConfig: default
-  appConfig: sc-consumer
+  appConfig: consumer
   clusterNameExpression: "'default'"
 spring:
   application:

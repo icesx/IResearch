@@ -1,26 +1,26 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://root:booszy@localhost:8761/eureka/
+      defaultZone: http://root:i@localhost:8080/eureka/
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    appname: sc-zuul
+    appname: zuul
 
 spring:
   zipkin:
-    base-url: http://localhost:9411
+    base-url: http://localhost:8082
   sleuth:
     sampler:
       percentage: 1.0
   application:
-    name: sc-zuul
+    name: zuul
   cloud:
     config:
       discovery:
         enabled: true
-        service-id: sc-config-server
+        service-id: config
       fail-fast: true
       username: root
-      password: booszy
+      password: i
       profile: csdn
