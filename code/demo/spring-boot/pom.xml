@@ -14,7 +14,7 @@
 	<modules>
 		<module>spring-boot-ibatis</module>
 		<module>spring-boot-common</module>
-		<module>spring-boot-hinbernate</module>
+		<module>spring-boot-hibernate</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
