@@ -1,5 +1,7 @@
 package cn.xportal.sb.hibernate.service;
 
+import java.util.List;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,13 @@ public class UserService implements IUserService {
 	private UserDao userDao;
 
 	@Override
-	public Iterable<UserEntity> getUsers() {
+	public List<UserEntity> getUsers() {
 		return userDao.findAll();
 	}
 
 	@Override
 	public UserEntity getUser(Long id) {
-		UserEntity user = userDao.findById(id).get();
+		UserEntity user = userDao.findById(id).orElse(UserEntity.empty());
 		return user;
 	}
 

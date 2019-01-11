@@ -1,10 +1,12 @@
 package cn.xportal.sb.hibernate.service;
 
+import java.util.List;
+
 import cn.xportal.sb.hibernate.entity.UserEntity;
 
 public interface IUserService {
 
-	Iterable<UserEntity> getUsers();
+	List<UserEntity> getUsers();
 
 	void delete(Long id);
 

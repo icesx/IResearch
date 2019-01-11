@@ -96,4 +96,8 @@ public class UserEntity implements Serializable {
 				+ "]";
 	}
 
+	public static UserEntity empty() {
+		return new UserEntity();
+	}
+
 }
