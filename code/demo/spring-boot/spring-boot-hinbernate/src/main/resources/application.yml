@@ -1,7 +1,5 @@
 server:
    port:8080
-mybatis:
-   type-aliases-package:com.neo.entity
 
 spring:
    datasource:
@@ -9,5 +7,16 @@ spring:
       url: jdbc:mysql://localhost:3306/spring_boot?useUnicode=true&characterEncoding=utf-8
       username: root
       password: i
+   jpa:
+      show-sql: true
+      properties: 
+         hibernate: 
+            format_sql: true
+      hibernate: 
+         naming: 
+            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+   view: 
+      prefix: /WEB-INF/views/
+      suffix: .jsp
       
       
