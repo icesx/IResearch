@@ -5,7 +5,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    appname: sc-consumer
+    appname: consumer
 
 spring:
   zipkin:
@@ -19,7 +19,7 @@ spring:
     config:
       discovery:
         enabled: true
-        service-id: config
+        service-id: CONFIG
       fail-fast: true
       username: root
       password: i

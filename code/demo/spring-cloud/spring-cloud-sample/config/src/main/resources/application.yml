@@ -13,8 +13,10 @@ spring:
     config:
       server:
         git:
-          uri: https://i:i@gd.solar.tsnail.cn:19090/spring-cloud-config.git
+          uri: http://git.tsnail.cn:19090/spring-cloud-config.git
           searchPaths: '{application}'
+          username: i
+          password: i
 eureka:
   client:
     service-url:
