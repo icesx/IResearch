@@ -20,8 +20,8 @@ public class IndexController {
 
 	@GetMapping("{msg}")
 	public Mono<String> sayHelloWorld(@PathVariable("msg") String msg) {
-		logger.info("come on {}", msg);
-		return Mono.just("sc-provider receive : " + msg);
+		logger.info("come on :{}", msg);
+		return Mono.just("provider receive : " + msg);
 	}
 
 	@GetMapping("list")

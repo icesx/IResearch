@@ -9,7 +9,7 @@ import java.util.List;
 public class MFeignClientFallback implements MFeignClient{
     @Override
     public String sayHelloWorld(String msg) {
-        return "fallback";
+        return "feigon fallback";
     }
 
     @Override

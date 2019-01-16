@@ -46,6 +46,6 @@ public class RibbonController {
 	}
 
 	public Mono<String> fallbackMethod(@PathVariable("wd") String parm) {
-		return Mono.just("fallback");
+		return Mono.just("ribbon fallback");
 	}
 }

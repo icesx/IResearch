@@ -1,5 +1,7 @@
 package cn.xportal.sc.consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableHystrix
 @SpringBootApplication
 public class ConsumerApplication {
+	private static final Logger logger = LoggerFactory.getLogger(ConsumerApplication.class);
 
 	@Autowired
 	private RestTemplateBuilder builder;
@@ -27,7 +30,9 @@ public class ConsumerApplication {
 	public RestTemplate restTemplate() {
 		return builder.build();
 	}
+
 	public static void main(String[] args) {
+		logger.info("start Consumer..."); 
 		SpringApplication.run(ConsumerApplication.class, args);
 	}
 }
