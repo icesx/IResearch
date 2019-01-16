@@ -15,9 +15,4 @@ turbine:
   clusterNameExpression: "'default'"
 spring:
   application:
-    name: sc-dashboard
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
+    name: dashboard
