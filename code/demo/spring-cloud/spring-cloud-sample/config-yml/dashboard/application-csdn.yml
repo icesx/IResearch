@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: csdn
+server:
+  port: 8900
+turbine:
+  aggregator:
+    clusterConfig: default
+  appConfig: consumer
+  clusterNameExpression: "'default'"
+spring:
+  application:
+    name: dashboard
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
