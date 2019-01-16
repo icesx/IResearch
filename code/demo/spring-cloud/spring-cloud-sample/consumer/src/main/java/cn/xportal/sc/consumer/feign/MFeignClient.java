@@ -8,7 +8,7 @@ import cn.xportal.sc.consumer.feign.config.MFeignConfig;
 
 import java.util.List;
 
-@FeignClient(name = "sc-provider",fallback = MFeignClientFallback.class, configuration = MFeignConfig.class)
+@FeignClient(name = "provider",fallback = MFeignClientFallback.class, configuration = MFeignConfig.class)
 public interface MFeignClient {
     // 这是被请求微服务的地址，也就是provider的地址
     @GetMapping(value = "/test/{msg}")

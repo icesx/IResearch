@@ -7,5 +7,8 @@
 ###Ribbon
 	负载均衡
 
-### request for provider 
+### ribbon to provider 
 curl http://localhost:8200/ribbon/hello
+
+### feign to provider 
+curl http://localhost:8200/feign/list
