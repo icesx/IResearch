@@ -9,9 +9,6 @@ public class ClassUML {
 	public ClassUML() {
 	}
 
-	private void aPrivateFunction() {
-	}
-
 	public void aPublicMethod() {
 	}
 

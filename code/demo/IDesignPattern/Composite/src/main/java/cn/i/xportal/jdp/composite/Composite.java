@@ -9,9 +9,9 @@ public class Composite implements Component {
 	}
 
 	public void sampleOperation() {
-		java.util.Enumeration enumeration = components();
+		Enumeration<Component> enumeration = components();
 		while (enumeration.hasMoreElements()) {
-			((Component) enumeration.nextElement()).sampleOperation();
+			enumeration.nextElement().sampleOperation();
 		}
 	}
 
@@ -23,9 +23,9 @@ public class Composite implements Component {
 		componentVector.removeElement(component);
 	}
 
-	public Enumeration components() {
+	public Enumeration<Component> components() {
 		return componentVector.elements();
 	}
 
-	private Vector<Component> componentVector = new java.util.Vector();
+	private Vector<Component> componentVector = new Vector<Component>();
 }

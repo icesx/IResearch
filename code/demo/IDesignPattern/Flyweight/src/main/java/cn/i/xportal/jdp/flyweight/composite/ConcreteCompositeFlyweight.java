@@ -1,12 +1,10 @@
 package cn.i.xportal.jdp.flyweight.composite;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 public class ConcreteCompositeFlyweight extends Flyweight {
-	private HashMap flies = new HashMap(10);
-	private Flyweight flyweight = null;
+	private HashMap<Character, Flyweight> flies = new HashMap<>(10);
 
 	public ConcreteCompositeFlyweight() {
 	}
@@ -16,11 +14,8 @@ public class ConcreteCompositeFlyweight extends Flyweight {
 	}
 
 	public void operation(String extrinsicState) {
-		Flyweight fly = null;
-
-		for (Iterator it = flies.entrySet().iterator(); it.hasNext();) {
-			Map.Entry e = (Map.Entry) it.next();
-			fly = (Flyweight) e.getValue();
+		for (Entry<Character, Flyweight> entry : flies.entrySet()) {
+			Flyweight fly = entry.getValue();
 
 			fly.operation(extrinsicState);
 		}

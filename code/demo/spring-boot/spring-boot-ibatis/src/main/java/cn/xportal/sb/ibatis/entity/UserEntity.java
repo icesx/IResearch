@@ -7,10 +7,15 @@ import cn.xportal.sb.ibatis.enums.UserSexEnum;
 public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private Long id;
+
 	private String userName;
+
 	private String passWord;
+
 	private UserSexEnum userSex;
+
 	private String nickName;
 
 	public UserEntity() {
@@ -66,7 +71,6 @@ public class UserEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "userName " + this.userName + ", pasword " + this.passWord + "sex " + userSex.name();
 	}
 

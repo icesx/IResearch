@@ -3,7 +3,7 @@ package cn.i.xportal.jdp.command.book;
 import java.util.Vector;
 
 public class MacroDocCommand implements MacroCommand {
-	private Vector commandList = new Vector();
+	private Vector<Command> commandList = new Vector<>();
 
 	public void add(Command toAdd) {
 		commandList.addElement(toAdd);

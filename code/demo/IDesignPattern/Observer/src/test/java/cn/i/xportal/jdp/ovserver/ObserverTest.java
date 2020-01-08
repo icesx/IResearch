@@ -12,6 +12,5 @@ public class ObserverTest {
 		observer = new ConcreteObserver();
 		subject.attach(observer);
 		subject.change("new state");
-
 	}
 }

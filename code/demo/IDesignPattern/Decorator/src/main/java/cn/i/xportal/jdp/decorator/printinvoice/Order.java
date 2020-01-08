@@ -7,7 +7,7 @@ import java.util.Vector;
 public abstract class Order {
 	protected String customerName;
 	protected Date salesDate;
-	protected Vector items = new Vector(10);
+	protected Vector<OrderLine> items = new Vector<>(10);
 
 	public void print() {
 		for (int i = 0; i < items.size(); i++) {

@@ -13,14 +13,10 @@
 	<parent>
 		<artifactId>spring-boot</artifactId>
 		<version>1.0.0</version>
-		<relativePath /> <!-- lookup parent from repository -->
 		<groupId>cn.xportal</groupId>
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<skipTests>true</skipTests>
 	</properties>
 
 	<dependencies>
