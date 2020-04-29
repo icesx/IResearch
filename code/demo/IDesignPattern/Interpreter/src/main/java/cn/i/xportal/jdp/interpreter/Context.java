@@ -3,7 +3,7 @@ package cn.i.xportal.jdp.interpreter;
 import java.util.HashMap;
 
 public class Context {
-	private HashMap map = new HashMap();
+	private HashMap<Variable, Boolean> map = new HashMap<Variable, Boolean>();
 
 	public void assign(Variable var, boolean value) {
 		map.put(var, new Boolean(value));
