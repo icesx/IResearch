@@ -36,7 +36,7 @@ spring:
 
 logging:
    level:
-      cn.taocheng.activiti.demo : debug
+      cn.taocheng.activiti.demo : info
 
       
       

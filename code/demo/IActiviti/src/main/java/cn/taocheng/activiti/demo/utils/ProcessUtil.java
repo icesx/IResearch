@@ -8,8 +8,8 @@
  */
 package cn.taocheng.activiti.demo.utils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.activiti.engine.repository.ProcessDefinition;
 
@@ -17,11 +17,7 @@ import cn.taocheng.activiti.demo.modle.ProcessInfo;
 
 public class ProcessUtil {
 	public static List<ProcessInfo> processTrans(List<ProcessDefinition> list) {
-		List<ProcessInfo> processInfos = new ArrayList<ProcessInfo>();
-		for (ProcessDefinition processDefinition : list) {
-			processInfos.add(processTran(processDefinition));
-		}
-		return processInfos;
+		return list.stream().map(pd -> processTran(pd)).collect(Collectors.toList());
 	}
 
 	public static ProcessInfo processTran(ProcessDefinition processDefinition) {

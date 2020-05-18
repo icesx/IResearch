@@ -70,7 +70,7 @@ public class ActivitiRest {
 	@ResponseBody
 	public ResponseInfo<List<DeploymentInfo>> processes() {
 		logger.info("查询已部署流程信息");
-		return ResponseUtil.response(activitiService.listProcess());
+		return ResponseUtil.response(activitiService.listDeployment());
 	}
 
 	/**

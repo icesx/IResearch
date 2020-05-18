@@ -8,8 +8,8 @@
  */
 package cn.taocheng.activiti.demo.utils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.activiti.engine.task.Task;
 
@@ -18,11 +18,7 @@ import cn.taocheng.activiti.demo.modle.TaskInfo;
 public class TaskUtil {
 
 	public static List<TaskInfo> TaskTrans(List<Task> list) {
-		List<TaskInfo> taskInfos = new ArrayList<>();
-		for (Task task : list) {
-			taskInfos.add(taskTran(task));
-		}
-		return taskInfos;
+		return list.stream().map(t -> taskTran(t)).collect(Collectors.toList());
 	}
 
 	public static TaskInfo taskTran(Task task) {

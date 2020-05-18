@@ -11,6 +11,7 @@ package cn.taocheng.activiti.demo.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -18,9 +19,9 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.repository.DeploymentQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Event;
 import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +31,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import cn.taocheng.activiti.demo.manager.TaskActionEventHandler;
 import cn.taocheng.activiti.demo.modle.DeploymentInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
 import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.service.event.IActivitiEventHandler;
+import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
 import cn.taocheng.activiti.demo.utils.DeploymentUtil;
 import cn.taocheng.activiti.demo.utils.ProcessUtil;
 import cn.taocheng.activiti.demo.utils.TaskUtil;
@@ -44,6 +48,10 @@ public class ActivitiService implements IActivitiService {
 	private static final Map<String, Object> VARIABLE_MAP = new HashMap<>();
 
 	private static final Logger logger = LoggerFactory.getLogger(ActivitiService.class);
+
+	public ActivitiService() {
+		logger.info("init " + this.getClass());
+	}
 
 	@Resource
 	private RuntimeService runtimeService;
@@ -58,6 +66,16 @@ public class ActivitiService implements IActivitiService {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		// Do any additional configuration here
 		return builder.build();
+	}
+
+	public void setRuntimeService(RuntimeService runtimeService) {
+		this.runtimeService = runtimeService;
+		this.addEvent(new TaskActionEventHandler());
+	}
+
+	@Override
+	public void addEvent(IActivitiEventHandler event) {
+		runtimeService.addEventListener(new MyActivitiEventListener(event));
 	}
 
 	@Override
@@ -77,8 +95,29 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
-	public List<TaskInfo> listTasksFromProcess(String processDefinitionId) {
+	public List<TaskInfo> listTasksFromProcessDefine(String processDefinitionId) {
 		return TaskUtil.TaskTrans(taskService.createTaskQuery().processDefinitionId(processDefinitionId).list());
+	}
+
+	@Override
+	public List<TaskInfo> listTasksFromProcess(String processInstanceId) {
+		return TaskUtil.TaskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).list());
+	}
+
+	@Override
+	public List<TaskInfo> listActiveTasksFromProcess(String processInstanceId) {
+		return TaskUtil.TaskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).active().list());
+	}
+
+	@Override
+	public List<TaskInfo> listTasksFromAssignee(String processInstanceId, String assignee) {
+		return TaskUtil
+				.TaskTrans(
+						taskService
+								.createTaskQuery()
+								.processInstanceId(processInstanceId)
+								.taskAssignee(assignee)
+								.list());
 	}
 
 	@Override
@@ -87,9 +126,8 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
-	public List<DeploymentInfo> listProcess() {
+	public List<DeploymentInfo> listDeployment() {
 		List<Deployment> list = repositoryService.createDeploymentQuery().list();
-
 		return DeploymentUtil.processTrans(list);
 	}
 
@@ -100,8 +138,12 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
-	public List<ProcessInfo> listActivedProcess() {
-		return ProcessUtil.processTrans(repositoryService.createProcessDefinitionQuery().active().list());
+	public List<ProcessInstanceInfo> listProcessInstance() {
+		List<ProcessInstance> pis = this.runtimeService.createProcessInstanceQuery().list();
+		return pis
+				.stream()
+				.map(pi -> ProcessInstanceInfo.builder().withProcessInstance(pi).build())
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -122,13 +164,12 @@ public class ActivitiService implements IActivitiService {
 
 	@Override
 	public void completeTask(String taskId) {
-		// taskService.getIdentityLinksForTask(taskId);
 		taskService.complete(taskId);
 	}
 
 	@Override
-	public void claimTask(String taskId, String assginee) {
-		taskService.claim(taskId, assginee);
+	public void claimTask(String taskId, String userId) {
+		taskService.claim(taskId, userId);
 	}
 
 	@Override
@@ -147,6 +188,24 @@ public class ActivitiService implements IActivitiService {
 	@Override
 	public void completeTask(String taskI, Map<String, Object> map) {
 		taskService.complete(taskI, map);
+	}
+
+	@Override
+	public List<Event> allTaskEvent(String processInstanceId) {
+		return runtimeService.getProcessInstanceEvents(processInstanceId);
+	}
+
+	@Override
+	public boolean deleteDeployment(String deploymentId) {
+		try {
+			this.repositoryService.deleteDeployment(deploymentId);
+			logger.info("deleteDeployment {} finished.", deploymentId);
+			return true;
+		} catch (RuntimeException e) {
+			logger.error("deployment {} is runtime or history process instances or jobs.");
+			logger.error(e.getMessage(), e);
+			return false;
+		}
 	}
 
 }

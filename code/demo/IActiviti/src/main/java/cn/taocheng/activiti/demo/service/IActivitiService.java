@@ -12,40 +12,54 @@ import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.task.Event;
 
 import cn.taocheng.activiti.demo.modle.DeploymentInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
 import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.service.event.IActivitiEventHandler;
 
 public interface IActivitiService {
 
-	TaskInfo getTasks(String assignee);
+	void addEvent(IActivitiEventHandler event);
 
-	Deployment deploy(String classpath);
+	List<Event> allTaskEvent(String processInstanceId);
 
-	List<ProcessInfo> listProcessInfo();
+	void claimTask(String taskId, String userId);
 
-	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
+	void completeTask(String taskId);
 
-	ProcessInstanceInfo startProcess(String processDefinitionKey);
-
-	List<ProcessInfo> listActivedProcess();
-
-	List<DeploymentInfo> listProcess();
-
-	ProcessInfo process(String processDefinitionId);
-
-	List<TaskInfo> listTasksFromProcess(String processDefinitionId);
-
-	void completeTask(String taskI, Map<String, Object> map);
-
-	void completeTask(String taskI);
-
-	void claimTask(String taskId, String assginee);
+	void completeTask(String taskId, Map<String, Object> map);
 
 	void delProcesseAll();
 
 	void delProcesseById(String id);
+
+	Deployment deploy(String classpath);
+
+	TaskInfo getTasks(String assignee);
+
+	List<ProcessInstanceInfo> listProcessInstance();
+
+	List<TaskInfo> listActiveTasksFromProcess(String processInstanceId);
+
+	List<DeploymentInfo> listDeployment();
+
+	List<ProcessInfo> listProcessInfo();
+
+	List<TaskInfo> listTasksFromAssignee(String processInstanceId, String assignee);
+
+	List<TaskInfo> listTasksFromProcess(String processDefinitionId);
+
+	List<TaskInfo> listTasksFromProcessDefine(String processDefinitionId);
+
+	ProcessInfo process(String processDefinitionId);
+
+	ProcessInstanceInfo startProcess(String processDefinitionKey);
+
+	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
+
+	boolean deleteDeployment(String deploymentId);
 
 }

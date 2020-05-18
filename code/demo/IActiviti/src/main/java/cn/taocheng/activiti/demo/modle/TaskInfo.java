@@ -67,7 +67,14 @@ public class TaskInfo {
 
 	@Override
 	public String toString() {
-		return "TaskInfo [taskId=" + taskId + ", processInstanceId=" + processInstanceId + ", name=" + name + ", definitionKey=" + definitionKey + "]";
+		return "TaskInfo [taskId=" + taskId
+				+ ", processInstanceId="
+				+ processInstanceId
+				+ ", name="
+				+ name
+				+ ", definitionKey="
+				+ definitionKey
+				+ "]";
 	}
 
 	public static class Builder {
@@ -79,14 +86,24 @@ public class TaskInfo {
 
 		private String definitionKey;
 
-		public Builder withId(Task task) {
-			this.taskId = task.getId();
-			this.processInstanceId = task.getProcessInstanceId();
-			this.name = task.getName();
-			this.definitionKey = task.getTaskDefinitionKey();
+		public Builder withId(String taskId) {
+			this.taskId = taskId;
 			return this;
 		}
 
+		public Builder withProcessInstanceId(String processInstanceId) {
+			this.processInstanceId = processInstanceId;
+			return this;
+		}
+
+		public Builder withName(String name) {
+			this.name = name;
+			return this;
+		}
+		public Builder withDefinitionKey(String definitionKey) {
+			this.definitionKey = definitionKey;
+			return this;
+		}
 		public TaskInfo build() {
 			return new TaskInfo(taskId, name, definitionKey, processInstanceId);
 		}

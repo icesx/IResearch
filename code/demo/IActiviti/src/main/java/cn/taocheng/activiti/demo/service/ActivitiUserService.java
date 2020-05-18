@@ -10,21 +10,11 @@ package cn.taocheng.activiti.demo.service;
 
 import javax.annotation.Resource;
 
-import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
-import org.activiti.engine.ManagementService;
 
-public class ActivitiSupportService implements IActivitSupportService {
-	@Resource
-	private HistoryService historyService;
-
-	@Resource
-	private ManagementService managementService;
+public class ActivitiUserService implements IActivitSupportService {
 
 	@Resource
 	private IdentityService identityService;
 
-	public void dd() {
-		identityService.setAuthenticatedUserId("kitty");
-	}
 }
