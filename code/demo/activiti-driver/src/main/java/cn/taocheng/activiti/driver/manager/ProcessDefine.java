@@ -8,12 +8,15 @@
  */
 package cn.taocheng.activiti.driver.manager;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import cn.taocheng.activiti.driver.bean.Assginee;
 import cn.taocheng.activiti.driver.bean.ProcessInstanceInfo;
-import cn.taocheng.activiti.driver.dao.ITaskActionDao;
 import cn.taocheng.activiti.driver.process.IProcess;
 import cn.taocheng.activiti.driver.process.ProcessInstance;
 import cn.taocheng.activiti.driver.service.IActivitiService;
@@ -25,28 +28,34 @@ class ProcessDefine implements IProcessDefine {
 
 	private String bpmn;
 
+	@Autowired
 	private IActivitiService activitiService;
 
-	private ITaskActionDao taskActionDao;
- 
-	ProcessDefine(String classpath, IActivitiService activitiService, ITaskActionDao dao) {
-		this.taskActionDao = dao;
+	@Autowired
+	private AutowireCapableBeanFactory beanFactory;
+
+	ProcessDefine(String classpath) {
 		this.bpmn = classpath;
 		logger.info("create ProcessDefine with {}", this.bpmn);
-		this.activitiService = activitiService;
-		activitiService.deploy(this.bpmn);
 		this.load();
 	}
 
+	@PostConstruct
+	private void init() {
+		activitiService.deploy(this.bpmn);
+	}
+
 	private void load() {
-		//TODO 
+		// TODO
 	}
 
 	@Override
 	public IProcess startProcess(String processDefineId, ActionParams params, Assginee assginee) {
 		params.put(START_ASSIGNEE, assginee.getName());
 		ProcessInstanceInfo pi = activitiService.startProcess(processDefineId, params.params());
-		return new ProcessInstance(pi, activitiService,taskActionDao);
+		ProcessInstance processInstance = new ProcessInstance(pi);
+		beanFactory.autowireBean(processInstance);
+		return processInstance;
 	}
 
 	@Override

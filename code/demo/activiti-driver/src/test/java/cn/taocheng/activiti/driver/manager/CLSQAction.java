@@ -14,7 +14,7 @@ import cn.taocheng.activiti.driver.process.AbsTaskAction;
 import cn.taocheng.activiti.driver.web.View;
 
 public class CLSQAction extends AbsTaskAction {
-
+	
 	@Override
 	public View view() {
 		return new View();

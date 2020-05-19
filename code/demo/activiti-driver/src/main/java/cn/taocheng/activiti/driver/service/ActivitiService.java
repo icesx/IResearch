@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,7 +40,7 @@ import cn.taocheng.activiti.driver.utils.DeploymentUtil;
 import cn.taocheng.activiti.driver.utils.ProcessUtil;
 import cn.taocheng.activiti.driver.utils.TaskUtil;
 
-@Service("activitiService")
+@Component
 @Transactional
 public class ActivitiService implements IActivitiService {
 	private static final Map<String, Object> VARIABLE_MAP = new HashMap<>();

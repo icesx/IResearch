@@ -8,12 +8,14 @@
  */
 package cn.taocheng.activiti.driver.manager;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Component;
 
-import cn.taocheng.activiti.driver.dao.ITaskActionDao;
 import cn.taocheng.activiti.driver.event.MyActivitiEventListener;
 import cn.taocheng.activiti.driver.service.IActivitiService;
 
@@ -25,16 +27,22 @@ public class ActivitiManager implements IActivitiManager {
 	private IActivitiService activitiService;
 
 	@Autowired
-	private ITaskActionDao dao;
+	private AutowireCapableBeanFactory beanFactory;
 
 	public ActivitiManager() {
 		logger.info("init " + this.getClass());
+	}
+
+	@PostConstruct
+	public void init() {
 		activitiService.addEvent(MyActivitiEventListener.instance());
 	}
 
 	@Override
 	public IProcessDefine registProcess(String classpath) {
-		return new ProcessDefine(classpath,activitiService,dao);
+		ProcessDefine processDefine = new ProcessDefine(classpath);
+		beanFactory.autowireBean(processDefine);
+		return processDefine;
 	}
 
 }

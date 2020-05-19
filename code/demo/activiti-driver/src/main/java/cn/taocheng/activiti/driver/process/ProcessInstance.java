@@ -14,9 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.driver.bean.Assginee;
@@ -38,23 +42,29 @@ public class ProcessInstance implements IProcess {
 
 	private List<AbsTaskAction> actions = new ArrayList<>();
 
+	@Autowired
 	private IActivitiService activitiService;
 
 	private ProcessInstanceInfo processInstanceInfo;
 
+	@Autowired
 	private ITaskActionDao taskActionDao;
 
-	public ProcessInstance(ProcessInstanceInfo pi, IActivitiService activitiService2, ITaskActionDao taskActionDao) {
+	@Autowired
+	private AutowireCapableBeanFactory beanFactory;
+
+	public String toString() {
+		return processInstanceInfo.toString();
+	}
+	public ProcessInstance(ProcessInstanceInfo pi) {
 		this.processInstanceInfo = pi;
-		this.activitiService = activitiService2;
-		this.taskActionDao = taskActionDao;
 		logger.info("create Process with {}", this.processInstanceInfo);
 		MyActivitiEventListener
 				.instance()
 				.registHandle(this.processInstanceInfo.getId(), new TaskActionEventHandler(this));
-		this.load();
 	}
 
+	@PostConstruct
 	private void load() {
 		List<TaskActionEntity> entitis = taskActionDao.findAll();
 		try {
@@ -134,6 +144,7 @@ public class ProcessInstance implements IProcess {
 				.withProcessInstanceId(entry.getProcessDefinitionId())
 				.build();
 		action.setTaskInfo(taskInfo);
+		beanFactory.autowireBean(action);
 		return action;
 	}
 

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @SpringBootApplication
 @EnableAutoConfiguration
-@ComponentScan(basePackages = { "cn.taocheng.activiti.demo.rest", "cn.taocheng.activiti.demo.service" })
+@ComponentScan(basePackages = { "cn.taocheng.activiti.driver"})
 public class Application {
 
 	public static void main(String[] args) {

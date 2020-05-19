@@ -26,7 +26,6 @@ import cn.taocheng.activiti.driver.bean.ProcessInfo;
 import cn.taocheng.activiti.driver.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
 import cn.taocheng.activiti.driver.event.MyActivitiEventListener;
-import cn.taocheng.activiti.driver.service.IActivitiService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -102,7 +101,7 @@ public class ActivitiServiceTest {
 
 	@Test
 	public void listTasksFromProcess() {
-		List<TaskInfo> tasks = activitiService.listTasksFromProcess("17508");
+		List<TaskInfo> tasks = activitiService.listTasksFromProcess("27501");
 		for (TaskInfo taskInfo : tasks) {
 			logger.info(taskInfo.toString());
 		}
