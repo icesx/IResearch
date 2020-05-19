@@ -216,8 +216,13 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
-	public ProcessInstance processInstance(String processInstanceId) {
-		return runtimeService.createProcessInstanceQuery().active().processInstanceId(processInstanceId).singleResult();
+	public ProcessInstanceInfo processInstance(String processInstanceId) {
+		ProcessInstance processInstance = runtimeService
+				.createProcessInstanceQuery()
+				.active()
+				.processInstanceId(processInstanceId)
+				.singleResult();
+		return ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
 	}
 
 }

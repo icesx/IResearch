@@ -55,13 +55,13 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 				handler.jobExecutionFailure(eventInfo);
 				break;
 			case TASK_CREATED:
-				handler.taskCreated(event, entry(event));
+				handler.taskCreated(event, taskEntry(event));
 				break;
 			case TASK_COMPLETED:
-				handler.taskCompleted(event, entry(event));
+				handler.taskCompleted(event, taskEntry(event));
 				break;
 			case TASK_ASSIGNED:
-				handler.taskAssigned(event, entry(event));
+				handler.taskAssigned(event, taskEntry(event));
 				break;
 			case PROCESS_STARTED:
 				handler.processStarted((ActivitiEntityEvent) event);
@@ -80,7 +80,7 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 		}
 	}
 
-	private TaskEntity entry(ActivitiEvent event) {
+	private TaskEntity taskEntry(ActivitiEvent event) {
 		ActivitiEntityEventImpl evt = (ActivitiEntityEventImpl) event;
 		TaskEntity entity = (TaskEntity) evt.getEntity();
 		return entity;

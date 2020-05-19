@@ -121,7 +121,7 @@ public class ActivitiRest {
 		activitiService.completeTask(tasks.getTaskId(), map);
 		TaskInfo taskInfo = activitiService.getTasks(processInstanceId);
 		if (taskInfo == null) {
-			taskInfo = new TaskInfo("", "结束", "END", "");
+			taskInfo = new TaskInfo("", "结束", "END", "","");
 		}
 		return ResponseUtil.<Object> response(taskInfo);
 	}
@@ -157,9 +157,9 @@ public class ActivitiRest {
 		}
 		TaskInfo taskInfo = activitiService.getTasks(processInstanceIds[0]);
 		if (taskInfo == null) {
-			taskInfo = new TaskInfo("", "结束", "END", "");
+			taskInfo = new TaskInfo("", "结束", "END", "","");
 		}
-		return ResponseUtil.<Object> response(new TaskInfo("", "", taskInfo.getDefinitionKey(), ""));
+		return ResponseUtil.<Object> response(new TaskInfo("", "", taskInfo.getDefinitionKey(), "",""));
 	}
 
 }

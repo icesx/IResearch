@@ -6,11 +6,11 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.manager;
+package cn.taocheng.activiti.driver.action;
 
 import cn.taocheng.activiti.driver.bean.Assginee;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
-import cn.taocheng.activiti.driver.process.AbsTaskAction;
+import cn.taocheng.activiti.driver.manager.AbsTaskAction;
 import cn.taocheng.activiti.driver.web.View;
 
 public class CLSQAction extends AbsTaskAction {

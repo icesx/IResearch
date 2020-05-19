@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.process;
+package cn.taocheng.activiti.driver.manager;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.driver.bean.Assginee;
 
-public interface IProcess {
+public interface IProcessOperator {
 	List<AbsTaskAction> listTaskAction();
 
 	<T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz);

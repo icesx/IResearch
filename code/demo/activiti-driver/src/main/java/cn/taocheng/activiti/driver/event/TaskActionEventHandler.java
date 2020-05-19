@@ -14,14 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.ActionException;
-import cn.taocheng.activiti.driver.process.IProcess;
+import cn.taocheng.activiti.driver.manager.IProcessOperator;
 
 public class TaskActionEventHandler extends DefaultCustomEventHandler {
 	private static final Logger logger = LoggerFactory.getLogger(TaskActionEventHandler.class);
 
-	private IProcess process;
+	private IProcessOperator process;
 
-	public TaskActionEventHandler(IProcess processInstance) {
+	public TaskActionEventHandler(IProcessOperator processInstance) {
 		this.process = processInstance;
 	}
 

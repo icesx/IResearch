@@ -22,35 +22,26 @@ public class TaskInfo {
 
 	private String definitionKey;
 
-	public TaskInfo(String taskId, String name, String definitionKey, String processInstanceId) {
+	private String assginee;
+
+	public TaskInfo(String taskId, String name, String definitionKey, String processInstanceId, String assignee) {
 		this.taskId = taskId;
 		this.processInstanceId = processInstanceId;
 		this.name = name;
 		this.definitionKey = definitionKey;
+		this.assginee = assignee;
 	}
 
 	public String getTaskId() {
 		return taskId;
 	}
 
-	public void setTaskId(String taskId) {
-		this.taskId = taskId;
-	}
-
 	public String getProcessInstanceId() {
 		return processInstanceId;
 	}
 
-	public void setProcessInstanceId(String processInstanceId) {
-		this.processInstanceId = processInstanceId;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getDefinitionKey() {
@@ -74,6 +65,8 @@ public class TaskInfo {
 				+ name
 				+ ", definitionKey="
 				+ definitionKey
+				+ ", assginee="
+				+ assginee
 				+ "]";
 	}
 
@@ -85,6 +78,8 @@ public class TaskInfo {
 		private String processInstanceId;
 
 		private String definitionKey;
+
+		private String assignee;
 
 		public Builder withId(String taskId) {
 			this.taskId = taskId;
@@ -106,8 +101,13 @@ public class TaskInfo {
 			return this;
 		}
 
+		public Builder withAssignee(String assignee) {
+			this.assignee = assignee;
+			return this;
+		}
+
 		public TaskInfo build() {
-			return new TaskInfo(taskId, name, definitionKey, processInstanceId);
+			return new TaskInfo(taskId, name, definitionKey, processInstanceId, assignee);
 		}
 
 		public Builder withTask(Task task) {
@@ -115,6 +115,7 @@ public class TaskInfo {
 			this.processInstanceId = task.getProcessInstanceId();
 			this.name = task.getName();
 			this.definitionKey = task.getTaskDefinitionKey();
+			this.assignee = task.getAssignee();
 			return this;
 		}
 

@@ -6,9 +6,11 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.process;
+package cn.taocheng.activiti.driver.manager;
 
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.taocheng.activiti.driver.bean.Assginee;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
@@ -17,6 +19,7 @@ import cn.taocheng.activiti.driver.utils.ActionParams;
 import cn.taocheng.activiti.driver.web.View;
 
 public abstract class AbsTaskAction {
+	@Autowired
 	private IActivitiService activitiService;
 
 	private TaskInfo taskInfo;
@@ -40,10 +43,6 @@ public abstract class AbsTaskAction {
 	}
 
 	public abstract Assginee provideAssginee(TaskInfo taskInfo);
-
-	protected final void setActiviti(IActivitiService activitiService) {
-		this.activitiService = activitiService;
-	}
 
 	protected final void setTaskInfo(TaskInfo taskInfo) {
 		this.taskInfo = taskInfo;

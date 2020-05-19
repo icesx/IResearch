@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Event;
 
 import cn.taocheng.activiti.driver.bean.DeploymentInfo;
@@ -59,7 +58,7 @@ public interface IActivitiService {
 
 	ProcessInfo process(String processDefinitionId);
 
-	ProcessInstance processInstance(String processInstanceId);
+	ProcessInstanceInfo processInstance(String processInstanceId);
 
 	void setVariable(String taskId, String variableName, Object value);
 

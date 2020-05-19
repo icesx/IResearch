@@ -8,7 +8,17 @@
  */
 package cn.taocheng.activiti.driver.manager;
 
+import org.activiti.engine.repository.Deployment;
+
+import cn.taocheng.activiti.driver.bean.Assginee;
+import cn.taocheng.activiti.driver.utils.ActionParams;
+
 public interface IActivitiManager {
-	IProcessDefine registProcess(String classpath);
-	
+
+	IProcessOperator getProcess(String processId);
+
+	Deployment deployProcess(String classpath);
+
+	IProcessOperator startProcess(String processId, ActionParams params, Assginee assginee);
+
 }

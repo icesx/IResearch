@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.manager;
+package cn.taocheng.activiti.driver.action;
 
 import java.util.List;
 
@@ -22,8 +22,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.driver.bean.Assginee;
-import cn.taocheng.activiti.driver.process.AbsTaskAction;
-import cn.taocheng.activiti.driver.process.IProcess;
+import cn.taocheng.activiti.driver.manager.AbsTaskAction;
+import cn.taocheng.activiti.driver.manager.IActivitiManager;
+import cn.taocheng.activiti.driver.manager.IProcessOperator;
 import cn.taocheng.activiti.driver.utils.ActionParams;
 
 @RunWith(SpringRunner.class)
@@ -34,11 +35,9 @@ public class SamplePig {
 	@Autowired
 	private IActivitiManager activitiManager;
 
-	private IProcessDefine pig;
-
 	@PostConstruct
 	public void init() {
-		pig = activitiManager.registProcess("processes/pig.bpmn");
+		activitiManager.deployProcess("processes/pig.bpmn");
 	}
 
 	@Test
@@ -46,7 +45,7 @@ public class SamplePig {
 
 		Assginee farm001 = Assginee.fowName("farm-001");
 		ActionParams empt = ActionParams.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
-		IProcess pi = pig.startProcess("pigone", empt, farm001);
+		IProcessOperator pi = activitiManager.startProcess("pigone", empt, farm001);
 		pi.registTaskAction("CLSQ", CLSQAction.class);
 		pi.registTaskAction("SCJYBG", SCJYBGAction.class);
 		pi.registTaskAction("XZCL", XZCLAction.class);

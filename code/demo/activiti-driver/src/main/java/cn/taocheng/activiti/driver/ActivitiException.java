@@ -8,7 +8,11 @@
  */
 package cn.taocheng.activiti.driver;
 
-public class ActivitiException extends RuntimeException{
+public class ActivitiException extends RuntimeException {
+
+	public ActivitiException(String string) {
+		super(string);
+	}
 
 	/**
 	 * 

@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.process;
+package cn.taocheng.activiti.driver.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +32,9 @@ import cn.taocheng.activiti.driver.event.MyActivitiEventListener;
 import cn.taocheng.activiti.driver.event.TaskActionEventHandler;
 import cn.taocheng.activiti.driver.service.IActivitiService;
 
-public class ProcessInstance implements IProcess {
+class ProcessOperator implements IProcessOperator {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProcessInstance.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProcessOperator.class);
 
 	private Map<String, Class<?>> taskClassMap = new HashMap<>();
 
@@ -56,7 +56,12 @@ public class ProcessInstance implements IProcess {
 	public String toString() {
 		return processInstanceInfo.toString();
 	}
-	public ProcessInstance(ProcessInstanceInfo pi) {
+
+	public ProcessInstanceInfo getProcessInstanceInfo() {
+		return processInstanceInfo;
+	}
+
+	public ProcessOperator(ProcessInstanceInfo pi) {
 		this.processInstanceInfo = pi;
 		logger.info("create Process with {}", this.processInstanceInfo);
 		MyActivitiEventListener
@@ -135,7 +140,6 @@ public class ProcessInstance implements IProcess {
 		@SuppressWarnings("unchecked")
 		Class<AbsTaskAction> clazz = (Class<AbsTaskAction>) this.taskClassMap.get(entry.getTaskDefinitionKey());
 		AbsTaskAction action = clazz.newInstance();
-		action.setActiviti(this.activitiService);
 		TaskInfo taskInfo = TaskInfo
 				.builder()
 				.withId(entry.getId())
@@ -144,6 +148,7 @@ public class ProcessInstance implements IProcess {
 				.withProcessInstanceId(entry.getProcessDefinitionId())
 				.build();
 		action.setTaskInfo(taskInfo);
+		logger.info("instance taskaction {} for {}", clazz, taskInfo);
 		beanFactory.autowireBean(action);
 		return action;
 	}
@@ -151,6 +156,7 @@ public class ProcessInstance implements IProcess {
 	@Override
 	public <T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz) {
 		this.taskClassMap.put(defineTaskId, clazz);
+		logger.info("regist taskAction {} for {} ", clazz, defineTaskId);
 		this.taskActionDao.save(new TaskActionEntity(defineTaskId, clazz.getName()));
 	}
 
