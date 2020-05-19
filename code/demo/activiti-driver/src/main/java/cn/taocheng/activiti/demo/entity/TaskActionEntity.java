@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "task_action")
+@Table(name = "driver_task_action")
 public class TaskActionEntity implements Serializable {
 
 	/**
