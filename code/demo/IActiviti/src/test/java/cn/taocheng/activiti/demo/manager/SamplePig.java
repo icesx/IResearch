@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.demo.process.IProcess;
+import cn.taocheng.activiti.demo.bean.Assginee;
 import cn.taocheng.activiti.demo.process.AbsTaskAction;
 import cn.taocheng.activiti.demo.task.ActionParams;
 

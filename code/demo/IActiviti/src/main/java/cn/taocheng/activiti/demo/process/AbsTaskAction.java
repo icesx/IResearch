@@ -10,8 +10,8 @@ package cn.taocheng.activiti.demo.process;
 
 import java.util.Map;
 
-import cn.taocheng.activiti.demo.manager.Assginee;
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.Assginee;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 import cn.taocheng.activiti.demo.service.IActivitiService;
 import cn.taocheng.activiti.demo.task.ActionParams;
 import cn.taocheng.activiti.demo.task.View;
@@ -47,6 +47,10 @@ public abstract class AbsTaskAction {
 
 	protected final void setTaskInfo(TaskInfo taskInfo) {
 		this.taskInfo = taskInfo;
+	}
+
+	protected final TaskInfo getTaskInfo() {
+		return this.taskInfo;
 	}
 
 	protected final void setVariable(String variableName, Map<String, Object> variable) {

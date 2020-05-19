@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.taocheng.activiti.demo.dao.ITaskActionDao;
 import cn.taocheng.activiti.demo.service.IActivitiService;
 import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
 
@@ -23,6 +24,9 @@ public class ActivitiManager implements IActivitiManager {
 	@Autowired
 	private IActivitiService activitiService;
 
+	@Autowired
+	private ITaskActionDao dao;
+
 	public ActivitiManager() {
 		logger.info("init " + this.getClass());
 		activitiService.addEvent(MyActivitiEventListener.instance());
@@ -30,7 +34,7 @@ public class ActivitiManager implements IActivitiManager {
 
 	@Override
 	public IProcessDefine registProcess(String classpath) {
-		return new ProcessDefine(classpath,activitiService);
+		return new ProcessDefine(classpath,activitiService,dao);
 	}
 
 }

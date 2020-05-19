@@ -13,7 +13,7 @@ import java.util.List;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 
 import ch.qos.logback.core.joran.spi.ActionException;
-import cn.taocheng.activiti.demo.manager.Assginee;
+import cn.taocheng.activiti.demo.bean.Assginee;
 
 public interface IProcess {
 	List<AbsTaskAction> listTaskAction();

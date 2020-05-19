@@ -9,15 +9,12 @@
 package cn.taocheng.activiti.demo.rest;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.bpmn.model.FlowElement;
 import org.activiti.engine.RepositoryService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,10 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.taocheng.activiti.demo.modle.DeploymentInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInfo;
-import cn.taocheng.activiti.demo.modle.TaskDetails;
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.DeploymentInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInfo;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 import cn.taocheng.activiti.demo.service.IActivitiService;
 import cn.taocheng.activiti.demo.utils.ResponseUtil;
 import cn.taocheng.activiti.demo.web.ResponseInfo;
@@ -164,35 +160,6 @@ public class ActivitiRest {
 			taskInfo = new TaskInfo("", "结束", "END", "");
 		}
 		return ResponseUtil.<Object> response(new TaskInfo("", "", taskInfo.getDefinitionKey(), ""));
-	}
-
-	/**
-	 * 查询所有已部署流程的全部节点信息
-	 * 
-	 * @param code
-	 * @return
-	 */
-	@RequestMapping(value = "/selectAllTasks", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseInfo<List<TaskDetails>> selectAllTasks() {
-		List<TaskDetails> infos = new ArrayList<TaskDetails>();
-		List<ProcessInfo> listProcessInfo = activitiService.listProcessInfo();
-		for (ProcessInfo processInfo : listProcessInfo) {
-			BpmnModel model = repositoryService.getBpmnModel(processInfo.getId());
-			if (model != null) {
-				Collection<FlowElement> flowElements = model.getMainProcess().getFlowElements();
-				for (FlowElement e : flowElements) {
-					if (e.getClass().toGenericString().contains("UserTask")) {
-						TaskDetails info = new TaskDetails();
-						info.setName(e.getName());
-						info.setTask(e.getId());
-						infos.add(info);
-					}
-				}
-			}
-		}
-
-		return ResponseUtil.response(infos);
 	}
 
 }

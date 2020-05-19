@@ -8,6 +8,7 @@
  */
 package cn.taocheng.activiti.demo.manager;
 
+import cn.taocheng.activiti.demo.bean.Assginee;
 import cn.taocheng.activiti.demo.process.IProcess;
 import cn.taocheng.activiti.demo.task.ActionParams;
 

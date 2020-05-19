@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.activiti.engine.repository.ProcessDefinition;
 
-import cn.taocheng.activiti.demo.modle.ProcessInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInfo;
 
 public class ProcessUtil {
 	public static List<ProcessInfo> processTrans(List<ProcessDefinition> list) {

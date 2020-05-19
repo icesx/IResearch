@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 
-import cn.taocheng.activiti.demo.modle.DeploymentInfo;
+import cn.taocheng.activiti.demo.bean.DeploymentInfo;
 
 public class DeploymentUtil {
 	public static List<DeploymentInfo> processTrans(List<Deployment> list) {

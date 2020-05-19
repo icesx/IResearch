@@ -19,7 +19,7 @@ import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.taocheng.activiti.demo.modle.EventInfo;
+import cn.taocheng.activiti.demo.bean.EventInfo;
 
 public class MyActivitiEventListener implements ActivitiEventListener {
 	private static final Logger logger = LoggerFactory.getLogger(MyActivitiEventListener.class);

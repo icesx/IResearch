@@ -10,7 +10,7 @@ package cn.taocheng.activiti.demo.utils;
 
 import org.activiti.engine.runtime.ProcessInstance;
 
-import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInstanceInfo;
 
 /**
  * 流程实例

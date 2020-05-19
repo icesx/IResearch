@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.demo.manager;
+package cn.taocheng.activiti.demo.bean;
 
 public class Assginee {
 	private String name;

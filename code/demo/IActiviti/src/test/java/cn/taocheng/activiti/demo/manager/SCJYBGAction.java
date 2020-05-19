@@ -8,7 +8,8 @@
  */
 package cn.taocheng.activiti.demo.manager;
 
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.Assginee;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 import cn.taocheng.activiti.demo.process.AbsTaskAction;
 import cn.taocheng.activiti.demo.task.View;
 

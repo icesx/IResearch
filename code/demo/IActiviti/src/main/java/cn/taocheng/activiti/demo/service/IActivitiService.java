@@ -16,10 +16,10 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Event;
 
-import cn.taocheng.activiti.demo.modle.DeploymentInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.DeploymentInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInstanceInfo;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 
 public interface IActivitiService {
 

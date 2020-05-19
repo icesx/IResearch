@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.activiti.engine.task.Task;
 
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 
 public class TaskUtil {
 

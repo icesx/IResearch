@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.demo.modle;
+package cn.taocheng.activiti.demo.bean;
 
 import org.activiti.engine.runtime.ProcessInstance;
 

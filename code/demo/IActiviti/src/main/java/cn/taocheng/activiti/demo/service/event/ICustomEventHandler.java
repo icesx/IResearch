@@ -12,7 +12,7 @@ import org.activiti.engine.delegate.event.ActivitiEntityEvent;
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 
-import cn.taocheng.activiti.demo.modle.EventInfo;
+import cn.taocheng.activiti.demo.bean.EventInfo;
 
 public interface ICustomEventHandler {
 

@@ -21,10 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import cn.taocheng.activiti.demo.modle.DeploymentInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.DeploymentInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInstanceInfo;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)

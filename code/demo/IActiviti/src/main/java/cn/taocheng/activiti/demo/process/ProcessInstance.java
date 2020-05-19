@@ -19,9 +19,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.ActionException;
-import cn.taocheng.activiti.demo.manager.Assginee;
-import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.Assginee;
+import cn.taocheng.activiti.demo.bean.ProcessInstanceInfo;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
+import cn.taocheng.activiti.demo.dao.ITaskActionDao;
+import cn.taocheng.activiti.demo.entity.TaskActionEntity;
 import cn.taocheng.activiti.demo.service.IActivitiService;
 import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
 import cn.taocheng.activiti.demo.service.event.TaskActionEventHandler;
@@ -40,9 +42,12 @@ public class ProcessInstance implements IProcess {
 
 	private ProcessInstanceInfo processInstanceInfo;
 
-	public ProcessInstance(ProcessInstanceInfo pi, IActivitiService activitiService2) {
+	private ITaskActionDao taskActionDao;
+
+	public ProcessInstance(ProcessInstanceInfo pi, IActivitiService activitiService2, ITaskActionDao taskActionDao) {
 		this.processInstanceInfo = pi;
 		this.activitiService = activitiService2;
+		this.taskActionDao = taskActionDao;
 		logger.info("create Process with {}", this.processInstanceInfo);
 		MyActivitiEventListener
 				.instance()
@@ -51,7 +56,14 @@ public class ProcessInstance implements IProcess {
 	}
 
 	private void load() {
-		// TODO Auto-generated method stub
+		List<TaskActionEntity> entitis = taskActionDao.findAll();
+		try {
+			for (TaskActionEntity taskActionEntity : entitis) {
+				this.taskClassMap.put(taskActionEntity.getDefineTaskId(), Class.forName(taskActionEntity.getClazz()));
+			}
+		} catch (ClassNotFoundException e) {
+			logger.error(e.getMessage(), e);
+		}
 
 	}
 
@@ -97,32 +109,38 @@ public class ProcessInstance implements IProcess {
 
 	@Override
 	public void onCreatedTask(TaskEntity entry) throws ActionException {
-		@SuppressWarnings("unchecked")
-		Class<AbsTaskAction> clazz = (Class<AbsTaskAction>) this.taskClassMap.get(entry.getTaskDefinitionKey());
 		try {
-			AbsTaskAction action = clazz.newInstance();
-			action.setActiviti(this.activitiService);
-			TaskInfo taskInfo = TaskInfo
-					.builder()
-					.withId(entry.getId())
-					.withDefinitionKey(entry.getTaskDefinitionKey())
-					.withName(entry.getName())
-					.withProcessInstanceId(entry.getProcessDefinitionId())
-					.build();
-			action.setTaskInfo(taskInfo);
-			entry.setAssignee(action.provideAssginee(taskInfo).getName());
-			action.onCreate();
+			AbsTaskAction action = instanceTaskAction(entry);
 			this.taskActionMap.put(mapKey(entry), action);
+			this.actions.add(action);
+			entry.setAssignee(action.provideAssginee(action.getTaskInfo()).getName());
+			action.onCreate();
 		} catch (InstantiationException | IllegalAccessException e) {
 			logger.error(e.getMessage(), e);
 			throw new ActionException(e);
 		}
 	}
 
+	private AbsTaskAction instanceTaskAction(TaskEntity entry) throws InstantiationException, IllegalAccessException {
+		@SuppressWarnings("unchecked")
+		Class<AbsTaskAction> clazz = (Class<AbsTaskAction>) this.taskClassMap.get(entry.getTaskDefinitionKey());
+		AbsTaskAction action = clazz.newInstance();
+		action.setActiviti(this.activitiService);
+		TaskInfo taskInfo = TaskInfo
+				.builder()
+				.withId(entry.getId())
+				.withDefinitionKey(entry.getTaskDefinitionKey())
+				.withName(entry.getName())
+				.withProcessInstanceId(entry.getProcessDefinitionId())
+				.build();
+		action.setTaskInfo(taskInfo);
+		return action;
+	}
+
 	@Override
 	public <T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz) {
-		// TODO 需要持久化
 		this.taskClassMap.put(defineTaskId, clazz);
+		this.taskActionDao.save(new TaskActionEntity(defineTaskId, clazz.getName()));
 	}
 
 }

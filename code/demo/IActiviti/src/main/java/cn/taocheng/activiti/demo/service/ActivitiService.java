@@ -32,10 +32,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import cn.taocheng.activiti.demo.modle.DeploymentInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInfo;
-import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
-import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.bean.DeploymentInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInfo;
+import cn.taocheng.activiti.demo.bean.ProcessInstanceInfo;
+import cn.taocheng.activiti.demo.bean.TaskInfo;
 import cn.taocheng.activiti.demo.utils.DeploymentUtil;
 import cn.taocheng.activiti.demo.utils.ProcessUtil;
 import cn.taocheng.activiti.demo.utils.TaskUtil;
