@@ -14,13 +14,11 @@ import org.activiti.engine.impl.persistence.entity.TaskEntity;
 
 import cn.taocheng.activiti.demo.modle.EventInfo;
 
-public interface IActivitiEventHandler {
-
-	boolean isFailOnException();
+public interface ICustomEventHandler {
 
 	void jobExecutionFailure(EventInfo eventInfo);
 
-	void jobExecutionSuccess(EventInfo eventInfo); 
+	void jobExecutionSuccess(EventInfo eventInfo);
 
 	void otherEvent(EventInfo eventInfo);
 

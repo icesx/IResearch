@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.demo.process.IProcess;
@@ -21,7 +22,10 @@ import cn.taocheng.activiti.demo.task.ActionParams;
 public class SamplePig {
 	private static final Logger logger = LoggerFactory.getLogger(SamplePig.class);
 
-	private IProcessDefine pig = ActivitiManager.instance().registProcess("processes/pig.bpmn");
+	@Autowired
+	private IActivitiManager ActivitiManager;
+
+	private IProcessDefine pig = ActivitiManager.registProcess("processes/pig.bpmn");
 
 	public void registTaskAction() throws ActionException {
 

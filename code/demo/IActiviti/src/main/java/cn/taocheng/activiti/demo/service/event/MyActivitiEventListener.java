@@ -8,54 +8,75 @@
  */
 package cn.taocheng.activiti.demo.service.event;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.activiti.engine.delegate.event.ActivitiEntityEvent;
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.activiti.engine.delegate.event.impl.ActivitiEntityEventImpl;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.taocheng.activiti.demo.modle.EventInfo;
 
 public class MyActivitiEventListener implements ActivitiEventListener {
+	private static final Logger logger = LoggerFactory.getLogger(MyActivitiEventListener.class);
 
-	private IActivitiEventHandler myEvent;
+	private Map<String, ICustomEventHandler> myEvents = new HashMap<String, ICustomEventHandler>();
 
-	public MyActivitiEventListener(IActivitiEventHandler event) {
-		this.myEvent = event;
+	private static MyActivitiEventListener instance;
+
+	private MyActivitiEventListener() {
+		logger.info("init " + this.getClass());
+	}
+
+	public void registHandle(String processInstanceId, ICustomEventHandler handle) {
+		this.myEvents.put(processInstanceId, handle);
+	}
+
+	public static synchronized MyActivitiEventListener instance() {
+		return instance = (instance == null) ? new MyActivitiEventListener() : instance;
 	}
 
 	@Override
 	public void onEvent(ActivitiEvent event) {
 		EventInfo eventInfo = new EventInfo(event);
-		switch (event.getType()) {
+		ICustomEventHandler handler = this.myEvents.get(event.getProcessInstanceId());
+		if (handler != null) {
+			switch (event.getType()) {
+			case JOB_EXECUTION_SUCCESS:
 
-		case JOB_EXECUTION_SUCCESS:
-			myEvent.jobExecutionSuccess(eventInfo);
-			break;
+				handler.jobExecutionSuccess(eventInfo);
+				break;
 
-		case JOB_EXECUTION_FAILURE:
-			myEvent.jobExecutionFailure(eventInfo);
-			break;
-		case TASK_CREATED:
-			myEvent.taskCreated(event, entry(event));
-			break;
-		case TASK_COMPLETED:
-			myEvent.taskCompleted(event,entry(event));
-			break;
-		case TASK_ASSIGNED:
-			myEvent.taskAssigned(event,entry(event));
-			break;
-		case PROCESS_STARTED:
-			myEvent.processStarted((ActivitiEntityEvent) event);
-			break;
-		case PROCESS_CANCELLED:
-			myEvent.processCancelled((ActivitiEntityEvent) event);
-			break;
-		case PROCESS_COMPLETED:
-			myEvent.processCompleted((ActivitiEntityEvent) event);
-			break;
-		default:
-			myEvent.otherEvent(eventInfo);
+			case JOB_EXECUTION_FAILURE:
+				handler.jobExecutionFailure(eventInfo);
+				break;
+			case TASK_CREATED:
+				handler.taskCreated(event, entry(event));
+				break;
+			case TASK_COMPLETED:
+				handler.taskCompleted(event, entry(event));
+				break;
+			case TASK_ASSIGNED:
+				handler.taskAssigned(event, entry(event));
+				break;
+			case PROCESS_STARTED:
+				handler.processStarted((ActivitiEntityEvent) event);
+				break;
+			case PROCESS_CANCELLED:
+				handler.processCancelled((ActivitiEntityEvent) event);
+				break;
+			case PROCESS_COMPLETED:
+				handler.processCompleted((ActivitiEntityEvent) event);
+				break;
+			default:
+				handler.otherEvent(eventInfo);
+			}
+		} else {
+			logger.warn("not regist event handler for processInstance {} ", event.getProcessInstanceId());
 		}
 	}
 
@@ -67,6 +88,7 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 
 	@Override
 	public boolean isFailOnException() {
-		return myEvent.isFailOnException();
+		logger.warn("isFailOnException return false.");
+		return false;
 	}
 }

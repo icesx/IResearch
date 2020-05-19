@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.demo.manager;
+package cn.taocheng.activiti.demo.service.event;
 
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
@@ -15,37 +15,32 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.demo.process.IProcess;
-import cn.taocheng.activiti.demo.service.event.DefaultActivitiEventHandler;
 
-public class TaskActionEventHandler extends DefaultActivitiEventHandler {
+public class TaskActionEventHandler extends DefaultCustomEventHandler {
 	private static final Logger logger = LoggerFactory.getLogger(TaskActionEventHandler.class);
 
-	private IProcessDefine processDefine;
+	private IProcess process;
 
-	@Override
-	public void taskCreated(ActivitiEvent event, TaskEntity entry) {
-		try {
-			getProcess(entry).onCreatedTask(entry);
-		} catch (ActionException e) {
-			logger.error(e.getLocalizedMessage(), e);
-		}
+	public TaskActionEventHandler(IProcess processInstance) {
+		this.process = processInstance;
 	}
 
 	@Override
 	public void taskCompleted(ActivitiEvent event, TaskEntity entry) {
 		try {
-			getProcess(entry).onComplateTask(entry);
+			process.onComplateTask(entry);
 		} catch (ActionException e) {
 			logger.error(e.getLocalizedMessage(), e);
 		}
 	}
 
-	private IProcess getProcess(TaskEntity entry) {
-		return processDefine.getProcess(entry.getProcessInstanceId());
-	}
-
-	public TaskActionEventHandler() {
-		processDefine = ProcessDefine.instance();
+	@Override
+	public void taskCreated(ActivitiEvent event, TaskEntity entry) {
+		try {
+			process.onCreatedTask(entry);
+		} catch (ActionException e) {
+			logger.error(e.getLocalizedMessage(), e);
+		}
 	}
 
 }

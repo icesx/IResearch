@@ -25,8 +25,7 @@ import cn.taocheng.activiti.demo.modle.DeploymentInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
 import cn.taocheng.activiti.demo.modle.TaskInfo;
-import cn.taocheng.activiti.demo.service.event.DefaultActivitiEventHandler;
-import cn.taocheng.activiti.demo.service.event.IActivitiEventHandler;
+import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -46,8 +45,7 @@ public class ActivitiServiceTest {
 
 	@Test
 	public void addEvent() {
-		IActivitiEventHandler event = new DefaultActivitiEventHandler();
-		activitiService.addEvent(event);
+		activitiService.addEvent(MyActivitiEventListener.instance());
 	}
 
 	@Test

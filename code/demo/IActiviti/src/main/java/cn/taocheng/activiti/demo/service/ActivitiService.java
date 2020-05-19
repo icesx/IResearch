@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -31,13 +32,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import cn.taocheng.activiti.demo.manager.TaskActionEventHandler;
 import cn.taocheng.activiti.demo.modle.DeploymentInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
 import cn.taocheng.activiti.demo.modle.TaskInfo;
-import cn.taocheng.activiti.demo.service.event.IActivitiEventHandler;
-import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
 import cn.taocheng.activiti.demo.utils.DeploymentUtil;
 import cn.taocheng.activiti.demo.utils.ProcessUtil;
 import cn.taocheng.activiti.demo.utils.TaskUtil;
@@ -70,12 +68,11 @@ public class ActivitiService implements IActivitiService {
 
 	public void setRuntimeService(RuntimeService runtimeService) {
 		this.runtimeService = runtimeService;
-		this.addEvent(new TaskActionEventHandler());
 	}
 
 	@Override
-	public void addEvent(IActivitiEventHandler event) {
-		runtimeService.addEventListener(new MyActivitiEventListener(event));
+	public void addEvent(ActivitiEventListener event) {
+		runtimeService.addEventListener(event);
 	}
 
 	@Override
@@ -216,6 +213,11 @@ public class ActivitiService implements IActivitiService {
 			logger.error(e.getMessage(), e);
 			return false;
 		}
+	}
+
+	@Override
+	public ProcessInstance processInstance(String processInstanceId) {
+		return runtimeService.createProcessInstanceQuery().active().processInstanceId(processInstanceId).singleResult();
 	}
 
 }

@@ -17,13 +17,14 @@ import java.util.stream.Collectors;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.demo.manager.Assginee;
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
 import cn.taocheng.activiti.demo.modle.TaskInfo;
 import cn.taocheng.activiti.demo.service.IActivitiService;
+import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
+import cn.taocheng.activiti.demo.service.event.TaskActionEventHandler;
 
 public class ProcessInstance implements IProcess {
 
@@ -35,14 +36,23 @@ public class ProcessInstance implements IProcess {
 
 	private List<AbsTaskAction> actions = new ArrayList<>();
 
-	@Autowired
 	private IActivitiService activitiService;
 
 	private ProcessInstanceInfo processInstanceInfo;
 
-	public ProcessInstance(ProcessInstanceInfo pi) {
+	public ProcessInstance(ProcessInstanceInfo pi, IActivitiService activitiService2) {
 		this.processInstanceInfo = pi;
+		this.activitiService = activitiService2;
 		logger.info("create Process with {}", this.processInstanceInfo);
+		MyActivitiEventListener
+				.instance()
+				.registHandle(this.processInstanceInfo.getId(), new TaskActionEventHandler(this));
+		this.load();
+	}
+
+	private void load() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

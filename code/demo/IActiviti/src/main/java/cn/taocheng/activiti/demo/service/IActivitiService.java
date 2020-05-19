@@ -11,18 +11,17 @@ package cn.taocheng.activiti.demo.service;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Event;
 
 import cn.taocheng.activiti.demo.modle.DeploymentInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInfo;
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
 import cn.taocheng.activiti.demo.modle.TaskInfo;
-import cn.taocheng.activiti.demo.service.event.IActivitiEventHandler;
 
 public interface IActivitiService {
-
-	void addEvent(IActivitiEventHandler event);
 
 	List<Event> allTaskEvent(String processInstanceId);
 
@@ -60,10 +59,14 @@ public interface IActivitiService {
 
 	ProcessInfo process(String processDefinitionId);
 
+	ProcessInstance processInstance(String processInstanceId);
+
 	void setVariable(String taskId, String variableName, Object value);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
+
+	void addEvent(ActivitiEventListener event);
 
 }

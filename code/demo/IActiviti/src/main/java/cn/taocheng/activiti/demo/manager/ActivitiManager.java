@@ -10,24 +10,27 @@ package cn.taocheng.activiti.demo.manager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import cn.taocheng.activiti.demo.service.IActivitiService;
+import cn.taocheng.activiti.demo.service.event.MyActivitiEventListener;
+
+@Component
 public class ActivitiManager implements IActivitiManager {
 	private static final Logger logger = LoggerFactory.getLogger(ActivitiManager.class);
 
-	private static ActivitiManager instance;
+	@Autowired
+	private IActivitiService activitiService;
 
-	private ActivitiManager() {
+	public ActivitiManager() {
 		logger.info("init " + this.getClass());
-
-	}
-
-	public static synchronized IActivitiManager instance() {
-		return instance = (instance == null) ? new ActivitiManager() : instance;
+		activitiService.addEvent(MyActivitiEventListener.instance());
 	}
 
 	@Override
 	public IProcessDefine registProcess(String classpath) {
-		return new ProcessDefine(classpath);
+		return new ProcessDefine(classpath,activitiService);
 	}
 
 }

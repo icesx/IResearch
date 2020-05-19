@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import cn.taocheng.activiti.demo.modle.EventInfo;
 
-public class DefaultActivitiEventHandler implements IActivitiEventHandler {
-	private static final Logger logger = LoggerFactory.getLogger(DefaultActivitiEventHandler.class);
+public class DefaultCustomEventHandler implements ICustomEventHandler {
+	private static final Logger logger = LoggerFactory.getLogger(DefaultCustomEventHandler.class);
 
 	@Override
 	public void jobExecutionSuccess(EventInfo eventInfo) {
@@ -52,12 +52,6 @@ public class DefaultActivitiEventHandler implements IActivitiEventHandler {
 	public void otherEvent(EventInfo eventInfo) {
 		logger.info(eventInfo.toString());
 
-	}
-
-	@Override
-	public boolean isFailOnException() {
-		logger.warn("isFailOnException return false.");
-		return false;
 	}
 
 	@Override

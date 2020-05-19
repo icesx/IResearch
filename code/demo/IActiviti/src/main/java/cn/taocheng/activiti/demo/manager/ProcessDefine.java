@@ -10,7 +10,6 @@ package cn.taocheng.activiti.demo.manager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.taocheng.activiti.demo.modle.ProcessInstanceInfo;
@@ -24,31 +23,28 @@ class ProcessDefine implements IProcessDefine {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProcessDefine.class);
 
-	private static ProcessDefine instance;
-
-	public static synchronized ProcessDefine instance() {
-		return instance = (instance == null) ? new ProcessDefine() : instance;
-	}
-
 	private String bpmn;
 
-	@Autowired
 	private IActivitiService activitiService;
 
-	private ProcessDefine() {
-		logger.info("init " + this.getClass());
+	ProcessDefine(String classpath, IActivitiService activitiService) {
+		this.bpmn = classpath;
+		logger.info("create ProcessDefine with {}", this.bpmn);
+		this.activitiService = activitiService;
+		activitiService.deploy(this.bpmn);
+		this.load();
 	}
 
-	public ProcessDefine(String classpath) {
-		this.bpmn = classpath;
-		logger.info("create processManager with {}", this.bpmn);
+	private void load() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public IProcess startProcess(String processDefineId, ActionParams params, Assginee assginee) {
 		params.put(START_ASSIGNEE, assginee.getName());
 		ProcessInstanceInfo pi = activitiService.startProcess(processDefineId, params.params());
-		return new ProcessInstance(pi);
+		return new ProcessInstance(pi,activitiService);
 	}
 
 	@Override
