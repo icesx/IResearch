@@ -8,11 +8,11 @@
  */
 package cn.taocheng.activiti.demo.manager;
 
-import cn.taocheng.activiti.demo.task.ActionParams;
-import cn.taocheng.activiti.demo.task.ITaskActionEvent;
+import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.process.AbsTaskAction;
 import cn.taocheng.activiti.demo.task.View;
 
-public class XZCLAction extends ITaskAction {
+public class XZCLAction extends AbsTaskAction {
 
 	@Override
 	public View view() {
@@ -21,19 +21,13 @@ public class XZCLAction extends ITaskAction {
 	}
 
 	@Override
-	public void complate(Assginee assginee, ActionParams params) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ITaskActionEvent event() {
+	public String taskDefineId() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String taskDefineId() {
+	public Assginee provideAssginee(TaskInfo taskInfo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

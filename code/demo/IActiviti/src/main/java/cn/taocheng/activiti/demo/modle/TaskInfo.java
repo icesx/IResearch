@@ -100,12 +100,23 @@ public class TaskInfo {
 			this.name = name;
 			return this;
 		}
+
 		public Builder withDefinitionKey(String definitionKey) {
 			this.definitionKey = definitionKey;
 			return this;
 		}
+
 		public TaskInfo build() {
 			return new TaskInfo(taskId, name, definitionKey, processInstanceId);
 		}
+
+		public Builder withTask(Task task) {
+			this.taskId = task.getId();
+			this.processInstanceId = task.getProcessInstanceId();
+			this.name = task.getName();
+			this.definitionKey = task.getTaskDefinitionKey();
+			return this;
+		}
+
 	}
 }

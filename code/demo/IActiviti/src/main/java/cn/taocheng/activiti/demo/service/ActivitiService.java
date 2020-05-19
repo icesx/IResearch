@@ -121,6 +121,16 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
+	public void setVariable(String taskId, String variableName, Object value) {
+		taskService.setVariable(taskId, variableName, value);
+	}
+
+	@Override
+	public Object getVariable(String taskId, String variableName) {
+		return taskService.getVariable(taskId, variableName);
+	}
+
+	@Override
 	public ProcessInstanceInfo startProcess(String processDefinitionKey) {
 		return startProcess(processDefinitionKey, VARIABLE_MAP);
 	}

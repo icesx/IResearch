@@ -14,24 +14,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.core.joran.spi.ActionException;
+import cn.taocheng.activiti.demo.process.IProcess;
 import cn.taocheng.activiti.demo.service.event.DefaultActivitiEventHandler;
 
 public class TaskActionEventHandler extends DefaultActivitiEventHandler {
 	private static final Logger logger = LoggerFactory.getLogger(TaskActionEventHandler.class);
 
-	private IProcessContext process;
+	private IProcessDefine processDefine;
 
 	@Override
 	public void taskCreated(ActivitiEvent event, TaskEntity entry) {
 		try {
-			process.onCreatedEntry(entry);
+			getProcess(entry).onCreatedTask(entry);
 		} catch (ActionException e) {
 			logger.error(e.getLocalizedMessage(), e);
 		}
 	}
 
+	@Override
+	public void taskCompleted(ActivitiEvent event, TaskEntity entry) {
+		try {
+			getProcess(entry).onComplateTask(entry);
+		} catch (ActionException e) {
+			logger.error(e.getLocalizedMessage(), e);
+		}
+	}
+
+	private IProcess getProcess(TaskEntity entry) {
+		return processDefine.getProcess(entry.getProcessInstanceId());
+	}
+
 	public TaskActionEventHandler() {
-		process = ProcessContext.instance();
+		processDefine = ProcessDefine.instance();
 	}
 
 }

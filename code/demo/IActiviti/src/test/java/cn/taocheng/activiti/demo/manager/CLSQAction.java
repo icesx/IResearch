@@ -8,21 +8,15 @@
  */
 package cn.taocheng.activiti.demo.manager;
 
-import cn.taocheng.activiti.demo.task.ActionParams;
-import cn.taocheng.activiti.demo.task.ITaskActionEvent;
+import cn.taocheng.activiti.demo.modle.TaskInfo;
+import cn.taocheng.activiti.demo.process.AbsTaskAction;
 import cn.taocheng.activiti.demo.task.View;
 
-public class CLSQAction extends ITaskAction {
+public class CLSQAction extends AbsTaskAction {
 
 	@Override
 	public View view() {
 		return new View();
-	}
-
-	@Override
-	public void complate(Assginee assginee, ActionParams params) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -31,10 +25,12 @@ public class CLSQAction extends ITaskAction {
 	}
 
 	@Override
-	public ITaskActionEvent event() {
-		return new ITaskActionEvent() {
+	public Assginee provideAssginee(TaskInfo taskInfo) {
+		return selectGfsy(super.getVariable("v1"));
+	}
 
-		};
+	private Assginee selectGfsy(Object object) {
+		return Assginee.fowName((String) object);
 	}
 
 }

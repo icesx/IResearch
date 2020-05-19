@@ -26,8 +26,8 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	@Override
-	public IProcessContext registProcess(String classpath) {
-		return new ProcessContext(classpath);
+	public IProcessDefine registProcess(String classpath) {
+		return new ProcessDefine(classpath);
 	}
 
 }

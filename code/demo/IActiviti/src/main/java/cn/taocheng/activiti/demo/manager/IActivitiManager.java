@@ -9,6 +9,6 @@
 package cn.taocheng.activiti.demo.manager;
 
 public interface IActivitiManager {
-	IProcessContext registProcess(String classpath);
+	IProcessDefine registProcess(String classpath);
 	
 }

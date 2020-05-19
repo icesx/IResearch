@@ -22,7 +22,7 @@ public class TaskUtil {
 	}
 
 	public static TaskInfo taskTran(Task task) {
-		return TaskInfo.builder().withId(task).build();
+		return TaskInfo.builder().withTask(task).build();
 	}
 
 }

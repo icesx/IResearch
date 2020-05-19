@@ -32,6 +32,8 @@ public interface IActivitiService {
 
 	void completeTask(String taskId, Map<String, Object> map);
 
+	boolean deleteDeployment(String deploymentId);
+
 	void delProcesseAll();
 
 	void delProcesseById(String id);
@@ -40,13 +42,15 @@ public interface IActivitiService {
 
 	TaskInfo getTasks(String assignee);
 
-	List<ProcessInstanceInfo> listProcessInstance();
+	Object getVariable(String taskId, String variableName);
 
 	List<TaskInfo> listActiveTasksFromProcess(String processInstanceId);
 
 	List<DeploymentInfo> listDeployment();
 
 	List<ProcessInfo> listProcessInfo();
+
+	List<ProcessInstanceInfo> listProcessInstance();
 
 	List<TaskInfo> listTasksFromAssignee(String processInstanceId, String assignee);
 
@@ -56,10 +60,10 @@ public interface IActivitiService {
 
 	ProcessInfo process(String processDefinitionId);
 
+	void setVariable(String taskId, String variableName, Object value);
+
 	ProcessInstanceInfo startProcess(String processDefinitionKey);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
-
-	boolean deleteDeployment(String deploymentId);
 
 }
