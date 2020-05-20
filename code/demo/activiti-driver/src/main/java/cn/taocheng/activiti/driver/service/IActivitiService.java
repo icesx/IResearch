@@ -39,6 +39,8 @@ public interface IActivitiService {
 
 	void delProcesseById(String id);
 
+	void deleteProcessInstance(String id, String reason);
+
 	Deployment deploy(String classpath);
 
 	TaskInfo getTasks(String assignee);

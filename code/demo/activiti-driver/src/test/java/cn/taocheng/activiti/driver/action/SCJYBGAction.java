@@ -29,8 +29,7 @@ public class SCJYBGAction extends AbsTaskAction {
 
 	@Override
 	public Assginee provideAssginee(TaskInfo taskInfo) {
-		// TODO Auto-generated method stub
-		return null;
+		return Assginee.fowName("lisi");
 	}
 
 }

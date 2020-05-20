@@ -31,4 +31,6 @@ public interface IActivitiManager {
 
 	List<IProcessOperator> listProcesses();
 
+	void deleteProcessInstance(String processInstanceId, String reason);
+	
 }

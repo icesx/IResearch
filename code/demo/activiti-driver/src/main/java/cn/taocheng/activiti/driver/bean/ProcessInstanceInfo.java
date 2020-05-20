@@ -22,7 +22,7 @@ public class ProcessInstanceInfo {
 
 	private String processDeployId;
 
-	private String taskDeployKey;
+	private String processDefinitionKey;
 
 	public String getId() {
 		return id;
@@ -44,32 +44,24 @@ public class ProcessInstanceInfo {
 		return processInstanceId;
 	}
 
-	public void setProcessInstanceId(String processInstanceId) {
-		this.processInstanceId = processInstanceId;
-	}
-
 	public String getProcessDeployId() {
 		return processDeployId;
 	}
 
-	public void setProcessDeployId(String processDeployId) {
-		this.processDeployId = processDeployId;
+	public String getProcessDefinitionKey() {
+		return processDefinitionKey;
 	}
 
-	public String getTaskDeployKey() {
-		return taskDeployKey;
-	}
-
-	public void setTaskDeployKey(String taskDeployKey) {
-		this.taskDeployKey = taskDeployKey;
-	}
-
-	ProcessInstanceInfo(String id, String processInstanceId, String name, String processDeployId, String taskDeployKey) {
+	private ProcessInstanceInfo(String id,
+			String processInstanceId,
+			String name,
+			String processDeployId,
+			String processDefinitionKey) {
 		this.id = id;
 		this.name = name;
 		this.processInstanceId = processInstanceId;
 		this.processDeployId = processDeployId;
-		this.taskDeployKey = taskDeployKey;
+		this.processDefinitionKey = processDefinitionKey;
 	}
 
 	public static Builder builder() {
@@ -86,26 +78,35 @@ public class ProcessInstanceInfo {
 
 		private String processDeployId;
 
-		private String taskDeployKey;
+		private String processDefinitionKey;
 
 		public Builder withProcessInstance(ProcessInstance processInstance) {
 			this.id = processInstance.getId();
 			this.processInstanceId = processInstance.getProcessInstanceId();
 			this.processDeployId = processInstance.getDeploymentId();
 			this.name = processInstance.getName();
-			this.taskDeployKey = processInstance.getProcessDefinitionKey();
+			this.processDefinitionKey = processInstance.getProcessDefinitionKey();
 			return this;
 		}
 
 		public ProcessInstanceInfo build() {
-			return new ProcessInstanceInfo(id, processInstanceId, name, processDeployId, taskDeployKey);
+			return new ProcessInstanceInfo(id, processInstanceId, name, processDeployId, processDefinitionKey);
 		}
 
 	}
 
 	@Override
 	public String toString() {
-		return "ProcessInstanceInfo [id=" + id + ", name=" + name + ", processInstanceId=" + processInstanceId + ", processDeployId=" + processDeployId + ", taskDeployKey=" + taskDeployKey + "]";
+		return "ProcessInstanceInfo [id=" + id
+				+ ", name="
+				+ name
+				+ ", processInstanceId="
+				+ processInstanceId
+				+ ", processDeployId="
+				+ processDeployId
+				+ ", processDefinitionKey="
+				+ processDefinitionKey
+				+ "]";
 	}
 
 }

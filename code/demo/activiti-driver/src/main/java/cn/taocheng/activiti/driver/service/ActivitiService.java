@@ -109,6 +109,11 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
+	public void deleteProcessInstance(String processInstanceId, String deleteReason) {
+		this.runtimeService.deleteProcessInstance(processInstanceId, deleteReason);
+	}
+
+	@Override
 	public void delProcesseAll() {
 		List<Deployment> list = repositoryService.createDeploymentQuery().list();
 		for (Deployment deployment : list) {

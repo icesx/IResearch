@@ -124,7 +124,10 @@ public class ActivitiServiceTest {
 	public void testHistoryTask() {
 		activitiService.listHistoryTasks().forEach(x -> logger.info(x.toString()));
 	}
-
+	@Test
+	public void testHistoryTaskAssignee() {
+		activitiService.listHistoryTasks().forEach(x -> logger.info(x.toString()));
+	}
 	@Test
 	public void testHistoryTaskProcess() {
 		activitiService.listHistoryTasks("97505").forEach(x -> logger.info(x.toString()));

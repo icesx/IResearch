@@ -62,4 +62,8 @@ public class TestActivitiManager {
 	public void listTaskAction() {
 		activitiManager.listTaskAction().stream().forEach(x -> logger.info(x.toString()));
 	}
+	@Test
+	public void deleteProcess() {
+		activitiManager.deleteProcessInstance("115005", "test");
+	}
 }
