@@ -10,6 +10,8 @@ package cn.taocheng.activiti.driver.manager;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.taocheng.activiti.driver.bean.Assginee;
@@ -19,6 +21,8 @@ import cn.taocheng.activiti.driver.utils.ActionParams;
 import cn.taocheng.activiti.driver.web.View;
 
 public abstract class AbsTaskAction {
+	private static final Logger logger = LoggerFactory.getLogger(AbsTaskAction.class);
+
 	@Autowired
 	private IActivitiService activitiService;
 
@@ -36,10 +40,11 @@ public abstract class AbsTaskAction {
 	}
 
 	protected void onComplate() {
-
+		logger.info("to do some thing when task complate.");
 	}
 
 	protected void onCreate() {
+		logger.info("to do some thing when task create.");
 	}
 
 	public abstract Assginee provideAssginee(TaskInfo taskInfo);
@@ -59,5 +64,15 @@ public abstract class AbsTaskAction {
 	public abstract String taskDefineId();
 
 	public abstract View view();
+
+	@Override
+	public String toString() {
+		return "AbsTaskAction [taskInfo=" + taskInfo + "class=" + this.getClass().getName() + "]";
+	}
+
+	public void assginee(String assginee) {
+		this.activitiService.claimTask(this.taskInfo.getTaskId(), assginee);
+		logger.info("assginee task={} to assginee={}", this.taskInfo.getTaskId(), assginee);
+	}
 
 }

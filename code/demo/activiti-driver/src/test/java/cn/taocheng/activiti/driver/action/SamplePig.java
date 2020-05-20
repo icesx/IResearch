@@ -41,7 +41,7 @@ public class SamplePig {
 	}
 
 	@Test
-	public void registTaskAction() throws ActionException {
+	public void pigTaskAction() throws ActionException {
 
 		Assginee farm001 = Assginee.fowName("farm-001");
 		ActionParams empt = ActionParams.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
@@ -54,6 +54,25 @@ public class SamplePig {
 		for (AbsTaskAction absTaskAction : ta) {
 			logger.info("current task is {} ", ta);
 			absTaskAction.complate(empt);
+		}
+	}
+
+	@Test
+	public void listTaskAction() {
+		IProcessOperator po = activitiManager.getProcess("97505");
+		List<AbsTaskAction> tasks = po.listTaskAction();
+		for (AbsTaskAction absTaskAction : tasks) {
+			logger.info(absTaskAction.toString());
+			absTaskAction.assginee("zhangsan");
+		}
+	}
+
+	@Test
+	public void mineTaskAction() {
+		IProcessOperator po = activitiManager.getProcess("97505");
+		List<AbsTaskAction> task = po.currentTaskAction(Assginee.fowName("zhangsan"));
+		for (AbsTaskAction absTaskAction : task) {
+			logger.info(absTaskAction.toString());
 		}
 	}
 

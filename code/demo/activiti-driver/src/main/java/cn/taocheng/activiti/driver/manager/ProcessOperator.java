@@ -8,7 +8,6 @@
  */
 package cn.taocheng.activiti.driver.manager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +36,6 @@ class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 	private Map<String, Class<?>> taskClassMap = new HashMap<>();
 
 	private Map<String, AbsTaskAction> taskActionMap = new HashMap<String, AbsTaskAction>();
-
-	private List<AbsTaskAction> actions = new ArrayList<>();
 
 	@Autowired
 	private IActivitiService activitiService;
@@ -78,7 +75,8 @@ class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 		return findTaskAction(mapKey(entry));
 	}
 
-	private AbsTaskAction findTaskAction(TaskInfo taskInfo) {
+	@Override
+	public AbsTaskAction findTaskAction(TaskInfo taskInfo) {
 		return findTaskAction(mapKey(taskInfo.getProcessInstanceId(), taskInfo.getTaskId()));
 	}
 
@@ -127,7 +125,12 @@ class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 
 	@Override
 	public List<AbsTaskAction> listTaskAction() {
-		return actions;
+		List<TaskInfo> tasks =
+				this.activitiService.listTasksFromProcess(this.processInstanceInfo.getProcessInstanceId());
+		return tasks
+				.stream()
+				.map(t -> this.taskActionMap.get(this.mapKey(t.getProcessInstanceId(), t.getTaskId())))
+				.collect(Collectors.toList());
 	}
 
 	private void load() {
@@ -169,7 +172,6 @@ class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 				throw new ActivitiException(error);
 			}
 			this.taskActionMap.put(mapKey(entry), action);
-			this.actions.add(action);
 			Assginee provideAssginee = action.provideAssginee(action.getTaskInfo());
 			if (provideAssginee != null) {
 				entry.setAssignee(provideAssginee.getName());

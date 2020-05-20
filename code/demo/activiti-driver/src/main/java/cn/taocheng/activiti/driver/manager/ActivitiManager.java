@@ -8,9 +8,8 @@
  */
 package cn.taocheng.activiti.driver.manager;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -43,8 +42,6 @@ public class ActivitiManager implements IActivitiManager {
 	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
 
-	private Map<String, IProcessOperator> map = new HashMap<String, IProcessOperator>();
-
 	public ActivitiManager() {
 		logger.info("init " + this.getClass());
 	}
@@ -59,25 +56,22 @@ public class ActivitiManager implements IActivitiManager {
 			public void onEvent(ActivitiEvent event) {
 				switch (event.getType()) {
 				case PROCESS_STARTED:
-					String processInstanceId = extracted(event);
-					// getProcess(processInstanceId);
+					String processInstanceId = processInstanceId(event);
 					logger.info("processInstance={} is PROCESS_STARTED", processInstanceId);
 					break;
 				case PROCESS_CANCELLED:
-					processInstanceId = extracted(event);
+					processInstanceId = processInstanceId(event);
 					logger.info("processInstance={} is PROCESS_CANCELLED", processInstanceId);
-					removeProcessInstance(processInstanceId);
 					break;
 				case PROCESS_COMPLETED:
-					processInstanceId = extracted(event);
+					processInstanceId = processInstanceId(event);
 					logger.info("processInstance={} is PROCESS_COMPLETED", processInstanceId);
-					getProcess(processInstanceId);
 					break;
 				default:
 				}
 			}
 
-			private String extracted(ActivitiEvent event) {
+			private String processInstanceId(ActivitiEvent event) {
 				return ((ActivitiEntityEvent) event).getProcessInstanceId();
 			}
 
@@ -86,19 +80,6 @@ public class ActivitiManager implements IActivitiManager {
 				return false;
 			}
 		});
-		load();
-	}
-
-	private void removeProcessInstance(String instanceId) {
-		map.remove(instanceId);
-	}
-
-	private void load() {
-		logger.info("load processInstance data from DB");
-		List<ProcessInstanceInfo> list = activitiService.listProcessInstance();
-		for (ProcessInstanceInfo processInstanceInfo : list) {
-			map.put(processInstanceInfo.getProcessInstanceId(), createOperator(processInstanceInfo));
-		}
 	}
 
 	private IProcessOperator createOperator(ProcessInstanceInfo processInstanceInfo) {
@@ -118,22 +99,36 @@ public class ActivitiManager implements IActivitiManager {
 		ProcessInstanceInfo pi = activitiService.startProcess(processDefineId, params.params());
 		ProcessOperator operator = ProcessOperator.newInstance(pi, beanFactory);
 		operator.init();
-		this.map.put(pi.getProcessInstanceId(), operator);
 		return operator;
 	}
 
 	@Override
 	public IProcessOperator getProcess(String processInstanceId) {
-		IProcessOperator pio = this.map.get(processInstanceId);
-		if (pio == null) {
-			ProcessInstanceInfo pi = activitiService.processInstance(processInstanceId);
-			if (pi != null) {
-				pio = createOperator(pi);
-				map.put(processInstanceId, pio);
-			} else {
-				throw new ActivitiException("cannto get Process from processInstanceId:" + processInstanceId);
-			}
+		ProcessInstanceInfo pi = activitiService.processInstance(processInstanceId);
+		if (pi != null) {
+			IProcessOperator pio = createOperator(pi);
+			return pio;
+		} else {
+			throw new ActivitiException("cannto get Process from processInstanceId:" + processInstanceId);
 		}
-		return pio;
 	}
+
+	@Override
+	public List<AbsTaskAction> getTaskActionForAssginee(Assginee assginee) {
+		return this.activitiService
+				.listTasksFromAssignee(assginee.getName())
+				.stream()
+				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()).findTaskAction(taskInfo))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<IProcessOperator> getProcesses(Assginee assginee) {
+		return this.activitiService
+				.listTasksFromAssignee(assginee.getName())
+				.stream()
+				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()))
+				.collect(Collectors.toList());
+	}
+
 }

@@ -8,6 +8,8 @@
  */
 package cn.taocheng.activiti.driver.manager;
 
+import java.util.List;
+
 import org.activiti.engine.repository.Deployment;
 
 import cn.taocheng.activiti.driver.bean.Assginee;
@@ -15,10 +17,13 @@ import cn.taocheng.activiti.driver.utils.ActionParams;
 
 public interface IActivitiManager {
 
-	IProcessOperator getProcess(String processId);
+	IProcessOperator getProcess(String processInstanceId);
+
+	List<IProcessOperator> getProcesses(Assginee assginee);
 
 	Deployment deployProcess(String classpath);
 
 	IProcessOperator startProcess(String processId, ActionParams params, Assginee assginee);
 
+	List<AbsTaskAction> getTaskActionForAssginee(Assginee assginee);
 }

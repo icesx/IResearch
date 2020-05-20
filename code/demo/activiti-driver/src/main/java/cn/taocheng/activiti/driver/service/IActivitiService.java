@@ -22,6 +22,8 @@ import cn.taocheng.activiti.driver.bean.TaskInfo;
 
 public interface IActivitiService {
 
+	void addEvent(ActivitiEventListener event);
+
 	List<Event> allTaskEvent(String processInstanceId);
 
 	void claimTask(String taskId, String userId);
@@ -50,6 +52,8 @@ public interface IActivitiService {
 
 	List<ProcessInstanceInfo> listProcessInstance();
 
+	List<TaskInfo> listTasksFromAssignee(String name);
+
 	List<TaskInfo> listTasksFromAssignee(String processInstanceId, String assignee);
 
 	List<TaskInfo> listTasksFromProcess(String processInstanceId);
@@ -65,7 +69,5 @@ public interface IActivitiService {
 	ProcessInstanceInfo startProcess(String processDefinitionKey);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
-
-	void addEvent(ActivitiEventListener event);
 
 }
