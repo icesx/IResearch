@@ -21,52 +21,52 @@ public class DefaultCustomEventHandler implements ICustomEventHandler {
 
 	@Override
 	public void jobExecutionSuccess(EventInfo eventInfo) {
-		logger.info(eventInfo.toString());
+		logger.debug(eventInfo.toString());
 	}
 
 	@Override
 	public void jobExecutionFailure(EventInfo eventInfo) {
-		logger.info(eventInfo.toString());
+		logger.debug(eventInfo.toString());
 
 	}
 
 	@Override
 	public void processStarted(ActivitiEntityEvent eventInfo) {
-		logger.info(eventInfo.toString());
+		logger.debug(eventInfo.toString());
 
 	}
 
 	@Override
 	public void processCompleted(ActivitiEntityEvent eventInfo) {
-		logger.info(eventInfo.toString());
+		logger.debug(eventInfo.toString());
 
 	}
 
 	@Override
 	public void processCancelled(ActivitiEntityEvent eventInfo) {
-		logger.info(eventInfo.toString());
+		logger.debug(eventInfo.toString());
 
 	}
 
 	@Override
 	public void otherEvent(EventInfo eventInfo) {
-		logger.info(eventInfo.toString());
+		logger.debug(eventInfo.toString());
 
 	}
 
 	@Override
 	public void taskAssigned(ActivitiEvent event, TaskEntity entry) {
-		logger.info("task assigned on entry {} with event{}", entry,event);
+		logger.debug("task assigned on entry {} with event{}", entry,event);
 	}
 
 	@Override
 	public void taskCompleted(ActivitiEvent event, TaskEntity entry) {
-		logger.info("taskCompleted on entry {} with event {} ", entry, event);
+		logger.debug("taskCompleted on entry {} with event {} ", entry, event);
 	}
 
 	@Override
 	public void taskCreated(ActivitiEvent event, TaskEntity entry) {
-		logger.info("taskCreated on entry {} with event {}", entry, event);
+		logger.debug("taskCreated on entry {} with event {}", entry, event);
 	}
 
 }

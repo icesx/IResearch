@@ -26,12 +26,34 @@ public class CLSQAction extends AbsTaskAction {
 	}
 
 	@Override
+	protected void onComplate() {
+		// TODO Auto-generated method stub
+		super.onComplate();
+	}
+
+	@Override
+	protected void onCreate() {
+		// TODO Auto-generated method stub
+		super.onCreate();
+	}
+
+	@Override
 	public Assginee provideAssginee(TaskInfo taskInfo) {
 		return selectGfsy(super.getVariable("v1"));
 	}
 
 	private Assginee selectGfsy(Object object) {
 		return Assginee.fowName((String) object);
+	}
+
+	@Override
+	public void assginee(String assginee) {
+		super.assginee(assginee);
+	}
+
+	@Override
+	public String explain() {
+		return super.explain();
 	}
 
 }

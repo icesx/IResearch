@@ -75,4 +75,8 @@ public abstract class AbsTaskAction {
 		logger.info("assginee task={} to assginee={}", this.taskInfo.getTaskId(), assginee);
 	}
 
+	public String explain() {
+		return "no explain";
+	}
+
 }

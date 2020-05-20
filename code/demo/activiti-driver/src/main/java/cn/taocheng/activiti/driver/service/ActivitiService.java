@@ -25,7 +25,6 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Event;
-import org.activiti.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -132,16 +131,6 @@ public class ActivitiService implements IActivitiService {
 		Deployment deploy = repositoryService.createDeployment().addClasspathResource(classpath).deploy();
 		logger.info("deploy for {}", classpath);
 		return deploy;
-	}
-
-	@Override
-	public TaskInfo getTasks(String id) {
-		Task task = taskService.createTaskQuery().processInstanceId(id).singleResult();
-		if (task != null) {
-			return TaskUtil.taskTran(taskService.createTaskQuery().processInstanceId(id).singleResult());
-		} else {
-			return null;
-		}
 	}
 
 	@Override

@@ -95,7 +95,7 @@ public class ActivitiRest {
 	@ResponseBody
 	public ResponseInfo<TaskInfo> onTask(@RequestParam(name = "processInstanceId") String processInstanceId) {
 		logger.info("查询流程实例当前任务节点" + processInstanceId);
-		return ResponseUtil.<TaskInfo>response(activitiService.getTasks(processInstanceId));
+		return ResponseUtil.<TaskInfo>response(activitiService.listActiveTasksFromProcess(processInstanceId).get(0));
 	}
 
 	/**
@@ -112,13 +112,13 @@ public class ActivitiRest {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("temp", temp);
-		TaskInfo tasks = activitiService.getTasks(processInstanceId);
+		TaskInfo tasks = activitiService.listActiveTasksFromProcess(processInstanceId).get(0);
 		if (tasks == null) {
 			return ResponseUtil.response("未找到对应的流程实例");
 		}
 		logger.info("完成任务节点是 \"{}\" param is {}", tasks.getTaskId());
 		activitiService.completeTask(tasks.getTaskId(), map);
-		TaskInfo taskInfo = activitiService.getTasks(processInstanceId);
+		TaskInfo taskInfo = activitiService.listActiveTasksFromProcess(processInstanceId).get(0);
 		if (taskInfo == null) {
 			taskInfo = new TaskInfo("", "结束", "END", "", "");
 		}
@@ -146,7 +146,7 @@ public class ActivitiRest {
 		}
 		String[] processInstanceIds = processInstanceId.split(",");
 		for (String id : processInstanceIds) {
-			TaskInfo tasks = activitiService.getTasks(id);
+			TaskInfo tasks = activitiService.listActiveTasksFromProcess(id).get(0);
 			tasksList.add(tasks);
 		}
 		if (tasksList.size() != processInstanceIds.length) {
@@ -156,7 +156,7 @@ public class ActivitiRest {
 		for (TaskInfo taskInfo : tasksList) {
 			activitiService.completeTask(taskInfo.getTaskId(), map);
 		}
-		TaskInfo taskInfo = activitiService.getTasks(processInstanceIds[0]);
+		TaskInfo taskInfo = activitiService.listActiveTasksFromProcess(processInstanceIds[0]).get(0);
 		if (taskInfo == null) {
 			taskInfo = new TaskInfo("", "结束", "END", "", "");
 		}

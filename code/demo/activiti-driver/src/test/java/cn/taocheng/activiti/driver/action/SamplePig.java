@@ -50,10 +50,12 @@ public class SamplePig {
 		pi.registTaskAction("SCJYBG", SCJYBGAction.class);
 		pi.registTaskAction("XZCL", XZCLAction.class);
 		logger.info("start process {}", pi);
-		List<AbsTaskAction> ta = pi.currentTaskAction(farm001);
-		for (AbsTaskAction absTaskAction : ta) {
-			logger.info("current task is {} ", ta);
-			absTaskAction.complate(empt);
+		List<AbsTaskAction> ta = pi.currentTaskAction(Assginee.fowName("001"));
+		for (AbsTaskAction task : ta) {
+			logger.info("current task is {} ", task);
+			task.complate(empt);
+			logger.info(task.view().toString());
+			logger.info(task.explain());
 		}
 	}
 

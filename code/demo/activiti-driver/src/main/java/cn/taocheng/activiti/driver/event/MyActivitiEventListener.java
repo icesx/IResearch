@@ -40,7 +40,7 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 	@Override
 	public void onEvent(ActivitiEvent event) {
 		EventInfo eventInfo = new EventInfo(event);
-		logger.info("onEvent for processInstance={}", event.getProcessDefinitionId());
+		logger.debug("onEvent for processInstance={}", event.getProcessDefinitionId());
 		switch (event.getType()) {
 		case JOB_EXECUTION_SUCCESS:
 			handler.jobExecutionSuccess(eventInfo);

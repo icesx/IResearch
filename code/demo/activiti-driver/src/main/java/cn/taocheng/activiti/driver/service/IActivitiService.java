@@ -43,8 +43,6 @@ public interface IActivitiService {
 
 	Deployment deploy(String classpath);
 
-	TaskInfo getTasks(String assignee);
-
 	Object getVariable(String taskId, String variableName);
 
 	List<TaskInfo> listActiveTasks();
