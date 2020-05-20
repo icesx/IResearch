@@ -30,7 +30,7 @@ import cn.taocheng.activiti.driver.event.MyActivitiEventListener;
 import cn.taocheng.activiti.driver.event.TaskActionEventHandler;
 import cn.taocheng.activiti.driver.service.IActivitiService;
 
-class ProcessOperator implements IProcessOperator {
+class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProcessOperator.class);
 
@@ -156,12 +156,10 @@ class ProcessOperator implements IProcessOperator {
 		return mapKey(entry.getProcessInstanceId(), entry.getId());
 	}
 
-	@Override
 	public void onComplateTask(TaskEntity entry) {
 		findTaskAction(entry).onComplate();
 	}
 
-	@Override
 	public void onCreatedTask(TaskEntity entry) {
 		try {
 			AbsTaskAction action = instanceTaskAction(entry);
