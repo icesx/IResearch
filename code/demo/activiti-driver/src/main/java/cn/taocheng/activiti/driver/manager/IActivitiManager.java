@@ -19,11 +19,14 @@ public interface IActivitiManager {
 
 	IProcessOperator getProcess(String processInstanceId);
 
-	List<IProcessOperator> getProcesses(Assginee assginee);
+	List<IProcessOperator> listProcesses(Assginee assginee);
 
 	Deployment deployProcess(String classpath);
 
 	IProcessOperator startProcess(String processId, ActionParams params, Assginee assginee);
 
-	List<AbsTaskAction> getTaskActionForAssginee(Assginee assginee);
+	List<AbsTaskAction> listTaskAction(Assginee assginee);
+
+	List<AbsTaskAction> listTaskAction();
+
 }

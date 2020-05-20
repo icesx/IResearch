@@ -70,4 +70,6 @@ public interface IActivitiService {
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
 
+	List<TaskInfo> listActiveTasks();
+
 }

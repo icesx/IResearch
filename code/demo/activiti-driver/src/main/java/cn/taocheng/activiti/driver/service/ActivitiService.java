@@ -139,6 +139,11 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
+	public List<TaskInfo> listActiveTasks() {
+		return TaskUtil.TaskTrans(taskService.createTaskQuery().active().list());
+	}
+
+	@Override
 	public List<TaskInfo> listActiveTasksFromProcess(String processInstanceId) {
 		return TaskUtil.TaskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).active().list());
 	}
@@ -207,6 +212,7 @@ public class ActivitiService implements IActivitiService {
 				.singleResult();
 		if (processInstance == null) {
 			logger.warn("cannot get ProcessInstance for processInstanceId={}", processInstanceId);
+			return null;
 		}
 		return ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
 	}

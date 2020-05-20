@@ -46,11 +46,38 @@ public class ActivitiManager implements IActivitiManager {
 		logger.info("init " + this.getClass());
 	}
 
+	private IProcessOperator createOperator(ProcessInstanceInfo processInstanceInfo) {
+		ProcessOperator operator = ProcessOperator.newInstance(processInstanceInfo, this.beanFactory);
+		beanFactory.autowireBean(operator);
+		return operator;
+	}
+
+	@Override
+	public Deployment deployProcess(String classpath) {
+		return this.activitiService.deploy(classpath);
+	}
+
+	@Override
+	public IProcessOperator getProcess(String processInstanceId) {
+		ProcessInstanceInfo pi = activitiService.processInstance(processInstanceId);
+		if (pi != null) {
+			IProcessOperator pio = createOperator(pi);
+			return pio;
+		} else {
+			throw new ActivitiException("cannto get Process from processInstanceId:" + processInstanceId);
+		}
+	}
+
 	@PostConstruct
 	public void init() {
 		logger.info("init to add event");
 		activitiService.addEvent(MyActivitiEventListener.instance());
 		activitiService.addEvent(new ActivitiEventListener() {
+
+			@Override
+			public boolean isFailOnException() {
+				return false;
+			}
 
 			@Override
 			public void onEvent(ActivitiEvent event) {
@@ -74,23 +101,34 @@ public class ActivitiManager implements IActivitiManager {
 			private String processInstanceId(ActivitiEvent event) {
 				return ((ActivitiEntityEvent) event).getProcessInstanceId();
 			}
-
-			@Override
-			public boolean isFailOnException() {
-				return false;
-			}
 		});
 	}
 
-	private IProcessOperator createOperator(ProcessInstanceInfo processInstanceInfo) {
-		ProcessOperator operator = ProcessOperator.newInstance(processInstanceInfo, this.beanFactory);
-		beanFactory.autowireBean(operator);
-		return operator;
+	@Override
+	public List<IProcessOperator> listProcesses(Assginee assginee) {
+		return this.activitiService
+				.listTasksFromAssignee(assginee.getName())
+				.stream()
+				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()))
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Deployment deployProcess(String classpath) {
-		return this.activitiService.deploy(classpath);
+	public List<AbsTaskAction> listTaskAction() {
+		return this.activitiService
+				.listActiveTasks()
+				.stream()
+				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()).findTaskAction(taskInfo))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<AbsTaskAction> listTaskAction(Assginee assginee) {
+		return this.activitiService
+				.listTasksFromAssignee(assginee.getName())
+				.stream()
+				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()).findTaskAction(taskInfo))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -100,35 +138,6 @@ public class ActivitiManager implements IActivitiManager {
 		ProcessOperator operator = ProcessOperator.newInstance(pi, beanFactory);
 		operator.init();
 		return operator;
-	}
-
-	@Override
-	public IProcessOperator getProcess(String processInstanceId) {
-		ProcessInstanceInfo pi = activitiService.processInstance(processInstanceId);
-		if (pi != null) {
-			IProcessOperator pio = createOperator(pi);
-			return pio;
-		} else {
-			throw new ActivitiException("cannto get Process from processInstanceId:" + processInstanceId);
-		}
-	}
-
-	@Override
-	public List<AbsTaskAction> getTaskActionForAssginee(Assginee assginee) {
-		return this.activitiService
-				.listTasksFromAssignee(assginee.getName())
-				.stream()
-				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()).findTaskAction(taskInfo))
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<IProcessOperator> getProcesses(Assginee assginee) {
-		return this.activitiService
-				.listTasksFromAssignee(assginee.getName())
-				.stream()
-				.map(taskInfo -> this.getProcess(taskInfo.getProcessInstanceId()))
-				.collect(Collectors.toList());
 	}
 
 }

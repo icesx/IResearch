@@ -36,17 +36,22 @@ public class TestActivitiManager {
 
 	@Test
 	public void getTaskAction() {
-		List<AbsTaskAction> task = activitiManager.getTaskActionForAssginee(Assginee.fowName("zhangsan"));
+		List<AbsTaskAction> task = activitiManager.listTaskAction(Assginee.fowName("zhangsan"));
 		for (AbsTaskAction absTaskAction : task) {
 			logger.info(absTaskAction.toString());
 		}
 	}
+
 	@Test
 	public void getProcessAction() {
-		List<IProcessOperator> task = activitiManager.getProcesses(Assginee.fowName("zhangsan"));
+		List<IProcessOperator> task = activitiManager.listProcesses(Assginee.fowName("zhangsan"));
 		for (IProcessOperator absTaskAction : task) {
 			logger.info(absTaskAction.toString());
 		}
 	}
 
+	@Test
+	public void listTaskAction() {
+		activitiManager.listTaskAction().stream().forEach(x -> logger.info(x.toString()));
+	}
 }
