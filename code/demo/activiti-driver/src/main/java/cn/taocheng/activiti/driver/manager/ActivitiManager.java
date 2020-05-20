@@ -51,6 +51,7 @@ public class ActivitiManager implements IActivitiManager {
 
 	@PostConstruct
 	public void init() {
+		logger.info("init to add event");
 		activitiService.addEvent(MyActivitiEventListener.instance());
 		activitiService.addEvent(new ActivitiEventListener() {
 
@@ -58,15 +59,26 @@ public class ActivitiManager implements IActivitiManager {
 			public void onEvent(ActivitiEvent event) {
 				switch (event.getType()) {
 				case PROCESS_STARTED:
-					String instanceId = ((ActivitiEntityEvent) event).getProcessInstanceId();
-					getProcess(instanceId);
+					String processInstanceId = extracted(event);
+					// getProcess(processInstanceId);
+					logger.info("processInstance={} is PROCESS_STARTED", processInstanceId);
 					break;
 				case PROCESS_CANCELLED:
+					processInstanceId = extracted(event);
+					logger.info("processInstance={} is PROCESS_CANCELLED", processInstanceId);
+					removeProcessInstance(processInstanceId);
+					break;
 				case PROCESS_COMPLETED:
-					removeProcessInstance(((ActivitiEntityEvent) event).getProcessInstanceId());
+					processInstanceId = extracted(event);
+					logger.info("processInstance={} is PROCESS_COMPLETED", processInstanceId);
+					getProcess(processInstanceId);
 					break;
 				default:
 				}
+			}
+
+			private String extracted(ActivitiEvent event) {
+				return ((ActivitiEntityEvent) event).getProcessInstanceId();
 			}
 
 			@Override
@@ -82,6 +94,7 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	private void load() {
+		logger.info("load processInstance data from DB");
 		List<ProcessInstanceInfo> list = activitiService.listProcessInstance();
 		for (ProcessInstanceInfo processInstanceInfo : list) {
 			map.put(processInstanceInfo.getProcessInstanceId(), createOperator(processInstanceInfo));
@@ -89,7 +102,9 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	private IProcessOperator createOperator(ProcessInstanceInfo processInstanceInfo) {
-		return new ProcessOperator(processInstanceInfo);
+		ProcessOperator operator = ProcessOperator.newInstance(processInstanceInfo, this.beanFactory);
+		beanFactory.autowireBean(operator);
+		return operator;
 	}
 
 	@Override
@@ -101,8 +116,8 @@ public class ActivitiManager implements IActivitiManager {
 	public IProcessOperator startProcess(String processDefineId, ActionParams params, Assginee assginee) {
 		params.put(START_ASSIGNEE, assginee.getName());
 		ProcessInstanceInfo pi = activitiService.startProcess(processDefineId, params.params());
-		ProcessOperator operator = new ProcessOperator(pi);
-		beanFactory.autowireBean(operator);
+		ProcessOperator operator = ProcessOperator.newInstance(pi, beanFactory);
+		operator.init();
 		this.map.put(pi.getProcessInstanceId(), operator);
 		return operator;
 	}

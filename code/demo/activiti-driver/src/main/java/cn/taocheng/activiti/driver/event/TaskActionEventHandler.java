@@ -10,14 +10,10 @@ package cn.taocheng.activiti.driver.event;
 
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.driver.manager.IProcessOperator;
 
 public class TaskActionEventHandler extends DefaultCustomEventHandler {
-	private static final Logger logger = LoggerFactory.getLogger(TaskActionEventHandler.class);
 
 	private IProcessOperator process;
 
@@ -27,20 +23,14 @@ public class TaskActionEventHandler extends DefaultCustomEventHandler {
 
 	@Override
 	public void taskCompleted(ActivitiEvent event, TaskEntity entry) {
-		try {
-			process.onComplateTask(entry);
-		} catch (ActionException e) {
-			logger.error(e.getLocalizedMessage(), e);
-		}
+		super.taskCompleted(event, entry);
+		process.onComplateTask(entry);
 	}
 
 	@Override
 	public void taskCreated(ActivitiEvent event, TaskEntity entry) {
-		try {
-			process.onCreatedTask(entry);
-		} catch (ActionException e) {
-			logger.error(e.getLocalizedMessage(), e);
-		}
+		super.taskCreated(event, entry);
+		process.onCreatedTask(entry);
 	}
 
 }

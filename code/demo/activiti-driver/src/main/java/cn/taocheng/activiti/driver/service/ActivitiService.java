@@ -73,12 +73,17 @@ public class ActivitiService implements IActivitiService {
 	@Override
 	public void addEvent(ActivitiEventListener event) {
 		runtimeService.addEventListener(event);
+		logger.info("addEvent {}", event);
 	}
 
 	@Override
 	public ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap) {
+		logger.info("startProcess processDefinitionKey={}", processDefinitionKey);
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, variableMap);
-		return ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
+		logger.info("startProcess processInstance={}", processInstance.getProcessInstanceId());
+		ProcessInstanceInfo pii = ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
+		logger.info("startProcess ProcessInstanceInfo={}", pii);
+		return pii;
 	}
 
 	@Override
@@ -120,6 +125,7 @@ public class ActivitiService implements IActivitiService {
 	@Override
 	public void setVariable(String taskId, String variableName, Object value) {
 		taskService.setVariable(taskId, variableName, value);
+		logger.info("setVariable for taskId={},variablename={},value={}", taskId, variableName, value);
 	}
 
 	@Override
@@ -165,36 +171,41 @@ public class ActivitiService implements IActivitiService {
 
 	@Override
 	public Deployment deploy(String classpath) {
-		return repositoryService.createDeployment().addClasspathResource(classpath).deploy();
-
+		Deployment deploy = repositoryService.createDeployment().addClasspathResource(classpath).deploy();
+		logger.info("deploy for {}", classpath);
+		return deploy;
 	}
 
 	@Override
 	public void completeTask(String taskId) {
 		taskService.complete(taskId);
+		logger.info("completeTask taskId={}", taskId);
 	}
 
 	@Override
 	public void claimTask(String taskId, String userId) {
 		taskService.claim(taskId, userId);
+		logger.info("claimTask taskId={},userId={}", taskId, userId);
 	}
 
 	@Override
 	public void delProcesseById(String id) {
 		repositoryService.deleteDeployment(id);
+		logger.info("delProcesseById deploymentId={}", id);
 	}
 
 	@Override
 	public void delProcesseAll() {
 		List<Deployment> list = repositoryService.createDeploymentQuery().list();
 		for (Deployment deployment : list) {
-			repositoryService.deleteDeployment(deployment.getId());
+			delProcesseById(deployment.getId());
 		}
 	}
 
 	@Override
-	public void completeTask(String taskI, Map<String, Object> map) {
-		taskService.complete(taskI, map);
+	public void completeTask(String taskId, Map<String, Object> map) {
+		taskService.complete(taskId, map);
+		logger.info("completeTask taskId={} variable={}", taskId, map);
 	}
 
 	@Override
@@ -222,6 +233,9 @@ public class ActivitiService implements IActivitiService {
 				.active()
 				.processInstanceId(processInstanceId)
 				.singleResult();
+		if (processInstance == null) {
+			logger.warn("cannot get ProcessInstance for processInstanceId={}", processInstanceId);
+		}
 		return ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
 	}
 

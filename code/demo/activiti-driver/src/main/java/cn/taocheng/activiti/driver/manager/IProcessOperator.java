@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 
-import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.driver.bean.Assginee;
 
 public interface IProcessOperator {
@@ -20,10 +19,10 @@ public interface IProcessOperator {
 
 	<T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz);
 
-	void onCreatedTask(TaskEntity entry) throws ActionException;
+	void onCreatedTask(TaskEntity entry);
 
-	void onComplateTask(TaskEntity entry) throws ActionException;
+	void onComplateTask(TaskEntity entry);
 
-	List<AbsTaskAction> currentTaskAction(Assginee assignee) throws ActionException;
+	List<AbsTaskAction> currentTaskAction(Assginee assignee);
 
 }

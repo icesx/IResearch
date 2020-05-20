@@ -52,7 +52,7 @@ public interface IActivitiService {
 
 	List<TaskInfo> listTasksFromAssignee(String processInstanceId, String assignee);
 
-	List<TaskInfo> listTasksFromProcess(String processDefinitionId);
+	List<TaskInfo> listTasksFromProcess(String processInstanceId);
 
 	List<TaskInfo> listTasksFromProcessDefine(String processDefinitionId);
 

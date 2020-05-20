@@ -14,6 +14,10 @@ public class ActivitiException extends RuntimeException {
 		super(string);
 	}
 
+	public ActivitiException(Exception e) {
+		super(e);
+	}
+
 	/**
 	 * 
 	 */

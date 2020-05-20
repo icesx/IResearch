@@ -56,17 +56,17 @@ public class DefaultCustomEventHandler implements ICustomEventHandler {
 
 	@Override
 	public void taskAssigned(ActivitiEvent event, TaskEntity entry) {
-		logger.info("task assigned on entry {} ", entry);
+		logger.info("task assigned on entry {} with event{}", entry,event);
 	}
 
 	@Override
 	public void taskCompleted(ActivitiEvent event, TaskEntity entry) {
-		logger.info("taskCompleted on entry {} ", entry);
+		logger.info("taskCompleted on entry {} with event {} ", entry, event);
 	}
 
 	@Override
 	public void taskCreated(ActivitiEvent event, TaskEntity entry) {
-		logger.info("taskCreated on entry {} ", entry);
+		logger.info("taskCreated on entry {} with event {}", entry, event);
 	}
 
 }

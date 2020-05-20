@@ -55,6 +55,17 @@ public class SamplePig {
 			logger.info("current task is {} ", ta);
 			absTaskAction.complate(empt);
 		}
+	}
 
+	@Test
+	public void currentTaskAction() throws ActionException {
+		Assginee farm001 = Assginee.fowName("farm-001");
+		IProcessOperator process = activitiManager.getProcess("27501");
+		List<AbsTaskAction> ta = process.currentTaskAction(farm001);
+		ActionParams empt = ActionParams.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
+		for (AbsTaskAction absTaskAction : ta) {
+			logger.info("current task is {} ", ta);
+			absTaskAction.complate(empt);
+		}
 	}
 }

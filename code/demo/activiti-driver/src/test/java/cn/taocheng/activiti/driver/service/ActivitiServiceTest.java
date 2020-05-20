@@ -93,7 +93,7 @@ public class ActivitiServiceTest {
 
 	@Test
 	public void listTaskAssginee() {
-		List<TaskInfo> tasks = activitiService.listTasksFromAssignee("pigtwo:1:7", "iii");
+		List<TaskInfo> tasks = activitiService.listTasksFromAssignee("27501", "farm-001");
 		for (TaskInfo taskInfo : tasks) {
 			logger.info(taskInfo.toString());
 		}

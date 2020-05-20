@@ -33,6 +33,7 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 	}
 
 	public void registHandle(String processInstanceId, ICustomEventHandler handle) {
+		logger.info("registHandle for processInstanceId={},handler={}", processInstanceId, handle);
 		this.myEvents.put(processInstanceId, handle);
 	}
 
@@ -44,10 +45,10 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 	public void onEvent(ActivitiEvent event) {
 		EventInfo eventInfo = new EventInfo(event);
 		ICustomEventHandler handler = this.myEvents.get(event.getProcessInstanceId());
+		logger.info("onEvent for processInstance={}",event.getProcessInstanceId());
 		if (handler != null) {
 			switch (event.getType()) {
 			case JOB_EXECUTION_SUCCESS:
-
 				handler.jobExecutionSuccess(eventInfo);
 				break;
 
@@ -76,7 +77,7 @@ public class MyActivitiEventListener implements ActivitiEventListener {
 				handler.otherEvent(eventInfo);
 			}
 		} else {
-			logger.warn("not regist event handler for processInstance {} ", event.getProcessInstanceId());
+			logger.warn("not regist event {} ", event);
 		}
 	}
 
