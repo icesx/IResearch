@@ -21,7 +21,7 @@ class ProcessOperator implements IProcessOperator {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProcessOperator.class);
 
-	private static PublicProcessOperator ppo = PublicProcessOperator.instance();
+	private static ProcessOperatorCentor ppo = ProcessOperatorCentor.instance();
 
 	@Override
 	public ProcessInstanceInfo getProcessInstanceInfo() {

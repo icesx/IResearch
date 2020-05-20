@@ -86,7 +86,7 @@ public class ActivitiManager implements IActivitiManager {
 	@PostConstruct
 	public void init() {
 		logger.info("init load ");
-		PublicProcessOperator instance = PublicProcessOperator.instance();
+		ProcessOperatorCentor instance = ProcessOperatorCentor.instance();
 		beanFactory.autowireBean(instance);
 		instance.loadTaskActionClass();
 		logger.info("init event");

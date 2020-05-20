@@ -12,11 +12,11 @@ import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 
 import cn.taocheng.activiti.driver.manager.IProcessEventHandler;
-import cn.taocheng.activiti.driver.manager.PublicProcessOperator;
+import cn.taocheng.activiti.driver.manager.ProcessOperatorCentor;
 
 public class TaskActionEventHandler extends DefaultCustomEventHandler {
 
-	private static IProcessEventHandler process = PublicProcessOperator.instance();
+	private static IProcessEventHandler process = ProcessOperatorCentor.instance();
 
 	public TaskActionEventHandler() {
 	}

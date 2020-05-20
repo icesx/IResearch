@@ -27,18 +27,18 @@ import cn.taocheng.activiti.driver.dao.ITaskActionDao;
 import cn.taocheng.activiti.driver.entity.TaskActionEntity;
 import cn.taocheng.activiti.driver.service.IActivitiService;
 
-public class PublicProcessOperator implements IProcessEventHandler {
+public class ProcessOperatorCentor implements IProcessEventHandler {
 
-	private static final Logger logger = LoggerFactory.getLogger(PublicProcessOperator.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProcessOperatorCentor.class);
 
-	private static PublicProcessOperator instance;
+	private static ProcessOperatorCentor instance;
 
-	private PublicProcessOperator() {
+	private ProcessOperatorCentor() {
 		logger.info("init " + this.getClass());
 	}
 
-	public static synchronized PublicProcessOperator instance() {
-		return instance = (instance == null) ? new PublicProcessOperator() : instance;
+	public static synchronized ProcessOperatorCentor instance() {
+		return instance = (instance == null) ? new ProcessOperatorCentor() : instance;
 	}
 
 	private Map<String, AbsTaskAction> taskActionMap = new HashMap<String, AbsTaskAction>();
