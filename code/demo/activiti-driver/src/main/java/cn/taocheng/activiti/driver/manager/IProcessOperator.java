@@ -11,6 +11,7 @@ package cn.taocheng.activiti.driver.manager;
 import java.util.List;
 
 import cn.taocheng.activiti.driver.bean.Assginee;
+import cn.taocheng.activiti.driver.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
 
 public interface IProcessOperator {
@@ -21,5 +22,7 @@ public interface IProcessOperator {
 	List<AbsTaskAction> currentTaskAction(Assginee assignee);
 
 	AbsTaskAction findTaskAction(TaskInfo taskInfo);
+
+	ProcessInstanceInfo getProcessInstanceInfo();
 
 }

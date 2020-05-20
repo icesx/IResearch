@@ -13,9 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.activiti.engine.RepositoryService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.taocheng.activiti.driver.bean.DeploymentInfo;
 import cn.taocheng.activiti.driver.bean.ProcessInfo;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
+import cn.taocheng.activiti.driver.manager.IActivitiManager;
 import cn.taocheng.activiti.driver.service.IActivitiService;
 import cn.taocheng.activiti.driver.utils.ResponseUtil;
 import cn.taocheng.activiti.driver.web.ResponseInfo;
@@ -42,8 +40,8 @@ public class ActivitiRest {
 	@Autowired
 	private IActivitiService activitiService;
 
-	@Resource
-	private RepositoryService repositoryService;
+	@Autowired
+	private IActivitiManager activitiManager;
 
 	/**
 	 * 查询已部署流程详细信息
@@ -87,7 +85,6 @@ public class ActivitiRest {
 		return ResponseUtil.response("删除成功");
 	}
 
-
 	/**
 	 * 根据流程实例id 返回当前节点信息
 	 * 
@@ -98,7 +95,7 @@ public class ActivitiRest {
 	@ResponseBody
 	public ResponseInfo<TaskInfo> onTask(@RequestParam(name = "processInstanceId") String processInstanceId) {
 		logger.info("查询流程实例当前任务节点" + processInstanceId);
-		return ResponseUtil.<TaskInfo> response(activitiService.getTasks(processInstanceId));
+		return ResponseUtil.<TaskInfo>response(activitiService.getTasks(processInstanceId));
 	}
 
 	/**
@@ -109,7 +106,9 @@ public class ActivitiRest {
 	 */
 	@RequestMapping(value = "/completeTask", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseInfo<Object> completeTask(@RequestParam(name = "processInstanceId") String processInstanceId, @RequestParam(name = "temp", required = false, defaultValue = "true") String temp) {
+	public ResponseInfo<Object> completeTask(
+			@RequestParam(name = "processInstanceId") String processInstanceId,
+			@RequestParam(name = "temp", required = false, defaultValue = "true") String temp) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("temp", temp);
@@ -121,11 +120,11 @@ public class ActivitiRest {
 		activitiService.completeTask(tasks.getTaskId(), map);
 		TaskInfo taskInfo = activitiService.getTasks(processInstanceId);
 		if (taskInfo == null) {
-			taskInfo = new TaskInfo("", "结束", "END", "","");
+			taskInfo = new TaskInfo("", "结束", "END", "", "");
 		}
-		return ResponseUtil.<Object> response(taskInfo);
+		return ResponseUtil.<Object>response(taskInfo);
 	}
-	
+
 	/**
 	 * 合证并切跳过选证节点
 	 * 
@@ -134,13 +133,15 @@ public class ActivitiRest {
 	 */
 	@RequestMapping(value = "/completeTaskList", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseInfo<Object> completeTaskList(@RequestParam(name = "processInstanceId") String processInstanceId, @RequestParam(name = "temp", required = false, defaultValue = "true") String temp) {
+	public ResponseInfo<Object> completeTaskList(
+			@RequestParam(name = "processInstanceId") String processInstanceId,
+			@RequestParam(name = "temp", required = false, defaultValue = "true") String temp) {
 
-		logger.info("流程系统批量执行id:"+processInstanceId);
+		logger.info("流程系统批量执行id:" + processInstanceId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("temp", temp);
 		List<TaskInfo> tasksList = new ArrayList<>();
-		if(StringUtils.isBlank(processInstanceId)){
+		if (StringUtils.isBlank(processInstanceId)) {
 			return ResponseUtil.response("未找到对应的流程实例");
 		}
 		String[] processInstanceIds = processInstanceId.split(",");
@@ -148,7 +149,7 @@ public class ActivitiRest {
 			TaskInfo tasks = activitiService.getTasks(id);
 			tasksList.add(tasks);
 		}
-		if (tasksList.size()!=processInstanceIds.length) {
+		if (tasksList.size() != processInstanceIds.length) {
 			return ResponseUtil.response("未找到对应的流程实例");
 		}
 		logger.info("完成任务节点是 \"{}\" param is {}", tasksList.toString());
@@ -157,9 +158,9 @@ public class ActivitiRest {
 		}
 		TaskInfo taskInfo = activitiService.getTasks(processInstanceIds[0]);
 		if (taskInfo == null) {
-			taskInfo = new TaskInfo("", "结束", "END", "","");
+			taskInfo = new TaskInfo("", "结束", "END", "", "");
 		}
-		return ResponseUtil.<Object> response(new TaskInfo("", "", taskInfo.getDefinitionKey(), "",""));
+		return ResponseUtil.<Object>response(new TaskInfo("", "", taskInfo.getDefinitionKey(), "", ""));
 	}
 
 }

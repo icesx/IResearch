@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.delegate.event.ActivitiEventListener;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -33,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import cn.taocheng.activiti.driver.bean.DeploymentInfo;
+import cn.taocheng.activiti.driver.bean.HistoryTaskInfo;
 import cn.taocheng.activiti.driver.bean.ProcessInfo;
 import cn.taocheng.activiti.driver.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
@@ -52,6 +55,9 @@ public class ActivitiService implements IActivitiService {
 
 	@Resource
 	private RepositoryService repositoryService;
+
+	@Resource
+	private HistoryService historyService;
 
 	@Resource
 	private TaskService taskService;
@@ -140,18 +146,31 @@ public class ActivitiService implements IActivitiService {
 
 	@Override
 	public List<TaskInfo> listActiveTasks() {
-		return TaskUtil.TaskTrans(taskService.createTaskQuery().active().list());
+		return TaskUtil.taskTrans(taskService.createTaskQuery().active().list());
 	}
 
 	@Override
 	public List<TaskInfo> listActiveTasksFromProcess(String processInstanceId) {
-		return TaskUtil.TaskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).active().list());
+		return TaskUtil.taskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).active().list());
 	}
 
 	@Override
 	public List<DeploymentInfo> listDeployment() {
 		List<Deployment> list = repositoryService.createDeploymentQuery().list();
 		return DeploymentUtil.processTrans(list);
+	}
+
+	@Override
+	public List<HistoryTaskInfo> listHistoryTasks() {
+		List<HistoricTaskInstance> historyTasks = historyService.createHistoricTaskInstanceQuery().finished().list();
+		return TaskUtil.historyTaskTrans(historyTasks);
+	}
+
+	@Override
+	public List<HistoryTaskInfo> listHistoryTasks(String processInstanceId) {
+		List<HistoricTaskInstance> historyTasks =
+				historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).finished().list();
+		return TaskUtil.historyTaskTrans(historyTasks);
 	}
 
 	@Override
@@ -171,13 +190,13 @@ public class ActivitiService implements IActivitiService {
 
 	@Override
 	public List<TaskInfo> listTasksFromAssignee(String assignee) {
-		return TaskUtil.TaskTrans(taskService.createTaskQuery().taskAssignee(assignee).list());
+		return TaskUtil.taskTrans(taskService.createTaskQuery().taskAssignee(assignee).list());
 	}
 
 	@Override
 	public List<TaskInfo> listTasksFromAssignee(String processInstanceId, String assignee) {
 		return TaskUtil
-				.TaskTrans(taskService
+				.taskTrans(taskService
 						.createTaskQuery()
 						.processInstanceId(processInstanceId)
 						.taskAssignee(assignee)
@@ -186,12 +205,12 @@ public class ActivitiService implements IActivitiService {
 
 	@Override
 	public List<TaskInfo> listTasksFromProcess(String processInstanceId) {
-		return TaskUtil.TaskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).list());
+		return TaskUtil.taskTrans(taskService.createTaskQuery().processInstanceId(processInstanceId).list());
 	}
 
 	@Override
 	public List<TaskInfo> listTasksFromProcessDefine(String processDefinitionId) {
-		return TaskUtil.TaskTrans(taskService.createTaskQuery().processDefinitionId(processDefinitionId).list());
+		return TaskUtil.taskTrans(taskService.createTaskQuery().processDefinitionId(processDefinitionId).list());
 	}
 
 	@Override

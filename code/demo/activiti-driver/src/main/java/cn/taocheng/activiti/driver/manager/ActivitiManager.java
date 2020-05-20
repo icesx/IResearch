@@ -105,6 +105,15 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	@Override
+	public List<IProcessOperator> listProcesses() {
+		return this.activitiService
+				.listProcessInstance()
+				.stream()
+				.map(p -> this.getProcess(p.getProcessInstanceId()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
 	public List<IProcessOperator> listProcesses(Assginee assginee) {
 		return this.activitiService
 				.listTasksFromAssignee(assginee.getName())

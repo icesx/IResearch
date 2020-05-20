@@ -80,6 +80,7 @@ class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 		return findTaskAction(mapKey(taskInfo.getProcessInstanceId(), taskInfo.getTaskId()));
 	}
 
+	@Override
 	public ProcessInstanceInfo getProcessInstanceInfo() {
 		return processInstanceInfo;
 	}
@@ -196,7 +197,7 @@ class ProcessOperator implements IProcessOperator, IProcessEventHandler {
 
 	@Override
 	public String toString() {
-		return "ProcessOperator [processInstanceInfo=" + processInstanceInfo + "]";
+		return "ProcessOperator [processInstanceInfo=" + processInstanceInfo + ", hashCode()=" + hashCode() + "]";
 	}
 
 	public static ProcessOperator newInstance(ProcessInstanceInfo pi, AutowireCapableBeanFactory beanFactory) {

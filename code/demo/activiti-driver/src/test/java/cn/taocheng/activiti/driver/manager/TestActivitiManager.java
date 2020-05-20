@@ -43,8 +43,16 @@ public class TestActivitiManager {
 	}
 
 	@Test
-	public void getProcessAction() {
+	public void listProcessAssginee() {
 		List<IProcessOperator> task = activitiManager.listProcesses(Assginee.fowName("zhangsan"));
+		for (IProcessOperator absTaskAction : task) {
+			logger.info(absTaskAction.toString());
+		}
+	}
+
+	@Test
+	public void listProcess() {
+		List<IProcessOperator> task = activitiManager.listProcesses();
 		for (IProcessOperator absTaskAction : task) {
 			logger.info(absTaskAction.toString());
 		}

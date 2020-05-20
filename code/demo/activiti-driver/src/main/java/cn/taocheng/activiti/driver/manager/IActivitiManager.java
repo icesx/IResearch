@@ -29,4 +29,6 @@ public interface IActivitiManager {
 
 	List<AbsTaskAction> listTaskAction();
 
+	List<IProcessOperator> listProcesses();
+
 }

@@ -8,7 +8,6 @@
  */
 package cn.taocheng.activiti.driver.bean;
 
-import org.activiti.engine.task.Task;
 
 public class TaskInfo {
 
@@ -52,7 +51,7 @@ public class TaskInfo {
 		this.definitionKey = definitionKey;
 	}
 
-	public static Builder builder() {
+	public static final Builder builder() {
 		return new Builder();
 	}
 
@@ -71,15 +70,15 @@ public class TaskInfo {
 	}
 
 	public static class Builder {
-		private String taskId;
+		protected String taskId;
 
-		private String name;
+		protected String name;
 
-		private String processInstanceId;
+		protected String processInstanceId;
 
-		private String definitionKey;
+		protected String definitionKey;
 
-		private String assignee;
+		protected String assignee;
 
 		public Builder withId(String taskId) {
 			this.taskId = taskId;
@@ -110,7 +109,7 @@ public class TaskInfo {
 			return new TaskInfo(taskId, name, definitionKey, processInstanceId, assignee);
 		}
 
-		public Builder withTask(Task task) {
+		public Builder withTask(org.activiti.engine.task.TaskInfo task) {
 			this.taskId = task.getId();
 			this.processInstanceId = task.getProcessInstanceId();
 			this.name = task.getName();

@@ -120,4 +120,14 @@ public class ActivitiServiceTest {
 		activitiService.deploy("processes/pig2.bpmn");
 	}
 
+	@Test
+	public void testHistoryTask() {
+		activitiService.listHistoryTasks().forEach(x -> logger.info(x.toString()));
+	}
+
+	@Test
+	public void testHistoryTaskProcess() {
+		activitiService.listHistoryTasks("97505").forEach(x -> logger.info(x.toString()));
+	}
+
 }

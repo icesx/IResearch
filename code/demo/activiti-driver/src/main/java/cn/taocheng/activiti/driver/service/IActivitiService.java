@@ -16,6 +16,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.task.Event;
 
 import cn.taocheng.activiti.driver.bean.DeploymentInfo;
+import cn.taocheng.activiti.driver.bean.HistoryTaskInfo;
 import cn.taocheng.activiti.driver.bean.ProcessInfo;
 import cn.taocheng.activiti.driver.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.bean.TaskInfo;
@@ -44,9 +45,15 @@ public interface IActivitiService {
 
 	Object getVariable(String taskId, String variableName);
 
+	List<TaskInfo> listActiveTasks();
+
 	List<TaskInfo> listActiveTasksFromProcess(String processInstanceId);
 
 	List<DeploymentInfo> listDeployment();
+
+	List<HistoryTaskInfo> listHistoryTasks();
+
+	List<HistoryTaskInfo> listHistoryTasks(String processInstanceId);
 
 	List<ProcessInfo> listProcessInfo();
 
@@ -69,7 +76,4 @@ public interface IActivitiService {
 	ProcessInstanceInfo startProcess(String processDefinitionKey);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
-
-	List<TaskInfo> listActiveTasks();
-
 }
