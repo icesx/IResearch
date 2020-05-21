@@ -24,7 +24,7 @@ public class TaskActionEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@Column(name = "defineTaskId", nullable = false)
+	@Column(name = "define_task_id", nullable = false)
 	private String defineTaskId;
 	@Column(name = "clazz")
 	private String clazz;
@@ -51,6 +51,11 @@ public class TaskActionEntity implements Serializable {
 
 	public void setClazz(String clazz) {
 		this.clazz = clazz;
+	}
+
+	@Override
+	public String toString() {
+		return "TaskActionEntity [defineTaskId=" + defineTaskId + ", clazz=" + clazz + "]";
 	}
 
 }

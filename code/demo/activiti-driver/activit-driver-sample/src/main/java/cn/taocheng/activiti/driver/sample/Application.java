@@ -8,20 +8,17 @@
  */
 package cn.taocheng.activiti.driver.sample;
 
+import org.activiti.spring.boot.SecurityAutoConfiguration;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@SpringBootApplication
-@EnableAutoConfiguration
-@EntityScan("cn.taocheng.activiti.driver.core.entity")
-@EnableJpaRepositories("cn.taocheng.activiti.driver.core.dao")
-@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core.**", "cn.taocheng.activiti.driver.sample" })
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@MapperScan("cn.taocheng.activiti.driver.sample.mapper")
+@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core", "cn.taocheng.activiti.driver.sample" })
 public class Application {
 
 	public static void main(String[] args) {

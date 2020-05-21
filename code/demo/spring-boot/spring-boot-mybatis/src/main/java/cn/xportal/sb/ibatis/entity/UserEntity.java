@@ -19,11 +19,11 @@ public class UserEntity implements Serializable {
 	private String nickName;
 
 	public UserEntity() {
-		super();
 	}
 
-	public UserEntity(String userName, String passWord, UserSexEnum userSex) {
+	public UserEntity(long id, String userName, String passWord, UserSexEnum userSex) {
 		super();
+		this.id = id;
 		this.passWord = passWord;
 		this.userName = userName;
 		this.userSex = userSex;

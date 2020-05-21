@@ -3,6 +3,19 @@ server:
 spring:
    profiles:
       include: activit-driver-core
+   datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://bjrdc58:3306/pt_wisdom_api?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      username: docker
+      password: docker@321
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: true
+      testOnReturn: false
+      hikari:
+        maxLifetime: 1765000 #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒以上
+        maximumPoolSize: 60 #连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
+        connectionTestQuery: SELECT 1 #连接池每分配一条连接前执行的查询语句，以验证该连接是否是有效的
    mvc: 
         view: 
              prefix: /WEB-INF/views/business/
@@ -18,3 +31,5 @@ spring:
           maxFileSize: 30MB
           maxRequestSize: 30MB
           enabled: true
+mybatis:
+   type-aliases-package: cn.taocheng.activiti.driver.sample.mapper

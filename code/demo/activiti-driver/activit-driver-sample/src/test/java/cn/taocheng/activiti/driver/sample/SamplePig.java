@@ -6,18 +6,18 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.core.action;
+package cn.taocheng.activiti.driver.sample;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ch.qos.logback.core.joran.spi.ActionException;
@@ -29,13 +29,16 @@ import cn.taocheng.activiti.driver.core.utils.ActionParams;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@MapperScan("cn.taocheng.activiti.driver.sample.mapper")
+@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core", "cn.taocheng.activiti.driver.sample" })
+
 public class SamplePig {
 	private static final Logger logger = LoggerFactory.getLogger(SamplePig.class);
 
 	@Autowired
 	private IActivitiManager activitiManager;
 
-	@PostConstruct
+	@Test
 	public void init() {
 		activitiManager.deployProcess("processes/pig.bpmn");
 	}

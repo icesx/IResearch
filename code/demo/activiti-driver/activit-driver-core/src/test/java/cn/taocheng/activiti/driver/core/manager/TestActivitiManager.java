@@ -32,10 +32,10 @@ import cn.taocheng.activiti.driver.core.bean.Assginee;
 @Configuration
 @SpringBootApplication
 @EnableAutoConfiguration
-@ActiveProfiles("activit-driver-core") 
+@ActiveProfiles("activit-driver-core")
 @EntityScan("cn.taocheng.activiti.driver.core.entity")
 @EnableJpaRepositories("cn.taocheng.activiti.driver.core.dao")
-@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core.**", "cn.taocheng.activiti.driver.sample" })
+@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core", "cn.taocheng.activiti.driver.sample" })
 public class TestActivitiManager {
 	private static final Logger logger = LoggerFactory.getLogger(TestActivitiManager.class);
 

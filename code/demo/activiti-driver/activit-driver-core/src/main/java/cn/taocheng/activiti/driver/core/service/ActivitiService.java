@@ -27,11 +27,8 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import cn.taocheng.activiti.driver.core.bean.DeploymentInfo;
 import cn.taocheng.activiti.driver.core.bean.HistoryTaskInfo;
@@ -228,12 +225,6 @@ public class ActivitiService implements IActivitiService {
 			return null;
 		}
 		return ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
-	}
-
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		// Do any additional configuration here
-		return builder.build();
 	}
 
 	public void setRuntimeService(RuntimeService runtimeService) {

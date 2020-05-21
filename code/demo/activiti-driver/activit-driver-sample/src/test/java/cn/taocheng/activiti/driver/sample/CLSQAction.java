@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.core.action;
+package cn.taocheng.activiti.driver.sample;
 
 import cn.taocheng.activiti.driver.core.bean.Assginee;
 import cn.taocheng.activiti.driver.core.bean.TaskInfo;

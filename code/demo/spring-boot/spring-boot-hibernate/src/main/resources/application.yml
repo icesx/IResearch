@@ -4,9 +4,9 @@ server:
 spring:
    datasource:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/spring_boot?useUnicode=true&characterEncoding=utf-8
-      username: root
-      password: i
+      url: jdbc:mysql://bjrdc37:3306/spring_boot?useUnicode=true&characterEncoding=utf-8
+      username: bjrdc
+      password: xjgz@123
    jpa:
       show-sql: true
       properties: 
@@ -15,6 +15,7 @@ spring:
       hibernate: 
          naming: 
             physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+         ddl-auto: update
    view: 
       prefix: /WEB-INF/views/
       suffix: .jsp

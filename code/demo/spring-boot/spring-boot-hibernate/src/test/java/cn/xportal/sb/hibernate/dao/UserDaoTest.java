@@ -1,4 +1,4 @@
-package cn.xportal.sb.hibernate.mapper;
+package cn.xportal.sb.hibernate.dao;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import cn.xportal.sb.hibernate.entity.UserSexEnum;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserMapperTest {
+public class UserDaoTest {
 	@Autowired
 	private UserDao UserMapper;
 
