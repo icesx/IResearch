@@ -151,7 +151,7 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	@Override
-	public List<AbsTaskAction> listTaskAction() {
+	public List<BaseTaskAction> listTaskAction() {
 		return this.activitiService
 				.listActiveTasks()
 				.stream()
@@ -160,7 +160,7 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	@Override
-	public List<AbsTaskAction> listTaskAction(Assginee assginee) {
+	public List<BaseTaskAction> listTaskAction(Assginee assginee) {
 		return this.activitiService
 				.listTasksFromAssignee(assginee.getName())
 				.stream()

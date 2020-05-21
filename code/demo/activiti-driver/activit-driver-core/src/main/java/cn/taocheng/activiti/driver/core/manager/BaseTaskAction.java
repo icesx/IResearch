@@ -20,38 +20,70 @@ import cn.taocheng.activiti.driver.core.service.IActivitiService;
 import cn.taocheng.activiti.driver.core.utils.ActionParams;
 import cn.taocheng.activiti.driver.core.web.View;
 
-public abstract class AbsTaskAction {
-	private static final Logger logger = LoggerFactory.getLogger(AbsTaskAction.class);
+public abstract class BaseTaskAction {
+	private static final Logger logger = LoggerFactory.getLogger(BaseTaskAction.class);
 
 	@Autowired
 	private IActivitiService activitiService;
 
+	/**
+	 * current usertask for this taskAction
+	 */
 	private TaskInfo taskInfo;
 
-	public AbsTaskAction() {
+	public BaseTaskAction(TaskInfo taskInfo) {
+		this.taskInfo = taskInfo;
 	}
 
+	/**
+	 * to complate current task
+	 * 
+	 * @param params
+	 *            that will send to activiti engine
+	 */
 	public final void complate(ActionParams params) {
+		activitiService.completeTask(taskInfo.getTaskId(), params.params());
+	}
+
+	/**
+	 * to complate current task
+	 */
+	public final void complate() {
 		activitiService.completeTask(taskInfo.getTaskId());
 	}
 
+	/**
+	 * get variable from activit engine
+	 * 
+	 * @param variableName
+	 *            the variable's name from activit engine
+	 * @return
+	 */
 	protected final Object getVariable(String variableName) {
 		return this.activitiService.getVariable(this.taskInfo.getTaskId(), variableName);
 	}
 
+	/**
+	 * will been call by activit driver when current task complate event occure.
+	 */
 	protected void onComplate() {
 		logger.info("to do some thing when task complate.");
 	}
 
+	/**
+	 * will been call by activit driver when current task create event occure.
+	 */
 	protected void onCreate() {
 		logger.info("to do some thing when task create.");
 	}
 
+	/**
+	 * provide the assginee when this task oncreated.
+	 * 
+	 * @param taskInfo
+	 * @return
+	 */
 	public abstract Assginee provideAssginee(TaskInfo taskInfo);
-
-	protected final void setTaskInfo(TaskInfo taskInfo) {
-		this.taskInfo = taskInfo;
-	}
 
 	protected final TaskInfo getTaskInfo() {
 		return this.taskInfo;

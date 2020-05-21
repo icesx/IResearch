@@ -1,8 +1,5 @@
-server:
-   port: 8080
 activiti:
     check-process-definitions: false
-    # database-schema: activiti_spring_boot
     database-schema-update: false
     history-level: full
     db-history-used: true
@@ -22,25 +19,9 @@ spring:
       generate-ddl: true
       hibernate:
         ddl-auto: update
-   mvc: 
-        view: 
-             prefix: /WEB-INF/views/business/
-             suffix: .jsp
-
-   thymeleaf: 
-      prefix: /WEB-INF/views/business/
-      suffix: .jsp
-      cache: false
-      enabled: false
-   servlet: 
-      multipart: 
-          maxFileSize: 30MB
-          maxRequestSize: 30MB
-          enabled: true
-
 logging:
    level:
-      cn.taocheng.activiti.driver : info
+      cn.taocheng.activiti.driver : debug
    pattern:
       console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t]){faint} %clr(%-40.40logger{39}){cyan} %L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
 

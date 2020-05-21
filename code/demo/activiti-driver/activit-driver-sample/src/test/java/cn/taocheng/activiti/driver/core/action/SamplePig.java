@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ch.qos.logback.core.joran.spi.ActionException;
 import cn.taocheng.activiti.driver.core.bean.Assginee;
-import cn.taocheng.activiti.driver.core.manager.AbsTaskAction;
+import cn.taocheng.activiti.driver.core.manager.BaseTaskAction;
 import cn.taocheng.activiti.driver.core.manager.IActivitiManager;
 import cn.taocheng.activiti.driver.core.manager.IProcessOperator;
 import cn.taocheng.activiti.driver.core.utils.ActionParams;
@@ -50,8 +50,8 @@ public class SamplePig {
 		pi.registTaskAction("SCJYBG", SCJYBGAction.class);
 		pi.registTaskAction("XZCL", XZCLAction.class);
 		logger.info("start process {}", pi);
-		List<AbsTaskAction> ta = pi.currentTaskAction(Assginee.fowName("001"));
-		for (AbsTaskAction task : ta) {
+		List<BaseTaskAction> ta = pi.currentTaskAction(Assginee.fowName("001"));
+		for (BaseTaskAction task : ta) {
 			logger.info("current task is {} ", task);
 			task.complate(empt);
 			logger.info(task.view().toString());
@@ -62,8 +62,8 @@ public class SamplePig {
 	@Test
 	public void listTaskAction() {
 		IProcessOperator po = activitiManager.getProcess("97505");
-		List<AbsTaskAction> tasks = po.listTaskAction();
-		for (AbsTaskAction absTaskAction : tasks) {
+		List<BaseTaskAction> tasks = po.listTaskAction();
+		for (BaseTaskAction absTaskAction : tasks) {
 			logger.info(absTaskAction.toString());
 			absTaskAction.assginee("zhangsan");
 		}
@@ -72,8 +72,8 @@ public class SamplePig {
 	@Test
 	public void mineTaskAction() {
 		IProcessOperator po = activitiManager.getProcess("97505");
-		List<AbsTaskAction> task = po.currentTaskAction(Assginee.fowName("zhangsan"));
-		for (AbsTaskAction absTaskAction : task) {
+		List<BaseTaskAction> task = po.currentTaskAction(Assginee.fowName("zhangsan"));
+		for (BaseTaskAction absTaskAction : task) {
 			logger.info(absTaskAction.toString());
 		}
 	}
@@ -82,9 +82,9 @@ public class SamplePig {
 	public void currentTaskAction() throws ActionException {
 		Assginee farm001 = Assginee.fowName("farm-001");
 		IProcessOperator process = activitiManager.getProcess("27501");
-		List<AbsTaskAction> ta = process.currentTaskAction(farm001);
+		List<BaseTaskAction> ta = process.currentTaskAction(farm001);
 		ActionParams empt = ActionParams.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
-		for (AbsTaskAction absTaskAction : ta) {
+		for (BaseTaskAction absTaskAction : ta) {
 			logger.info("current task is {} ", ta);
 			absTaskAction.complate(empt);
 		}

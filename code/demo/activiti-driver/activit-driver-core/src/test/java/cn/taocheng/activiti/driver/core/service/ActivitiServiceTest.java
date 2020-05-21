@@ -26,7 +26,6 @@ import cn.taocheng.activiti.driver.core.bean.ProcessInfo;
 import cn.taocheng.activiti.driver.core.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.core.bean.TaskInfo;
 import cn.taocheng.activiti.driver.core.event.MyActivitiEventListener;
-import cn.taocheng.activiti.driver.core.service.IActivitiService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest

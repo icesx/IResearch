@@ -19,9 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import cn.taocheng.activiti.driver.core.bean.Assginee;
-import cn.taocheng.activiti.driver.core.manager.AbsTaskAction;
-import cn.taocheng.activiti.driver.core.manager.IActivitiManager;
-import cn.taocheng.activiti.driver.core.manager.IProcessOperator;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,8 +36,8 @@ public class TestActivitiManager {
 
 	@Test
 	public void getTaskAction() {
-		List<AbsTaskAction> task = activitiManager.listTaskAction(Assginee.fowName("zhangsan"));
-		for (AbsTaskAction absTaskAction : task) {
+		List<BaseTaskAction> task = activitiManager.listTaskAction(Assginee.fowName("zhangsan"));
+		for (BaseTaskAction absTaskAction : task) {
 			logger.info(absTaskAction.toString());
 		}
 	}

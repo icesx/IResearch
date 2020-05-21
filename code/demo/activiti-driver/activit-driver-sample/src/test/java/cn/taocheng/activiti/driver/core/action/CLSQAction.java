@@ -10,11 +10,15 @@ package cn.taocheng.activiti.driver.core.action;
 
 import cn.taocheng.activiti.driver.core.bean.Assginee;
 import cn.taocheng.activiti.driver.core.bean.TaskInfo;
-import cn.taocheng.activiti.driver.core.manager.AbsTaskAction;
+import cn.taocheng.activiti.driver.core.manager.BaseTaskAction;
 import cn.taocheng.activiti.driver.core.web.View;
 
-public class CLSQAction extends AbsTaskAction {
-	
+public class CLSQAction extends BaseTaskAction {
+
+	public CLSQAction(TaskInfo taskInfo) {
+		super(taskInfo);
+	}
+
 	@Override
 	public View view() {
 		return new View();

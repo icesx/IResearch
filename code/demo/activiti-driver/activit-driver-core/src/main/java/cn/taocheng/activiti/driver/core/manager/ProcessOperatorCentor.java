@@ -41,7 +41,7 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 		return instance = (instance == null) ? new ProcessOperatorCentor() : instance;
 	}
 
-	private Map<String, AbsTaskAction> taskActionMap = new HashMap<String, AbsTaskAction>();
+	private Map<String, BaseTaskAction> taskActionMap = new HashMap<String, BaseTaskAction>();
 
 	@Autowired
 	private ITaskActionDao taskActionDao;
@@ -54,29 +54,29 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 
 	private Map<String, Class<?>> taskClassMap = new HashMap<>();
 
-	public List<AbsTaskAction> currentTaskAction(ProcessInstanceInfo processInstanceInfo, Assginee assignee) {
+	public List<BaseTaskAction> currentTaskAction(ProcessInstanceInfo processInstanceInfo, Assginee assignee) {
 		List<TaskInfo> tasks =
 				activitiService.listTasksFromAssignee(processInstanceInfo.getProcessInstanceId(), assignee.getName());
 		return tasks.stream().map(t -> findTaskAction(t)).filter(t -> t != null).collect(Collectors.toList());
 	}
 
-	private AbsTaskAction findTaskAction(String mapKey) {
-		AbsTaskAction action = this.taskActionMap.get(mapKey);
+	private BaseTaskAction findTaskAction(String mapKey) {
+		BaseTaskAction action = this.taskActionMap.get(mapKey);
 		if (action == null) {
 			logger.warn("this entry {} is created but not find in this.taskActionMap,this is some problom in logic");
 		}
 		return action;
 	}
 
-	private AbsTaskAction findTaskAction(TaskEntity entry) {
+	private BaseTaskAction findTaskAction(TaskEntity entry) {
 		return findTaskAction(mapKey(entry));
 	}
 
-	public AbsTaskAction findTaskAction(TaskInfo taskInfo) {
+	public BaseTaskAction findTaskAction(TaskInfo taskInfo) {
 		return findTaskAction(mapKey(taskInfo.getProcessInstanceId(), taskInfo.getTaskId()));
 	}
 
-	private AbsTaskAction instanceTaskAction(TaskEntity entry) throws InstantiationException, IllegalAccessException {
+	private BaseTaskAction instanceTaskAction(TaskEntity entry) throws InstantiationException, IllegalAccessException {
 		TaskInfo taskInfo = TaskInfo
 				.builder()
 				.withId(entry.getId())
@@ -87,16 +87,18 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 		return instanceTaskAction(taskInfo);
 	}
 
-	private AbsTaskAction instanceTaskAction(TaskInfo taskInfo) {
+	private BaseTaskAction instanceTaskAction(TaskInfo taskInfo) {
 		try {
 			@SuppressWarnings("unchecked")
-			Class<AbsTaskAction> clazz = (Class<AbsTaskAction>) this.taskClassMap.get(taskInfo.getDefinitionKey());
+			Class<BaseTaskAction> clazz = (Class<BaseTaskAction>) this.taskClassMap.get(taskInfo.getDefinitionKey());
 			if (clazz == null) {
-				logger.error("cannot get AbsTaskAction for {},please check your code ", taskInfo);
+				logger
+						.error("cannot get AbsTaskAction for {}, the taskClassMap not contain taskInfo.getDefinedKey={}",
+								taskInfo,
+								taskInfo.getDefinitionKey());
 				return null;
 			} else {
-				AbsTaskAction action = clazz.newInstance();
-				action.setTaskInfo(taskInfo);
+				BaseTaskAction action = clazz.getDeclaredConstructor(TaskInfo.class).newInstance(taskInfo);
 				beanFactory.autowireBean(action);
 				logger.info("instance taskaction {} for {}", clazz, taskInfo);
 				return action;
@@ -110,7 +112,7 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 
 	}
 
-	public List<AbsTaskAction> listTaskAction(ProcessInstanceInfo processInstanceInfo) {
+	public List<BaseTaskAction> listTaskAction(ProcessInstanceInfo processInstanceInfo) {
 		List<TaskInfo> tasks = this.activitiService.listTasksFromProcess(processInstanceInfo.getProcessInstanceId());
 		return tasks
 				.stream()
@@ -133,7 +135,10 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 		List<TaskActionEntity> entitis = taskActionDao.findAll();
 		try {
 			for (TaskActionEntity taskActionEntity : entitis) {
-				this.taskClassMap.put(taskActionEntity.getDefineTaskId(), Class.forName(taskActionEntity.getClazz()));
+				String defineTaskId = taskActionEntity.getDefineTaskId();
+				String clazz = taskActionEntity.getClazz();
+				logger.info("loadTaskActionClass:{}->{}",defineTaskId,clazz);
+				this.taskClassMap.put(defineTaskId, Class.forName(clazz));
 			}
 		} catch (ClassNotFoundException e) {
 			logger.error(e.getMessage());
@@ -157,7 +162,7 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 	public void onCreatedTask(TaskEntity entry) {
 		try {
 			logger.info("onCreatedTask {}", entry.toString());
-			AbsTaskAction action = instanceTaskAction(entry);
+			BaseTaskAction action = instanceTaskAction(entry);
 			if (action == null) {
 				String error = "cannot instance TaskAction for entry=" + entry.getId();
 				logger.error(error);
@@ -181,7 +186,7 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 		}
 	}
 
-	public <T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz) {
+	public <T extends BaseTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz) {
 		this.taskClassMap.put(defineTaskId, clazz);
 		logger.info("regist taskAction {} for {} ", clazz, defineTaskId);
 		this.taskActionDao.save(new TaskActionEntity(defineTaskId, clazz.getName()));

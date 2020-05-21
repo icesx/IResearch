@@ -1,0 +1,20 @@
+server:
+   port: 8080
+spring:
+   profiles:
+      include: activit-driver-core
+   mvc: 
+        view: 
+             prefix: /WEB-INF/views/business/
+             suffix: .jsp
+
+   thymeleaf: 
+      prefix: /WEB-INF/views/business/
+      suffix: .jsp
+      cache: false
+      enabled: false
+   servlet: 
+      multipart: 
+          maxFileSize: 30MB
+          maxRequestSize: 30MB
+          enabled: true

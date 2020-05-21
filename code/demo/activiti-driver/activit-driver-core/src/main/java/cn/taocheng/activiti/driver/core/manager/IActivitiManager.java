@@ -25,9 +25,9 @@ public interface IActivitiManager {
 
 	IProcessOperator startProcess(String processId, ActionParams params, Assginee assginee);
 
-	List<AbsTaskAction> listTaskAction(Assginee assginee);
+	List<BaseTaskAction> listTaskAction(Assginee assginee);
 
-	List<AbsTaskAction> listTaskAction();
+	List<BaseTaskAction> listTaskAction();
 
 	List<IProcessOperator> listProcesses();
 

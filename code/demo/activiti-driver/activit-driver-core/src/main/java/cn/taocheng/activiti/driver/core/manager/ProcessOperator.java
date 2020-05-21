@@ -46,22 +46,22 @@ class ProcessOperator implements IProcessOperator {
 	private ProcessInstanceInfo processInstanceInfo;
 
 	@Override
-	public List<AbsTaskAction> listTaskAction() {
+	public List<BaseTaskAction> listTaskAction() {
 		return ppo.listTaskAction(processInstanceInfo);
 	}
 
 	@Override
-	public <T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz) {
+	public <T extends BaseTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz) {
 		ppo.registTaskAction(defineTaskId, clazz);
 	}
 
 	@Override
-	public List<AbsTaskAction> currentTaskAction(Assginee assignee) {
+	public List<BaseTaskAction> currentTaskAction(Assginee assignee) {
 		return ppo.currentTaskAction(processInstanceInfo, assignee);
 	}
 
 	@Override
-	public AbsTaskAction findTaskAction(TaskInfo taskInfo) {
+	public BaseTaskAction findTaskAction(TaskInfo taskInfo) {
 		return ppo.findTaskAction(taskInfo);
 	}
 

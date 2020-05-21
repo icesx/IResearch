@@ -15,13 +15,13 @@ import cn.taocheng.activiti.driver.core.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.core.bean.TaskInfo;
 
 public interface IProcessOperator {
-	List<AbsTaskAction> listTaskAction();
+	List<BaseTaskAction> listTaskAction();
 
-	<T extends AbsTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz);
+	<T extends BaseTaskAction> void registTaskAction(String defineTaskId, Class<T> clazz);
 
-	List<AbsTaskAction> currentTaskAction(Assginee assignee);
+	List<BaseTaskAction> currentTaskAction(Assginee assignee);
 
-	AbsTaskAction findTaskAction(TaskInfo taskInfo);
+	BaseTaskAction findTaskAction(TaskInfo taskInfo);
 
 	ProcessInstanceInfo getProcessInstanceInfo();
 
