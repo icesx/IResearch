@@ -8,12 +8,18 @@
  */
 package cn.taocheng.activiti.driver.sample;
 
+import javax.annotation.Resource;
+
 import cn.taocheng.activiti.driver.core.bean.Assginee;
 import cn.taocheng.activiti.driver.core.bean.TaskInfo;
 import cn.taocheng.activiti.driver.core.manager.BaseTaskAction;
 import cn.taocheng.activiti.driver.core.web.View;
+import cn.taocheng.activiti.driver.sample.service.IUserService;
 
 public class CLSQAction extends BaseTaskAction {
+
+	@Resource
+	private IUserService userService;
 
 	public CLSQAction(TaskInfo taskInfo) {
 		super(taskInfo);

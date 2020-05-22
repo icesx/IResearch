@@ -5,9 +5,9 @@ spring:
       include: activit-driver-core
    datasource:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://bjrdc58:3306/pt_wisdom_api?useUnicode=true&characterEncoding=utf-8&useSSL=false
-      username: docker
-      password: docker@321
+      url: jdbc:mysql://bjrdc37:3306/spring_boot?useUnicode=true&characterEncoding=utf-8
+      username: bjrdc
+      password: xjgz@123 
       validationQuery: SELECT 1
       testWhileIdle: true
       testOnBorrow: true

@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.core;
+package cn.taocheng.activiti.driver.core.config;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,9 +27,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = { "cn.taocheng.activiti.driver.core.entity",
+@EnableJpaRepositories(basePackages = {
 		"cn.taocheng.activiti.driver.core.dao" }, entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
-public class JpaConfiguration {
+public class ActivitJpaConfiguration {
 	@Primary
 	@Bean(name = "activiti-jpa-properties")
 	@ConfigurationProperties(prefix = "spring.activiti-jpa")
@@ -37,7 +37,6 @@ public class JpaConfiguration {
 		return new JpaProperties();
 	}
 
-	@Primary
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
 			@Qualifier("activiti-datasource") DataSource primaryDataSource,
@@ -47,7 +46,7 @@ public class JpaConfiguration {
 				// 设置数据源
 				.dataSource(primaryDataSource)
 				// 设置jpa配置
-//				 .properties(jpaProperties.getHibernateProperties(new HibernateSettings()))
+				// .properties(jpaProperties.getHibernateProperties(new HibernateSettings()))
 				// 设置实体包名
 				.packages("cn.taocheng.activiti.driver.core.entity")
 				// 设置持久化单元名，用于@PersistenceContext注解获取EntityManager时指定数据源
@@ -55,13 +54,11 @@ public class JpaConfiguration {
 				.build();
 	}
 
-	@Primary
-	@Bean(name = "primaryEntityManager")
+	@Bean(name = "entityManager")
 	public EntityManager entityManager(@Qualifier("entityManagerFactory") EntityManagerFactory factory) {
 		return factory.createEntityManager();
 	}
 
-	@Primary
 	@Bean(name = "transactionManager")
 	public PlatformTransactionManager transactionManager(
 			@Qualifier("entityManagerFactory") EntityManagerFactory factory) {

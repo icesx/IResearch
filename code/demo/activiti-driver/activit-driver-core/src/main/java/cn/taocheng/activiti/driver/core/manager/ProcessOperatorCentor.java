@@ -134,13 +134,13 @@ public class ProcessOperatorCentor implements IProcessEventHandler {
 	void loadTaskActionClass() {
 		List<TaskActionEntity> entitis = taskActionDao.findAll();
 		for (TaskActionEntity taskActionEntity : entitis) {
+			String clazz = taskActionEntity.getClazz();
 			try {
 				String defineTaskId = taskActionEntity.getDefineTaskId();
-				String clazz = taskActionEntity.getClazz();
 				logger.info("loadTaskActionClass:{}->{}", defineTaskId, clazz);
 				this.taskClassMap.put(defineTaskId, Class.forName(clazz));
 			} catch (ClassNotFoundException e) {
-				logger.error(e.getMessage());
+				logger.error("ClassNotFoundException when loadTaskActionClass from DB class='{}'", clazz);
 			}
 		}
 	}

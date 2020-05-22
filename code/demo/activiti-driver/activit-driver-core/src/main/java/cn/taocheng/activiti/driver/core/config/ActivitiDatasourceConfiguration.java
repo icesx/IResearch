@@ -6,7 +6,7 @@
  * Copyright 1997-2013 by 12157724@qq.com ltd.,
  * All rights reserved.
  */
-package cn.taocheng.activiti.driver.core;
+package cn.taocheng.activiti.driver.core.config;
 
 import javax.sql.DataSource;
 
@@ -19,22 +19,19 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
-public class DatasourceConfiguration {
-
+public class ActivitiDatasourceConfiguration {
 	@Primary
 	@Bean(name = "activiti-datasource-properties")
 	@ConfigurationProperties(prefix = "spring.activiti-datasource")
 	public DataSourceProperties dataSourceProperties() {
 		return new DataSourceProperties();
 	}
-
-	@Bean(name = "activiti-datasource")
 	@Primary
+	@Bean(name = "activiti-datasource")
 	public DataSource dataSource(@Qualifier("activiti-datasource-properties") DataSourceProperties properties) {
 		return properties.initializeDataSourceBuilder().build();
 	}
 
-	@Primary
 	@Bean
 	public JdbcTemplate jdbcTemplate(@Qualifier("activiti-datasource") DataSource dataSource) {
 		return new JdbcTemplate(dataSource);

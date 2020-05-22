@@ -12,7 +12,10 @@ http://activiti.org/designer/update/
 ```
 /ministry-of-agriculture/doc/pig-transport/resources/eclipse-plugin/activiti-designer-5.18.0.zip
 ```
+> 目前activit6.0 不支持spring2.0,暂时使用spring1.5。待之后activiti7出来后，替换spring2.0
+
 ### 数据库
+
 需要一张表存储每个task对应的action
 
 ```
