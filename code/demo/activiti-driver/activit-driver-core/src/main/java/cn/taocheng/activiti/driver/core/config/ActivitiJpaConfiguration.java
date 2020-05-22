@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {
 		"cn.taocheng.activiti.driver.core.dao" }, entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
-public class ActivitJpaConfiguration {
+public class ActivitiJpaConfiguration {
 	@Primary
 	@Bean(name = "activiti-jpa-properties")
 	@ConfigurationProperties(prefix = "spring.activiti-jpa")

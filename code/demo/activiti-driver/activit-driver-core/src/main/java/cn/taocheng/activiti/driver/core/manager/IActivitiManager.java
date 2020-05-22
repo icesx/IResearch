@@ -13,7 +13,7 @@ import java.util.List;
 import org.activiti.engine.repository.Deployment;
 
 import cn.taocheng.activiti.driver.core.bean.Assginee;
-import cn.taocheng.activiti.driver.core.utils.ActionParams;
+import cn.taocheng.activiti.driver.core.utils.ActionVariable;
 
 public interface IActivitiManager {
 
@@ -23,7 +23,7 @@ public interface IActivitiManager {
 
 	Deployment deployProcess(String classpath);
 
-	IProcessOperator startProcess(String processId, ActionParams params, Assginee assginee);
+	IProcessOperator startProcess(String processId, ActionVariable params, Assginee assginee);
 
 	List<BaseTaskAction> listTaskAction(Assginee assginee);
 

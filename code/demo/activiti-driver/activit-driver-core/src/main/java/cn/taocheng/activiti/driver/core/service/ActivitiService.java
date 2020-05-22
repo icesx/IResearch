@@ -74,15 +74,25 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
-	public void claimTask(String taskId, String userId) {
+	public TaskInfo claimTask(String taskId, String userId) {
+		taskService.unclaim(taskId);
 		taskService.claim(taskId, userId);
 		logger.info("claimTask taskId={},userId={}", taskId, userId);
+		return getTask(taskId);
 	}
 
 	@Override
-	public void completeTask(String taskId) {
+	public TaskInfo setAssginee(String taskId, String userId) {
+		taskService.setAssignee(taskId, userId);
+		logger.info("claimTask taskId={},userId={}", taskId, userId);
+		return getTask(taskId);
+	}
+
+	@Override
+	public TaskInfo completeTask(String taskId) {
 		taskService.complete(taskId);
 		logger.info("completeTask taskId={}", taskId);
+		return getTask(taskId);
 	}
 
 	@Override
@@ -232,9 +242,10 @@ public class ActivitiService implements IActivitiService {
 	}
 
 	@Override
-	public void setVariable(String taskId, String variableName, Object value) {
+	public TaskInfo setVariable(String taskId, String variableName, Object value) {
 		taskService.setVariable(taskId, variableName, value);
 		logger.info("setVariable for taskId={},variablename={},value={}", taskId, variableName, value);
+		return getTask(taskId);
 	}
 
 	@Override
@@ -250,6 +261,11 @@ public class ActivitiService implements IActivitiService {
 		ProcessInstanceInfo pii = ProcessInstanceInfo.builder().withProcessInstance(processInstance).build();
 		logger.info("startProcess ProcessInstanceInfo={}", pii);
 		return pii;
+	}
+
+	@Override
+	public TaskInfo getTask(String taskId) {
+		return TaskUtil.taskTran(this.taskService.createTaskQuery().taskId(taskId).singleResult());
 	}
 
 }

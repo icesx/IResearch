@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +31,7 @@ import cn.taocheng.activiti.driver.core.entity.TaskActionEntity;
 @EnableAutoConfiguration
 @ActiveProfiles("activit-driver-core")
 @EnableJpaRepositories("cn.taocheng.activiti.driver.core.dao")
-@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core", "cn.taocheng.activiti.driver.sample" })
+@ComponentScan(basePackages = { "cn.taocheng.activiti.driver.core" })
 
 public class TestTaskActionDao {
 	private static final Logger logger = LoggerFactory.getLogger(TestTaskActionDao.class);
@@ -46,7 +45,12 @@ public class TestTaskActionDao {
 	}
 
 	@Test
-	public void saveTaskAction() {
-		actionDao.save(new TaskActionEntity("",""));
+	public void saveEmptyTaskAction() {
+		actionDao.save(new TaskActionEntity("", ""));
+	}
+
+	@Test
+	public void saveErrorTaskAction() {
+		actionDao.save(new TaskActionEntity("xx", "xx.xx.yy"));
 	}
 }

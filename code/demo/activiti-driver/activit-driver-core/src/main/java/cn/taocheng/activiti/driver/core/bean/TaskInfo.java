@@ -8,7 +8,6 @@
  */
 package cn.taocheng.activiti.driver.core.bean;
 
-
 public class TaskInfo {
 
 	// 任务节点id
@@ -119,4 +118,5 @@ public class TaskInfo {
 		}
 
 	}
+
 }

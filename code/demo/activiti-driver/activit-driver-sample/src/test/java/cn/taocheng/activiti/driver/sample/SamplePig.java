@@ -25,7 +25,7 @@ import cn.taocheng.activiti.driver.core.bean.Assginee;
 import cn.taocheng.activiti.driver.core.manager.BaseTaskAction;
 import cn.taocheng.activiti.driver.core.manager.IActivitiManager;
 import cn.taocheng.activiti.driver.core.manager.IProcessOperator;
-import cn.taocheng.activiti.driver.core.utils.ActionParams;
+import cn.taocheng.activiti.driver.core.utils.ActionVariable;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,7 +47,7 @@ public class SamplePig {
 	public void pigTaskAction() throws ActionException {
 
 		Assginee farm001 = Assginee.fowName("farm-001");
-		ActionParams empt = ActionParams.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
+		ActionVariable empt = ActionVariable.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
 		IProcessOperator pi = activitiManager.startProcess("pigone", empt, farm001);
 		pi.registTaskAction("CLSQ", CLSQAction.class);
 		pi.registTaskAction("SCJYBG", SCJYBGAction.class);
@@ -68,7 +68,7 @@ public class SamplePig {
 		List<BaseTaskAction> tasks = po.listTaskAction();
 		for (BaseTaskAction absTaskAction : tasks) {
 			logger.info(absTaskAction.toString());
-			absTaskAction.assginee("zhangsan");
+			absTaskAction.setAssginee("zhangsan");
 		}
 	}
 
@@ -86,7 +86,7 @@ public class SamplePig {
 		Assginee farm001 = Assginee.fowName("farm-001");
 		IProcessOperator process = activitiManager.getProcess("27501");
 		List<BaseTaskAction> ta = process.currentTaskAction(farm001);
-		ActionParams empt = ActionParams.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
+		ActionVariable empt = ActionVariable.empty().put("v1", "001").put("v2", "002").put("temp", "farm");
 		for (BaseTaskAction absTaskAction : ta) {
 			logger.info("current task is {} ", ta);
 			absTaskAction.complate(empt);

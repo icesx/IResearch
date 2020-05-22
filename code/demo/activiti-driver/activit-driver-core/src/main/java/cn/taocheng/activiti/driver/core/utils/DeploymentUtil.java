@@ -8,8 +8,8 @@
  */
 package cn.taocheng.activiti.driver.core.utils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.activiti.engine.repository.Deployment;
 
@@ -17,11 +17,7 @@ import cn.taocheng.activiti.driver.core.bean.DeploymentInfo;
 
 public class DeploymentUtil {
 	public static List<DeploymentInfo> processTrans(List<Deployment> list) {
-		List<DeploymentInfo> deployInfos = new ArrayList<DeploymentInfo>();
-		for (Deployment deploy : list) {
-			deployInfos.add(processTran(deploy));
-		}
-		return deployInfos;
+		return list.stream().map(d -> processTran(d)).collect(Collectors.toList());
 	}
 
 	public static DeploymentInfo processTran(Deployment deployment) {

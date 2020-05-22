@@ -27,9 +27,9 @@ public interface IActivitiService {
 
 	List<Event> allTaskEvent(String processInstanceId);
 
-	void claimTask(String taskId, String userId);
+	TaskInfo claimTask(String taskId, String userId);
 
-	void completeTask(String taskId);
+	TaskInfo completeTask(String taskId);
 
 	void completeTask(String taskId, Map<String, Object> map);
 
@@ -71,9 +71,13 @@ public interface IActivitiService {
 
 	ProcessInstanceInfo processInstance(String processInstanceId);
 
-	void setVariable(String taskId, String variableName, Object value);
+	TaskInfo setVariable(String taskId, String variableName, Object value);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey);
 
 	ProcessInstanceInfo startProcess(String processDefinitionKey, Map<String, Object> variableMap);
+
+	TaskInfo getTask(String taskId);
+
+	TaskInfo setAssginee(String taskId, String userId);
 }

@@ -14,6 +14,7 @@ import cn.taocheng.activiti.driver.core.bean.Assginee;
 import cn.taocheng.activiti.driver.core.bean.TaskInfo;
 import cn.taocheng.activiti.driver.core.manager.BaseTaskAction;
 import cn.taocheng.activiti.driver.core.web.View;
+import cn.taocheng.activiti.driver.sample.entity.UserEntity;
 import cn.taocheng.activiti.driver.sample.service.IUserService;
 
 public class CLSQAction extends BaseTaskAction {
@@ -31,19 +32,13 @@ public class CLSQAction extends BaseTaskAction {
 	}
 
 	@Override
-	public String taskDefineId() {
-		return "XZQSDJCZ";
-	}
-
-	@Override
 	protected void onComplate() {
-		// TODO Auto-generated method stub
-		super.onComplate();
+		UserEntity user = userService.getUser(1l);
+		super.setAssginee(user.getUserName());
 	}
 
 	@Override
 	protected void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 	}
 
@@ -57,8 +52,8 @@ public class CLSQAction extends BaseTaskAction {
 	}
 
 	@Override
-	public void assginee(String assginee) {
-		super.assginee(assginee);
+	public void setAssginee(String assginee) {
+		super.setAssginee(assginee);
 	}
 
 	@Override

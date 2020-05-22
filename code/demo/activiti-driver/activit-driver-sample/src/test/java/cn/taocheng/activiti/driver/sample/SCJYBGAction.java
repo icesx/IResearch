@@ -26,12 +26,6 @@ public class SCJYBGAction extends BaseTaskAction {
 	}
 
 	@Override
-	public String taskDefineId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Assginee provideAssginee(TaskInfo taskInfo) {
 		return Assginee.fowName("lisi");
 	}

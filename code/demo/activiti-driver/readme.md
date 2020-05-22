@@ -57,7 +57,7 @@ GRANT  ALTER,USAGE,DROP,SELECT, INSERT, UPDATE, DELETE, CREATE,INDEX,SHOW VIEW ,
 
 #### variable
 
->
+>可以在activiti process生命周期内传递的参数变量，可以在startprocess，或者在complate的时候进行设置。
 
 #### taskAction
 

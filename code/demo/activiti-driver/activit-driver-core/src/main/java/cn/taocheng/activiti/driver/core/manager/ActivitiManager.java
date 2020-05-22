@@ -32,7 +32,7 @@ import cn.taocheng.activiti.driver.core.bean.ProcessInstanceInfo;
 import cn.taocheng.activiti.driver.core.event.MyActivitiEventListener;
 import cn.taocheng.activiti.driver.core.event.TaskActionEventHandler;
 import cn.taocheng.activiti.driver.core.service.IActivitiService;
-import cn.taocheng.activiti.driver.core.utils.ActionParams;
+import cn.taocheng.activiti.driver.core.utils.ActionVariable;
 
 @Component
 public class ActivitiManager implements IActivitiManager {
@@ -169,9 +169,9 @@ public class ActivitiManager implements IActivitiManager {
 	}
 
 	@Override
-	public IProcessOperator startProcess(String processDefineId, ActionParams params, Assginee assginee) {
+	public IProcessOperator startProcess(String processDefineId, ActionVariable params, Assginee assginee) {
 		params.put(START_ASSIGNEE, assginee.getName());
-		ProcessInstanceInfo pi = activitiService.startProcess(processDefineId, params.params());
+		ProcessInstanceInfo pi = activitiService.startProcess(processDefineId, params.varables());
 		ProcessOperator operator = ProcessOperator.newInstance(pi);
 		return operator;
 	}
