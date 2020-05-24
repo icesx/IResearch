@@ -2,11 +2,6 @@ package cn.i.xportal.jdp.factorymethod;
 
 import org.apache.log4j.Logger;
 
-import cn.i.xportal.jdp.factorymethod.ConcreteCreator1;
-import cn.i.xportal.jdp.factorymethod.ConcreteCreator2;
-import cn.i.xportal.jdp.factorymethod.Creator;
-import cn.i.xportal.jdp.factorymethod.Product;
-
 public class Client {
 	private static Logger logger = Logger.getLogger(Client.class);
 

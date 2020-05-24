@@ -1,13 +1,5 @@
 package cn.i.xportal.jdp.interpreter;
 
-import cn.i.xportal.jdp.interpreter.And;
-import cn.i.xportal.jdp.interpreter.Constant;
-import cn.i.xportal.jdp.interpreter.Context;
-import cn.i.xportal.jdp.interpreter.Expression;
-import cn.i.xportal.jdp.interpreter.Not;
-import cn.i.xportal.jdp.interpreter.Or;
-import cn.i.xportal.jdp.interpreter.Variable;
-
 public class Client {
 	private static Context ctx;
 	private static Expression exp;

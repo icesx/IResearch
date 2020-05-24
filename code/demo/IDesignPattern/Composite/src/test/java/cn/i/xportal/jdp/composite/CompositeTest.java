@@ -8,9 +8,6 @@
  */
 package cn.i.xportal.jdp.composite;
 
-import cn.i.xportal.jdp.composite.Composite;
-import cn.i.xportal.jdp.composite.Leaf;
-
 public class CompositeTest {
 
 	public static void main(String[] args) {

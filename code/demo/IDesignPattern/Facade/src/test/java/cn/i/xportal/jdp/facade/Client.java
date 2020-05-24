@@ -1,7 +1,5 @@
 package cn.i.xportal.jdp.facade;
 
-import cn.i.xportal.jdp.facade.SecurityFacade;
-
 public class Client {
 	private static SecurityFacade security=new SecurityFacade();
 
