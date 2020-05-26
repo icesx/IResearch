@@ -1,14 +1,14 @@
-package com.javapatterns.state;
+package cn.taocheng.dp.state;
 
 public class Context {
 	private State state;
 
-	public void sampleOperation() {
-		state.sampleOperation();
-	}
-
 	public void setState(State state) {
 		this.state = state;
+	}
+
+	public State getState() {
+		return state;
 	}
 
 }
