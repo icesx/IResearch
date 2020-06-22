@@ -10,17 +10,15 @@ spring:
   application:
     name: config
   profiles:
-    active: native
+    active: git
   cloud:
     config:
       server:
         git:
-          uri: http://bjrdc7/spring-cloud-config.git
-          searchPaths: '{application}'
-          username: i
-          password: i
-        native:
-          searchLocations: classpath:/cn/xportal/sc
+          uri: https://github.com/icesx/IResearch/
+          searchPaths: code/demo/spring-cloud/spring-cloud-config/config
+          username: 
+          password: 
 eureka:
   client:
     service-url:
@@ -29,3 +27,15 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
     appname: config
+    
+logging:
+  level:
+    root: INFO        
+    org:
+      springframework:
+        security: INFO
+        web: INFO    
+      hibernate: INFO        
+      apache:
+        commons:
+          dbcp2: INFO 
