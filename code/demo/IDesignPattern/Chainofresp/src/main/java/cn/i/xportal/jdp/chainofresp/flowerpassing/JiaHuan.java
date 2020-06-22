@@ -8,9 +8,9 @@ class JiaHuan extends Player {
 
 	public void handle(int i) {
 		if (i == 5) {
-			System.out.println("Jia Bao Yu gotta drink!");
+			System.out.println("Jia Huan gotta drink!");
 		} else {
-			System.out.println("Jia Bao Yu passed!");
+			System.out.println("Jia huan passed!");
 			next(i);
 		}
 	}

@@ -1,7 +1,5 @@
 package cn.i.xportal.jdp.chainofresp.flowerpassing;
 
-import cn.i.xportal.jdp.chainofresp.flowerpassing.Player;
-
 public class DrumBeater {
 	private static Player player;
 

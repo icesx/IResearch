@@ -10,7 +10,6 @@ package cn.i.xportal.jdp.adapter;
 
 import org.apache.log4j.Logger;
 
-import cn.i.xportal.jdp.adapter.Target;
 import cn.i.xportal.jdp.adapter.classadapter.Adapter;
 
 public class ClassAdapterTest {

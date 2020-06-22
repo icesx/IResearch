@@ -1,8 +1,5 @@
 package cn.i.xportal.jdp.chainofresp;
 
-import cn.i.xportal.jdp.chainofresp.ConcreteHandler;
-import cn.i.xportal.jdp.chainofresp.Handler;
-
 public class ChainofrespBaseTest {
 	private static Handler handler1;
 	private static Handler handler2;

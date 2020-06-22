@@ -8,9 +8,6 @@
  */
 package cn.i.xportal.jdp.strategy;
 
-import cn.i.xportal.jdp.strategy.ConcreteStrategy;
-import cn.i.xportal.jdp.strategy.Context;
-
 public class StrategyTest {
 	public static void main(String[] args) {
 		Context context=new Context(new ConcreteStrategy());
