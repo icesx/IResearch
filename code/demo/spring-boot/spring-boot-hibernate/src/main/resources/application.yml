@@ -19,5 +19,7 @@ spring:
    view: 
       prefix: /WEB-INF/views/
       suffix: .jsp
-      
+logging:
+   path: /logs
+   file: spring-boot.log   
       

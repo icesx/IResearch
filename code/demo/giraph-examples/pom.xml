@@ -31,7 +31,7 @@
 		<dep.commons-io.version>2.1</dep.commons-io.version>
 		<dep.commons-net.version>3.1</dep.commons-net.version>
 		<dep.commons-lang3.version>3.4</dep.commons-lang3.version>
-		<dep.fasterxml-jackson.version>2.1.2</dep.fasterxml-jackson.version>
+		<dep.fasterxml-jackson.version>2.10.3</dep.fasterxml-jackson.version>
 		<dep.fastutil.version>6.5.4</dep.fastutil.version>
 		<dep.guava.version>18.0</dep.guava.version>
 		<dep.hbase.version>1.2.2</dep.hbase.version>
