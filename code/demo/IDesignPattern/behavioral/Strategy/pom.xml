@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>cn.i.xportal</groupId>
-		<artifactId>create</artifactId>
+		<artifactId>behavioral</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>Prototype</artifactId>
+	<artifactId>Strategy</artifactId>
 </project>

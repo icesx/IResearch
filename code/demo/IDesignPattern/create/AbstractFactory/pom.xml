@@ -7,7 +7,7 @@
 	</dependencies>
 	<parent>
 		<groupId>cn.i.xportal</groupId>
-		<artifactId>IDesignPattern</artifactId>
+		<artifactId>create</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 </project>

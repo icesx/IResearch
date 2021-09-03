@@ -6,31 +6,9 @@
 	<artifactId>IDesignPattern</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
-		<module>Visitor</module>
-		<module>Template</module>
-		<module>State</module>
-		<module>Proxy</module>
-		<module>Prototype</module>
-		<module>Observer</module>
-		<module>Mediator</module>
-		<module>Iterator</module>
-		<module>FactoryMethod</module>
-		<module>Facade</module>
-		<module> Decorator</module>
-		<module>Composite</module>
-		<module>Command</module>
-		<module>Chainofresp</module>
-		<module>Builder</module>
-		<module>Bridge</module>
-		<module>Adapter</module>
-		<module>AbstractFactory</module>
-		<module>Flyweight</module>
-		<module>Immutable</module>
-		<module>Interpreter</module>
-		<module>Strategy</module>
-		<module>Simplefactory</module>
-		<module>Singleton</module>
-
+		<module>behavioral</module>
+		<module>create</module>
+		<module>structural</module>
 	</modules>
 	<packaging>pom</packaging>
 	<properties>
