@@ -15,10 +15,11 @@ import java.util.Map;
 public class Oom1 {
     private static Map<String, Map<String, String>> map = new HashMap();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         for (int i = 0; i < 5000000; i++) {
             Map<String,String> newMap = new HashMap<>();
             map.put(String.valueOf(i), newMap);
+//            Thread.sleep(1);
         }
     }
 }
