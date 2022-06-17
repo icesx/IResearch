@@ -19,7 +19,7 @@
 	<url>http://giraph.apache.org/giraph-examples/</url>
 	<description>Giraph examples (for learning and testing)</description>
 	<properties>
-		<hadoop.version>2.6.0</hadoop.version>
+		<hadoop.version>2.10.2</hadoop.version>
 		<giraph.version>1.2.0-hadoop2</giraph.version>
 		<hbase.version>1.1.2</hbase.version>
 		<dep.commons-codec.version>1.8</dep.commons-codec.version>
